@@ -1,6 +1,8 @@
 const { UserAuth } = require('./models/UserAuth');
 const config = require('./config/constants');
 
+const LocalStrategy = require('passport-local').Strategy;
+
 // function findOrCreateUser(provider, profile, done) {  // FACEBOOK
 //   UserAuth.findOne({ provider, providerId: profile.id }, (err, user) => {
 //     if (err) return done(err);
