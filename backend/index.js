@@ -9,7 +9,7 @@ const indexRouter = require('./routes/indexRouters');
 
 const mongoose = require("mongoose");
 mongoose.connect('mongodb://localhost:27017/JoinTravel', { useNewUrlParser: true });
-var app = express();
+const app = express();
 app.use(logger('dev'));
 const sessionConfig = {
     secret: "keyboard cat",
