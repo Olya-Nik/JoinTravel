@@ -10,6 +10,7 @@ export default class Main extends Component {
         return (
             <div>
                 <h1> JoinTravel </h1>
+                <h3> Welcome to our application. It helps you to find  interesting people to make you travel awesome!   </h3>
             </div>
         );
     }
