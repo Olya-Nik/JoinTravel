@@ -13,7 +13,7 @@ function App() {
 
       <Router component={Navbar}>
         <Navbar />
-        <p class='user'>Your Name</p>
+        <p className='user'>Your Name</p>
         <Switch>
 
           <Route exact path="/main" component={Main} />
