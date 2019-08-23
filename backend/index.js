@@ -4,6 +4,7 @@ const logger = require('morgan');
 const session = require('express-session');
 const indexRouter = require('./routes/indexRouters');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
@@ -20,11 +21,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const corsMiddleware = (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
   );
+  res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   next();
 };
@@ -49,6 +51,9 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(corsMiddleware);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // function isAuth(req, res, next) {
 //   if (!req.isAuthenticated()) return res.status(401).end();
@@ -60,7 +65,7 @@ app.get('/auth', (req, res) => {
   res.json(req.user);
 });
 
-app.post('auth/login', (req, res, next) => {
+app.post('/login', (req, res, next) => {
   passport.authenticate(
     'local-login',
     { failureFlash: true },
@@ -82,7 +87,7 @@ app.post('auth/login', (req, res, next) => {
   )(req, res, next);
 });
 
-app.post('auth/signup', (req, res, next) => {
+app.post('/signup', (req, res, next) => {
   passport.authenticate(
     'local-signup',
     { failureFlash: true },
@@ -104,12 +109,12 @@ app.post('auth/signup', (req, res, next) => {
   )(req, res, next);
 });
 
-app.post('auth/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
 
-app.use(corsMiddleware);
+
 app.use('/', indexRouter);
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
