@@ -38,10 +38,6 @@ class Login extends Component {
   };
 
   render() {
-    // const { isLogged, status } = this.props.auth;
-    // const disabled = status === 'pending';
-    // const loginButtonCss =
-    //   styles['login_button_' + (status === 'pending' ? 'disabled' : 'active')];
 
     return (
       <div className="form">
