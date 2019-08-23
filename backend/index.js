@@ -13,6 +13,7 @@ mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
 const app = express();
+app.use(cookieParser);
 
 app.use(logger('dev'));
 

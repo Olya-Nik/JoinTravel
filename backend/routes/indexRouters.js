@@ -7,7 +7,8 @@ router.get('/', function (req, res) {
     res.send('Hi')
 })
 
-router.post('/profile', async function (req, res) {
+router.post('/profilesend', async function (req, res) {
+    console.log(req.body)
     const user = new User ({
         name: req.body.name,
         age: req.body.age,
