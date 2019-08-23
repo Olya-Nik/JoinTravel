@@ -22,7 +22,7 @@ export default function myNavbar() {
                     <NavLink activeClassName={'Active'} exact={true} to={'/profile'}>Profile</NavLink>
                 </NavItem>
                 <NavItem >
-                    <NavLink activeClassName={'Active'} exact={true} to={'/registration'}>Registration</NavLink>
+                    <NavLink activeClassName={'Active'} exact={true} to={'/signup'}>Registration</NavLink>
                 </NavItem>
                 <NavItem >
                     <NavLink activeClassName={'Active'} exact={true} to={'/login'}>Login</NavLink>
