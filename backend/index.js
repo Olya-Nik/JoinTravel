@@ -6,13 +6,13 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser'); 
 const session = require('express-session');
 const passport = require('passport');
-
-app.use(cookieParser);
+const FileStore = require('session-file-store')(session)
 
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
 const app = express();
+app.use(cookieParser);
 
 app.use(logger('dev'));
 const sessionConfig = {
