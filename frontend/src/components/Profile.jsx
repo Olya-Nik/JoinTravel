@@ -144,4 +144,4 @@ Option 3
     }
 }
 
-export default Profile
+export default Profile;

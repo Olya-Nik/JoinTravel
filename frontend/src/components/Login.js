@@ -16,6 +16,7 @@ class Login extends Component {
     };
     await fetch ('http://localhost:3001/login', {
         method: 'POST',
+        credentials : 'include',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
@@ -32,7 +33,7 @@ class Login extends Component {
 
   changePassword = e => {
     this.setState({
-      username: e.target.value
+      password: e.target.value
     });
   };
 
@@ -57,8 +58,8 @@ class Login extends Component {
         </div> */}
 
         <div className="inputForm">
-          <input type="text" ref="username" placeholder="Имя" changeName={this.changeName} />
-          <input type="password" ref="password" placeholder="Пароль" changeName={this.changeName}/>
+          <input type="text" placeholder="Имя" onChange={this.changeName} />
+          <input type="password" placeholder="Пароль" onChange={this. changePassword}/>
         </div>
 
         <div className="button">
@@ -69,13 +70,13 @@ class Login extends Component {
           >
             Войти
           </button>
-          <button
+          {/* <button
             className="loginButton" type="submit" onClick={this.onClick}
-            // disabled={disabled}
-            // onClick={() => this.auth('signup')}
+            disabled={disabled}
+            onClick={() => this.auth('signup')}
           >
             Регистрация
-          </button>
+          </button> */}
         </div>
 
         {/* <div className={styles.loading}>{this.renderByStatus()}</div> */}
