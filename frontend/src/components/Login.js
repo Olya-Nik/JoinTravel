@@ -16,6 +16,7 @@ class Login extends Component {
     };
     await fetch ('http://localhost:3001/login', {
         method: 'POST',
+        credentials : 'include',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
