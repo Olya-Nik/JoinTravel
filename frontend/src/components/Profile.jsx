@@ -98,7 +98,7 @@ class Profile extends React.Component {
                     Your foto<TextInput placeholder="Download foto" onChange={this.changeAvatar} />
                     Country to visit<TextInput placeholder="What country are you going to visit?" onChange={this.changeCountry} />
                     City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
-                    Dates<DatePicker placeholder="Choose dates" onChange={this.changeDate} />
+                    Dates <DatePicker placeholder="Choose dates" onChange={this.changeDate} />
                     {/* <Select browserDefault value="2" onChange={this.changeCountry}>
 <option value="1">
 Option 1
