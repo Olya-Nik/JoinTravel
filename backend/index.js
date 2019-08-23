@@ -2,10 +2,8 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const session = require('express-session');
-// const FileStore = require('session-file-store')(session);
 const indexRouter = require('./routes/indexRouters');
 const mongoose = require('mongoose');
-
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
@@ -14,6 +12,7 @@ mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
 const app = express();
+app.use(cookieParser);
 
 app.use(logger('dev'));
 
