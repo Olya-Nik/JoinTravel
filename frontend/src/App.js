@@ -4,8 +4,7 @@ import Main from "./components/Main"
 import Navbar from "./components/Navbar"
 import Profile from "./components/Profile"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-
+import Login from './components/Login'
 
 function App() {
   return (
@@ -13,7 +12,7 @@ function App() {
 
       <Router component={Navbar}>
         <Navbar />
-        <p class='user'>Your Name</p>
+        <p className='user'>Your Name</p>
         <Switch>
 
           <Route exact path="/main" component={Main} />
@@ -21,7 +20,7 @@ function App() {
           <Route exact path="/company" />
           <Route exact path="/profile" component={Profile} />
           <Route path="/registration" />
-          <Route exact path="/login" />
+          <Route path="/login" component={Login}/>
           <Route exact path="/logout" />
 
         </Switch>
