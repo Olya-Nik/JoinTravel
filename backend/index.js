@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
 
+
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
@@ -59,10 +60,10 @@ app.use(bodyParser.json());
 //   next();
 // }
 
-app.get('/auth', (req, res) => {
-  if (!req.isAuthenticated()) return res.status(401).end();
-  res.json(req.user);
-});
+// app.get('/auth', (req, res) => {
+//   if (!req.isAuthenticated()) return res.status(401).end();
+//   res.json(req.user);
+// });
 
 app.post('/login', (req, res, next) => {
   passport.authenticate(
@@ -87,6 +88,7 @@ app.post('/login', (req, res, next) => {
 });
 
 app.post('/signup', (req, res, next) => {
+  console.log(req.body)
   passport.authenticate(
     'local-signup',
     { failureFlash: true },
@@ -102,7 +104,7 @@ app.post('/signup', (req, res, next) => {
         if (err) {
           return next(err);
         }
-        res.json({ username: user.username, id: user._id });
+        res.json({ username: user.username, id: user._id, session: req.session.user});
       });
     }
   )(req, res, next);
