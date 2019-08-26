@@ -5,6 +5,7 @@ const initialState = {
 };
 
 export default function(state = initialState, action) {
+  //console.log('Lllllll',action.message)
   switch (action.type) {
     case ADD_MESS: {
       return {
