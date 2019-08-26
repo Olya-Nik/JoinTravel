@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextInput, Col, Row, Collection, CollectionItem, Checkbox, DatePicker, Select, Button } from 'react-materialize'
 import 'materialize-css/dist/css/materialize.min.css'
+import axios from 'axios'
 // import moment from 'moment'
 // import 'moment/locale/ru';
 
@@ -8,6 +9,8 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            selectedFile: null,
+            multerImage: '',
             name: '',
             age: '',
             avatar: '',
@@ -21,6 +24,7 @@ class Profile extends React.Component {
             seaChilling: false,
         }
     }
+
     changeName = (e) => {
         this.setState({
             name: e.target.value
@@ -31,13 +35,38 @@ class Profile extends React.Component {
             age: e.target.value
         })
     }
-    changeAvatar = (e) => {
+    fileSelected = (e) => {
         this.setState({
-            avatar: e.target.value
+            selectedFile: e.target.files[0]
+        }, state =>  console.log(this.state.selectedFile))
+       
+    }
+   
+    uploadImage = (e) => {
+        let imageFormObj = new FormData();
+        // imageFormObj.append("imageName", "multer-image-" + Date.now());
+        imageFormObj.append("imageData", this.state.selectedFile, this.state.selectedFile.name);
+        this.setState({
+            multerImage: URL.createObjectURL(this.state.selectedFile)
+        });
+        // console.log(imageFormObj)
+        axios.post('http://localhost:3001/uploadimage', imageFormObj, {
+            onUploadProgress: ProgressEvent => {
+                console.log(ProgressEvent.loaded / ProgressEvent.total)
+            }
         })
+        .then((data) => {
+            console.log(data)
+            if (data.data.success) {
+                alert("Image SUCCESSSSS");
+            }
+        })
+        .catch((err)=>{
+            alert("Error");
+        });
+
     }
     changeCountry = (e) => {
-        console.log(e.target.value)
         this.setState({
             country: e.target.value
         })
@@ -119,7 +148,11 @@ class Profile extends React.Component {
                 <form>
                     <TextInput label="Your name" placeholder="Your name" onChange={this.changeName} />
                     Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
-                    Your foto<TextInput placeholder="Download foto" onChange={this.changeAvatar} />
+                    Your foto <div>
+                    <input type="file" placeholder="Download foto" onChange={this.fileSelected} />
+                    <img src={this.state.multerImage} alt="uploading" />
+                    <button onClick={this.uploadImage}>Upload</button>
+                        </div> 
                     Country to visit<Select defaultValue="" onChange={this.changeCountry}>
                         <option value="" disabled>
                             Choose country
