@@ -8,15 +8,16 @@ class ProfileReady extends React.Component {
             allusers: ''
         }
     }
-    async findUsers() {
+    async componentDidMount() {
         const resp = await fetch('http://localhost:3001/getall')
         const allusers = await resp.json()
         this.setState({ allusers: allusers })
     }
     render() {
-        const id = parseInt(this.props.match.params.id);
+        const id = this.props.match.params.id;
         const userProfile = this.state.allusers ? this.state.allusers.find((user) => user.id === id) : null
-console.log(this.props)
+console.log(this.state)
+console.log(userProfile)
         return (
             <div>
     

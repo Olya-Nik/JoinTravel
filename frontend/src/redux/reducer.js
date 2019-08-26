@@ -1,7 +1,7 @@
 import { ADD_MESS, ADD_MONGO_MESS } from './types';
 
 const initialState = {
-  messTexts: []
+  messTexts: [],
 };
 
 export default function(state = initialState, action) {
