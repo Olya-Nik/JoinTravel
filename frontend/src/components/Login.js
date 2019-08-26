@@ -54,8 +54,9 @@ class Login extends Component {
         </div> */}
 
         <div className="inputForm">
+          ВОЙТИ
           <input type="text" placeholder="Имя" onChange={this.changeName} />
-          <input type="password" placeholder="Пароль" onChange={this. changePassword}/>
+          <input type="password" placeholder="Пароль" onChange={this.changePassword}/>
         </div>
 
         <div className="button">
