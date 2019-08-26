@@ -8,14 +8,14 @@ const userAuthSchema = new mongoose.Schema({
   providerId: String
 });
 
-const UserAuth = mongoose.model('UserAuth', userAuthSchema);
-
 userAuthSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 };
 
 userAuthSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password)
+  return bcrypt.compareSync(password, this.password)
 };
+
+const UserAuth = mongoose.model('UserAuth', userAuthSchema);
 
 module.exports = { UserAuth }; 
