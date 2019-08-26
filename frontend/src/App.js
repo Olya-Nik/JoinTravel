@@ -3,33 +3,38 @@ import './App.css';
 import Main from "./components/Main"
 import Navbar from "./components/Navbar"
 import Profile from "./components/Profile"
+
 import Map from "./components/Map"
+import ProfileReady from "./components/ProfileReady"
+import Company from "./components/Company"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-
+import Login from './components/Login';
+import Register from './components/Register';
+import Messages from './components/Messages';
 
 function App() {
   return (
-    <div className="App">
+    <Router>
+      <div className="App">
 
-      <Router component={Navbar}>
         <Navbar />
-        <p class='user'>Your Name</p>
         <Switch>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/main" component={Main} />
-          <Route exact path="/search" />
-          <Route exact path="/company" />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/registration" />
-          <Route exact path="/login" />
-          <Route exact path="/logout" />
+
+          
           <Route exact path="/map" component={Map}/>
+          <Route exact path="/" component={Main} />
+          <Route path="/search" />
+          <Route exact path="/company" component={Company} />
+          <Route path="/company/:id" component={ProfileReady} />
+          <Route exact path="/profile" component={Profile} />
+          <Route path='/messages' component={Messages}/>
+          <Route path="/signup" component={Register}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/logout" />
 
         </Switch>
-      </Router>
-
-    </div>
+      </div>
+    </Router>
   );
 }
 

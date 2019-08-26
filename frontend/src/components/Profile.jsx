@@ -1,6 +1,8 @@
 import React from 'react'
-import { TextInput, Pickers, DatePicker, Select, Button } from 'react-materialize'
+import { TextInput, Col, Row, Collection, CollectionItem, Checkbox, DatePicker, Select, Button } from 'react-materialize'
 import 'materialize-css/dist/css/materialize.min.css'
+// import moment from 'moment'
+// import 'moment/locale/ru';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -10,7 +12,13 @@ class Profile extends React.Component {
             age: '',
             avatar: '',
             country: '',
-            city: ''
+            city: '',
+            dateDepature: '',
+            dateReturn: '',
+            gastronomy: false,
+            shopping: false,
+            sightseeings: false,
+            seaChilling: false,
         }
     }
     changeName = (e) => {
@@ -29,6 +37,7 @@ class Profile extends React.Component {
         })
     }
     changeCountry = (e) => {
+        console.log(e.target.value)
         this.setState({
             country: e.target.value
         })
@@ -38,9 +47,16 @@ class Profile extends React.Component {
             city: e.target.value
         })
     }
-    changeDate = (e) => {
+    changeDateDepature = (e) => {
+        // const dateStart = moment(e).format('D/M/Y')
+        // console.log(dateStart)
         this.setState({
-            date: e.target.value
+            dateDepature: e
+        })
+    }
+    changeDateReturn = (e) => {
+        this.setState({
+            dateReturn: e
         })
     }
     changeBudgetPerDay = (e) => {
@@ -48,35 +64,45 @@ class Profile extends React.Component {
             budgetPerDay: e.target.value
         })
     }
-    changeGastronomy = (e) => {
+    changeGastronomy = () => {
         this.setState({
-            gastronomy: e.target.value
+            gastronomy: true
         })
     }
-    changeShopping = (e) => {
+    changeShopping = () => {
         this.setState({
-            shopping: e.target.value
+            shopping: true
         })
     }
     changeSightseeings = (e) => {
         this.setState({
-            sightseengs: e.target.value
+            sightseengs: true
         })
     }
-    // handleChange = (e) => {
-    //     this.setState({country: e.target.value})
-    //     console.log(this.state)
-    // }
-
+    changeSeaChilling = (e) => {
+        this.setState({
+            seaChilling: true
+        })
+    }
+    
     onClick = async () => {
         const sendForm = {
             name: this.state.name,
             age: this.state.age,
             avatar: this.state.avatar,
             country: this.state.country,
-            city: this.state.city
+            city: this.state.city,
+            dateDepature: this.state.dateDepature,
+            dateReturn: this.state.dateReturn,
+            gastronomy:this.state.gastronomy,
+            shopping: this.state.shopping,
+            sightseeings: this.state.sightseeings,
+            seaChilling: this.state.seaChilling
+
+            
         }
-        await fetch('http://localhost:3001/profile', {
+        console.log(sendForm)
+        await fetch('http://localhost:3001/profilesend', {
             method: 'POST',
             headers: {
                 "Accept": "application/json",
@@ -85,31 +111,51 @@ class Profile extends React.Component {
             body: JSON.stringify(sendForm)
         })
     }
-
+    
+    
     render() {
         return (
             <div>
                 <form>
-                    <TextInput placeholder="Your name" onChange={this.changeName} />
-                    <TextInput placeholder="Your age" onChange={this.changeAge} />
-                    <TextInput placeholder="Download foto" onChange={this.changeAvatar} />
-                    <TextInput placeholder="What country are you going to visit?" onChange={this.changeCountry} />
-                    <TextInput placeholder="Do you know what place exactly?" onChange={this.changeCity} />
-                    {/* <Select value="" className="browser-default" onChange={this.handleChange}>
-                        <option value="">
-                            Choose your option
-                        </option>
-                        <option value="1">
-                            Option 1
-                        </option>
-                        <option value="2">
-                            Option 2
-                        </option>
-                        <option value="3">
-                            Option 3
-                        </option>
-                    </Select > */}
-                    <Button type="submit" onClick={this.onClick}>Send</Button>                   
+                    <TextInput label="Your name" placeholder="Your name" onChange={this.changeName} />
+                    Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
+                    Your foto<TextInput placeholder="Download foto" onChange={this.changeAvatar} />
+                    Country to visit<Select defaultValue="" onChange={this.changeCountry}>
+                        <option value="" disabled>
+                            Choose country
+                    </option>
+                        <option value="Australia">
+                            Australia
+                    </option>
+                        <option value="Iceland">
+                            Iceland
+                    </option>
+                        <option value="Morocco">
+                            Morocco
+                    </option>
+                    </Select>
+                    City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
+                    Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
+                    Date of retutn <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
+                    <Row>
+                        <Col m={6} s={12}>
+                            <Collection header="What are you interested in">
+                                <CollectionItem>
+                                    <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
+                                </CollectionItem>
+                                <CollectionItem>
+                                    <Checkbox value="No" label="Shopping" onChange={this.changeShopping}/>
+                                </CollectionItem>
+                                <CollectionItem>
+                                    <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings}/>
+                                </CollectionItem>
+                                <CollectionItem>
+                                    <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling}/>
+                                </CollectionItem>
+                            </Collection>
+                        </Col>
+                    </Row>
+                    <Button type="submit" onClick={this.onClick}>Send</Button>
                 </form>
 
 
@@ -120,4 +166,4 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile
+export default Profile;

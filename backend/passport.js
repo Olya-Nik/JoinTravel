@@ -1,6 +1,8 @@
 const { UserAuth } = require('./models/UserAuth');
 const config = require('./config/constants');
 
+const LocalStrategy = require('passport-local').Strategy;
+
 // function findOrCreateUser(provider, profile, done) {  // FACEBOOK
 //   UserAuth.findOne({ provider, providerId: profile.id }, (err, user) => {
 //     if (err) return done(err);
@@ -29,12 +31,12 @@ module.exports = passport => {
       (req, username, password, done) => {
         console.log('hello');
         process.nextTick(function() {
-          User.findOne({ provider: 'local', username }, (err, user) => {
+          UserAuth.findOne({ provider: 'local', username }, (err, user) => {
             if (err) return done(err);
 
             if (user) return done(null, false, { message: 'Имя уже занято!' });
 
-            let newUser = new User();
+            let newUser = new UserAuth();
             newUser.username = username;
             newUser.password = newUser.generateHash(password);
             newUser.provider = 'local';
@@ -55,7 +57,7 @@ module.exports = passport => {
         passReqToCallback: true
       },
       (req, username, password, done) => {
-        User.findOne({ username, provider: 'local' }, (err, user) => {
+        UserAuth.findOne({ username, provider: 'local' }, (err, user) => {
           if (err) return done(err);
 
           if (!user)
@@ -77,7 +79,7 @@ module.exports = passport => {
   });
 
   passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
+    UserAuth.findById(id, (err, user) => {
       done(err, user);
     });
   });
