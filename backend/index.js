@@ -8,7 +8,38 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
+
 const { User } = require('./models/User');
+const {Messeges} = require('./models/Messeges');
+
+
+const multer = require('multer')
+
+const { myImage } = require('./models/myImage')
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname)
+  }
+});
+
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+//     cb(null, true);
+//   } else {
+//     cb(null, false)
+//   }
+// }
+
+const upload = multer({
+  storage: storage,
+  // limits: {
+  //   fileSize: 1024 * 1024 * 5
+  // },
+  // fileFilter: fileFilter
+})
 
 
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
@@ -19,7 +50,6 @@ const app = express();
 app.use(cookieParser());
 app.use(logger('dev'));
 app.use(cookieParser());
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -32,8 +62,6 @@ const corsMiddleware = (req, res, next) => {
   );
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-  
-  
   next();
 };
 
@@ -45,9 +73,9 @@ app.use(
       {
         uri: 'mongodb://localhost/JoinTravel',
         collection: 'sessions',
-        expires: 1000 * 60 * 60 * 24
+        // expires: 1000 * 60 * 60 * 24
       },
-      error => { }
+      error => {}
     ),
     secret: 'keyboard cat',
     resave: true,
@@ -60,6 +88,7 @@ app.use(passport.session());
 app.use(corsMiddleware);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads'));
 app.use('/', indexRouter);
 
 // function isAuth(req, res, next) {
@@ -95,7 +124,6 @@ app.post('/login', (req, res, next) => {
 });
 
 app.post('/signup', (req, res, next) => {
-
   console.log(req.body);
 
   passport.authenticate(
@@ -124,6 +152,15 @@ app.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/messages', async function(req, res) {
+  const dataMongo = await User.find({});
+  // const arrMessages = [];
+  // for (let i = 0; i < dataMongo.length; i++) {
+  //   arrMessages.push(dataMongo[i].message);
+  // }
+  // res.send(arrMessages.slice(-10));
+  res.send(dataMongo)
+});
 
 app.post('/messages', async function (req, res) {
   const dataMongo = await req.body.data;
@@ -133,8 +170,9 @@ app.post('/messages', async function (req, res) {
   res.send(mes);
 });
 
-app.post('/profilesend', async function (req, res) {
-  console.log(req.body)
+
+app.post('/profilesend', async function(req, res) {
+  console.log(req.body);
   const user = new User({
     name: req.body.name,
     age: req.body.age,
@@ -145,22 +183,64 @@ app.post('/profilesend', async function (req, res) {
     dateReturn: req.body.dateReturn,
     gastronomy: req.body.gastronomy,
     shopping: req.body.shopping
+  });
+  await user.save();
+  console.log(user);
+  res.end();
+});
+
+app.post('/profilesend', async function (req, res) {
+  const user = new User ({
+      name: req.body.name,
+      age: req.body.age,
+      avatar: req.body.avatar,
+      country: req.body.country,
+      city: req.body.city,
+      dateDepature: req.body.dateDepature,
+      dateReturn: req.body.dateReturn,
+      gastronomy: req.body.gastronomy,
+      shopping: req.body.shopping
   })
   await user.save()
-  console.log(user)
   res.end()
 })
 
 app.get('/getprofileready', async function (req, res) {
   const profileData = await User.findById()
 })
-app.get('/getall', async function (req, res) {
+
+app.post('/uploadimage', upload.single('imageData'), async (req, res, next) => {
+  console.log(req.body)
+  console.log(req.file)
+  const newImage = new myImage({
+    imageName: req.body.imageName,
+    imageData: req.file.path
+  });
+  await newImage.save()
+  res.end()
+})
+// app.get ('/getprofileready', async function (req, res){
+//   const profileData = await User.findById()
+// })
+app.get ('/getall', async function (req, res){
   const users = await User.find()
   res.json(users)
 })
+app.get ('/:id', async function (req, res){
+  const user = await User.findById(req.params.id)
+  res.json(user)
+})
 
 
-app.listen(3001, function () {
+
+
+
+app.get('/getprofileready', async function(req, res) {
+  const profileData = await User.findById();
+});
+
+
+app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
 });
 

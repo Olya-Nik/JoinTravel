@@ -11,20 +11,20 @@ class Messages extends Component {
   }
 
   // async componentDidMount() {
-  //   let resp = await fetch('http://localhost:3001/');
+  //   let resp = await fetch('http://localhost:3001/messages');
   //   let data = await resp.json();
   //   console.log(data);
-  //   this.props.addMongoMess(data.text);
+  //   this.props.addMongoMess(data.message);
   // }
 
   changeMess = e => {
     this.setState({
+      username: "",
       message: e.target.value
     });
   };
 
   onSubmit = async () => {
-    this.setState({ message: '' });
     const resp = await fetch('http://localhost:3001/messages', {
       method: 'POST',
       headers: {
@@ -36,28 +36,36 @@ class Messages extends Component {
     const data = await resp.json();
     console.log(data);
     this.props.addMess(data);
+    this.setState({ message: '' });
   };
 
+  fetchMessages = async () => {
+    const resp = await fetch('http://localhost:3001/messages');
+    const data = await resp.json();
+    console.log(data[0]);
+  };
+
+
   render() {
-    
     return (
       <div className="messages">
         <div className="messagesInput">
           <input
             type="text 1"
             placeholder="Send message"
-            onChange={this.changeMess} value={this.state.message}
+            onChange={this.changeMess}
+            value={this.state.message}
           />
         </div>
 
         <div className="button">
-          <button className="loginButton" type="submit" onClick={this.onSubmit}>
+          <button className="loginButton" type="submit" onClick={this.fetchMessages}>
             SEND
           </button>
         </div>
 
-        <div className="messagesField">Messages
-        {this.props.message}
+        <div className="messagesField">
+          Messages
         </div>
       </div>
     );

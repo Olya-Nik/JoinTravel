@@ -5,26 +5,29 @@ class ProfileReady extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            allusers: ''
+            user: [],
+            loading: true
         }
     }
-    async findUsers() {
-        const resp = await fetch('http://localhost:3001/getall')
-        const allusers = await resp.json()
-        this.setState({ allusers: allusers })
+    async componentDidMount() {
+        const id = this.props.match.params.id;
+        const resp = await fetch(`http://localhost:3001/${id}`, {
+            method: 'GET'
+        })
+        const user = await resp.json()
+        this.setState({ user: user, loading: false })
     }
     render() {
-        const id = parseInt(this.props.match.params.id);
-        const userProfile = this.state.allusers ? this.state.allusers.find((user) => user.id === id) : null
-console.log(this.props)
+
+console.log(this.state)
         return (
             <div>
-    
+    {this.state.user ? this.state.user._id : <p>loading</p>} 
                 <Row>
                     <Col m={6} s={12}>
-                        <Collection header="First Names">
+                        <Collection header={this.state.user.name}>
                             <CollectionItem>
-                                {/* {user.name} */}
+                                {this.state.user.name}
                             </CollectionItem>
                             <CollectionItem>
                                 Alvin
