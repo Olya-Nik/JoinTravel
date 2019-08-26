@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
-const {User} = require('./models/User')
+const { User } = require('./models/User');
 
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
@@ -91,6 +91,9 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/signup', (req, res, next) => {
+
+  console.log(req.body);
+
   passport.authenticate(
     'local-signup',
     { failureFlash: true },
@@ -106,7 +109,7 @@ app.post('/signup', (req, res, next) => {
           if (err) {
           return next(err);
         }
-        res.json({ username: user.username, id: user._id, session: req.session.user});
+        res.json({ username: user.username, id: user._id });
       });
     }
   )(req, res, next);
@@ -115,6 +118,15 @@ app.post('/signup', (req, res, next) => {
 app.post('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+
+app.post('/messages', async function(req, res) {
+  const dataMongo = await req.body.data;
+  console.log(dataMongo);
+  const mes = new User({ message: dataMongo });
+  mes.save();
+  res.send(mes);
 });
 
 app.post('/profilesend', async function (req, res) {
@@ -142,6 +154,7 @@ app.get ('/getall', async function (req, res){
   const users = await User.find()
   res.json(users)
 })
+
 
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
