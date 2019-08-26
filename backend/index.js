@@ -7,20 +7,20 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 
-app.use(cookieParser);
 
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
 const app = express();
 
+app.use(cookieParser());
 app.use(logger('dev'));
 const sessionConfig = {
   secret: 'keyboard cat',
   cookie: {},
   resave: false,
   saveUninitialized: true,
-  store: new FileStore({})
+  
 };
 app.use(session(sessionConfig));
 app.use(express.json());

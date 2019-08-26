@@ -30,6 +30,9 @@ export default function myNavbar() {
                 <NavItem >
                     <NavLink activeClassName={'Active'} exact={true} to={'/logout'}>Logout</NavLink>
                 </NavItem>
+                <NavItem >
+                    <NavLink activeClassName={'Active'} exact={true} to={'/map'}>Map</NavLink>
+                </NavItem>
             </Navbar>
         </div>
     )
