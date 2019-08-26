@@ -10,11 +10,13 @@ const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
 const { User } = require('./models/User');
 
+
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
 const app = express();
 
+app.use(cookieParser());
 app.use(logger('dev'));
 app.use(cookieParser());
 
