@@ -17,6 +17,8 @@
     "redux-thunk": "^2.3.0",
     "superagent": "^5.1.0"
   },
+
+  "proxy": "http://localhost:3001",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -37,5 +39,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+
   }
 }
