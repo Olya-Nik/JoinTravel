@@ -8,6 +8,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
+
+const { User } = require('./models/User');
+const {Messeges} = require('./models/Messeges');
+
+
 const multer = require('multer')
 const { User } = require('./models/User')
 const { myImage } = require('./models/myImage')
@@ -36,6 +41,7 @@ const upload = multer({
   // fileFilter: fileFilter
 })
 
+
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
@@ -45,38 +51,37 @@ app.use(cookieParser());
 app.use(logger('dev'));
 app.use(cookieParser());
 
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const corsMiddleware = (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-      );
-      res.header('Access-Control-Allow-Credentials', 'true');
-      res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-      next();
-    };
-    
-    app.use(cookieParser());
-    require('./passport')(passport);
-    app.use(
-        session({
-            store: new MongoStore(
-                {
-                    uri: 'mongodb://localhost/JoinTravel',
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  next();
+};
+
+app.use(cookieParser());
+require('./passport')(passport);
+app.use(
+  session({
+    store: new MongoStore(
+      {
+        uri: 'mongodb://localhost/JoinTravel',
         collection: 'sessions',
-        expires: 1000 * 60 * 60 * 24
+        // expires: 1000 * 60 * 60 * 24
       },
       error => {}
-      ),
-      secret: 'keyboard cat',
-      resave: true,
-      saveUninitialized: true
-    })
-    );
+    ),
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+  })
+);
 
 app.use('/', indexRouter);
 app.use(passport.initialize());
@@ -87,29 +92,29 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 
 // function isAuth(req, res, next) {
-  //   if (!req.isAuthenticated()) return res.status(401).end();
-  //   next();
+//   if (!req.isAuthenticated()) return res.status(401).end();
+//   next();
 // }
- 
-app.get('/auth', (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).end();
-    res.json(req.user);
-  });
 
-  app.post('/login', (req, res, next) => {
+app.get('/auth', (req, res) => {
+  if (!req.isAuthenticated()) return res.status(401).end();
+  res.json(req.user);
+});
+
+app.post('/login', (req, res, next) => {
   passport.authenticate(
-      'local-login',
+    'local-login',
     { failureFlash: true },
     (err, user, info) => {
       if (err) {
-          return next(err);
+        return next(err);
       }
       if (!user) {
         return res.status(401).json([info.message]);
       }
 
       req.logIn(user, err => {
-          if (err) {
+        if (err) {
           return next(err);
         }
         res.json({ username: user.username, id: user._id });
@@ -119,22 +124,21 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/signup', (req, res, next) => {
-
   console.log(req.body);
 
   passport.authenticate(
     'local-signup',
     { failureFlash: true },
     (err, user, info) => {
-        if (err) {
+      if (err) {
         return next(err);
       }
       if (!user) {
-          return res.status(401).json([info.message]);
+        return res.status(401).json([info.message]);
       }
 
       req.logIn(user, err => {
-          if (err) {
+        if (err) {
           return next(err);
         }
         res.json({ username: user.username, id: user._id });
@@ -148,6 +152,15 @@ app.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/messages', async function(req, res) {
+  const dataMongo = await User.find({});
+  // const arrMessages = [];
+  // for (let i = 0; i < dataMongo.length; i++) {
+  //   arrMessages.push(dataMongo[i].message);
+  // }
+  // res.send(arrMessages.slice(-10));
+  res.send(dataMongo)
+});
 
 app.post('/messages', async function(req, res) {
   const dataMongo = await req.body.data;
@@ -155,6 +168,25 @@ app.post('/messages', async function(req, res) {
   const mes = new User({ message: dataMongo });
   mes.save();
   res.send(mes);
+});
+
+
+app.post('/profilesend', async function(req, res) {
+  console.log(req.body);
+  const user = new User({
+    name: req.body.name,
+    age: req.body.age,
+    avatar: req.body.avatar,
+    country: req.body.country,
+    city: req.body.city,
+    dateDepature: req.body.dateDepature,
+    dateReturn: req.body.dateReturn,
+    gastronomy: req.body.gastronomy,
+    shopping: req.body.shopping
+  });
+  await user.save();
+  console.log(user);
+  res.end();
 });
 
 app.post('/profilesend', async function (req, res) {
@@ -197,6 +229,14 @@ app.get ('/:id', async function (req, res){
 
 
 
+
+app.get('/getprofileready', async function(req, res) {
+  const profileData = await User.findById();
+});
+app.get('/getall', async function(req, res) {
+  const users = await User.find();
+  res.json(users);
+});
 
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
