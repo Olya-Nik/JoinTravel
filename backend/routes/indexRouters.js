@@ -7,18 +7,19 @@ router.get('/', function (req, res) {
     res.send('Hi')
 })
 
-router.post('/profilesend', async function (req, res) {
-    console.log(req.body)
-    const user = new User ({
-        name: req.body.name,
-        age: req.body.age,
-        avatar: req.body.avatar,
-        country: req.body.country,
-        city: req.body.city
-    })
-    await user.save()
-    console.log(user)
-    res.end()
-})
+// router.post('/profilesend', async function (req, res) {
+//     console.log(req.body)
+//     const user = new User ({
+//         name: req.body.name,
+//         age: req.body.age,
+//         avatar: req.body.avatar,
+//         country: req.body.country,
+//         city: req.body.city,
+//         date: req.body.date
+//     })
+//     await user.save()
+//     console.log(user)
+//     res.end()
+// })
 
 module.exports = router
