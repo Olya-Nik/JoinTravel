@@ -14,16 +14,23 @@ class Company extends React.Component {
         const allusers = await resp.json()
         this.setState({ allusers: allusers })
     }
-    
+
     render() {
         return (
-            <div>
-                {this.state.allusers ? this.state.allusers.map((user) =>
-                    <div key={user._id}>
-                        <Link to={`/company/${user._id}`}>{user._id}</Link>
-                    </div>
-                ) : null}
-            </div>
+            <Row>
+                <Col m={6} s={12}>
+                    <Collection>
+                        {this.state.allusers ? this.state.allusers.map((user) =>
+                            <CollectionItem className="avatar" key={user._id}>
+                                <img src="https://materializecss.com/images/yuna.jpg" alt="" className="circle" />
+                                <span className="title">
+                                    <Link to={`/company/${user._id}`}>{user.name}</Link>
+                                </span>
+                            </CollectionItem>
+                        ) : null}
+                    </Collection>
+                </Col>
+            </Row>
         )
     }
 }
