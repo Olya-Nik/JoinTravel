@@ -41,6 +41,7 @@ mongoose.connect('mongodb://localhost:27017/JoinTravel', {
 });
 const app = express();
 
+app.use(cookieParser());
 app.use(logger('dev'));
 app.use(cookieParser());
 
@@ -118,6 +119,9 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/signup', (req, res, next) => {
+
+  console.log(req.body);
+
   passport.authenticate(
     'local-signup',
     { failureFlash: true },
@@ -133,7 +137,7 @@ app.post('/signup', (req, res, next) => {
           if (err) {
           return next(err);
         }
-        res.json({ username: user.username, id: user._id, session: req.session.user});
+        res.json({ username: user.username, id: user._id });
       });
     }
   )(req, res, next);
@@ -142,6 +146,15 @@ app.post('/signup', (req, res, next) => {
 app.post('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+
+app.post('/messages', async function(req, res) {
+  const dataMongo = await req.body.data;
+  console.log(dataMongo);
+  const mes = new User({ message: dataMongo });
+  mes.save();
+  res.send(mes);
 });
 
 app.post('/profilesend', async function (req, res) {
@@ -181,6 +194,7 @@ app.get ('/:id', async function (req, res){
   const user = await User.findById(req.params.id)
   res.json(user)
 })
+
 
 
 

@@ -5,6 +5,7 @@ import { Navbar, NavItem } from 'react-materialize';
 export default function myNavbar() {
     return (
         <div className='Links'>
+
             <Navbar>
                 <NavItem href={'/'}>Main Page</NavItem>
                 <NavItem href={'/search'}>Search</NavItem>
@@ -14,6 +15,7 @@ export default function myNavbar() {
                 <NavItem href={'/signup'}> Registration</NavItem>
                 <NavItem href={'/login'} >Login</NavItem>
                 <NavItem href={'/logout'}>Logout</NavItem>
+
             </Navbar>
         </div>
     )
