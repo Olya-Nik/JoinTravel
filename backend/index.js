@@ -14,7 +14,7 @@ const {Messeges} = require('./models/Messeges');
 
 
 const multer = require('multer')
-const { User } = require('./models/User')
+
 const { myImage } = require('./models/myImage')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -83,13 +83,13 @@ app.use(
   })
 );
 
-app.use('/', indexRouter);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(corsMiddleware);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
+app.use('/', indexRouter);
 
 // function isAuth(req, res, next) {
 //   if (!req.isAuthenticated()) return res.status(401).end();
@@ -162,7 +162,7 @@ app.get('/messages', async function(req, res) {
   res.send(dataMongo)
 });
 
-app.post('/messages', async function(req, res) {
+app.post('/messages', async function (req, res) {
   const dataMongo = await req.body.data;
   console.log(dataMongo);
   const mes = new User({ message: dataMongo });
@@ -205,6 +205,10 @@ app.post('/profilesend', async function (req, res) {
   res.end()
 })
 
+app.get('/getprofileready', async function (req, res) {
+  const profileData = await User.findById()
+})
+
 app.post('/uploadimage', upload.single('imageData'), async (req, res, next) => {
   console.log(req.body)
   console.log(req.file)
@@ -230,13 +234,11 @@ app.get ('/:id', async function (req, res){
 
 
 
+
 app.get('/getprofileready', async function(req, res) {
   const profileData = await User.findById();
 });
-app.get('/getall', async function(req, res) {
-  const users = await User.find();
-  res.json(users);
-});
+
 
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
