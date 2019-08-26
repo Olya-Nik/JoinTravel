@@ -19,7 +19,7 @@ class Register extends Component {
 
     await fetch('http://localhost:3001/signup', {
       method: 'POST',
-    //   credentials: 'include',
+      credentials: 'include',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -45,13 +45,14 @@ class Register extends Component {
     return (
       <div className="form">
         <div className="inputForm">
+          ЗАРЕГИСТРИРОВАТЬСЯ
           <input type="text" placeholder="Имя" onChange={this.changeName} />
-          <input type="password" placeholder="Пароль"  onChange={this. changePassword} />
+          <input type="password" placeholder="Пароль"  onChange={this.changePassword} />
         </div>
 
         <div className="button">
           <button className="loginButton" type="submit" onClick={this.onClick}>
-            Зарегистрироваться
+            Подтвердить
           </button>
         </div>
       </div>

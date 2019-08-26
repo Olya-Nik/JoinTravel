@@ -38,10 +38,6 @@ class Login extends Component {
   };
 
   render() {
-    // const { isLogged, status } = this.props.auth;
-    // const disabled = status === 'pending';
-    // const loginButtonCss =
-    //   styles['login_button_' + (status === 'pending' ? 'disabled' : 'active')];
 
     return (
       <div className="form">
@@ -58,8 +54,9 @@ class Login extends Component {
         </div> */}
 
         <div className="inputForm">
+          ВОЙТИ
           <input type="text" placeholder="Имя" onChange={this.changeName} />
-          <input type="password" placeholder="Пароль" onChange={this. changePassword}/>
+          <input type="password" placeholder="Пароль" onChange={this.changePassword}/>
         </div>
 
         <div className="button">
