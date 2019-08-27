@@ -8,8 +8,9 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
+const { Messeges} = require('./models/Messeges');
 const multer = require('multer')
-const { User } = require('./models/User')
+
 const { myImage } = require('./models/myImage')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,6 +25,7 @@ const upload = multer({
   storage: storage,
   })
 
+
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
 });
@@ -37,66 +39,73 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const corsMiddleware = (req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-      );
-      res.header('Access-Control-Allow-Credentials', 'true');
-      res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-      next();
-    };
-    
-    app.use(cookieParser());
-    require('./passport')(passport);
-    app.use(
-        session({
-            store: new MongoStore(
-                {
-                    uri: 'mongodb://localhost/JoinTravel',
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  next();
+};
+
+app.use(cookieParser());
+require('./passport')(passport);
+app.use(
+  session({
+    store: new MongoStore(
+      {
+        uri: 'mongodb://localhost/JoinTravel',
         collection: 'sessions',
-        expires: 1000 * 60 * 60 * 24
+        // expires: 1000 * 60 * 60 * 24
       },
       error => {}
-      ),
-      secret: 'keyboard cat',
-      resave: true,
-      saveUninitialized: true
-    })
-    );
+    ),
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
+  })
+);
 
-app.use('/', indexRouter);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(corsMiddleware);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
+app.use('/', indexRouter);
 
 // function isAuth(req, res, next) {
-  //   if (!req.isAuthenticated()) return res.status(401).end();
-  //   next();
+//   if (!req.isAuthenticated()) return res.status(401).end();
+//   next();
 // }
- 
-app.get('/auth', (req, res) => {
-    if (!req.isAuthenticated()) return res.status(401).end();
-    res.json(req.user);
-  });
 
-  app.post('/login', (req, res, next) => {
+app.get('/auth', (req, res) => {
+  if (!req.isAuthenticated()) return res.status(401).end();
+  res.json(req.user);
+});
+
+
+app.get('/auth/facebook', passport.authenticate('facebook'))
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/' }),
+  (req, res) => res.redirect('/')
+)
+
+app.post('/login', (req, res, next) => {
   passport.authenticate(
-      'local-login',
+    'local-login',
     { failureFlash: true },
     (err, user, info) => {
       if (err) {
-          return next(err);
+        return next(err);
       }
       if (!user) {
         return res.status(401).json([info.message]);
       }
 
       req.logIn(user, err => {
-          if (err) {
+        if (err) {
           return next(err);
         }
         res.json({ username: user.username, id: user._id });
@@ -106,22 +115,21 @@ app.get('/auth', (req, res) => {
 });
 
 app.post('/signup', (req, res, next) => {
-
   console.log(req.body);
 
   passport.authenticate(
     'local-signup',
     { failureFlash: true },
     (err, user, info) => {
-        if (err) {
+      if (err) {
         return next(err);
       }
       if (!user) {
-          return res.status(401).json([info.message]);
+        return res.status(401).json([info.message]);
       }
 
       req.logIn(user, err => {
-          if (err) {
+        if (err) {
           return next(err);
         }
         res.json({ username: user.username, id: user._id });
@@ -135,8 +143,18 @@ app.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/messages', async function(req, res) {
+  //const dataMongo = await User.find({});
+  // const arrMessages = [];
+  // for (let i = 0; i < dataMongo.length; i++) {
+  //   arrMessages.push(dataMongo[i].message);
+  // }
+  // res.send(arrMessages.slice(-10));
+  //res.send(dataMongo)
+  res.send('mes')
+});
 
-app.post('/messages', async function(req, res) {
+app.post('/messages', async function (req, res) {
   const dataMongo = await req.body.data;
   console.log(dataMongo);
   const mes = new User({ message: dataMongo });
@@ -183,6 +201,11 @@ app.get ('/getall', async function (req, res){
   console.log(users)
   res.json(users)
 })
+
+app.get('/getprofileready', async function(req, res) {
+  const profileData = await User.findById();
+});
+
 app.get ('/user/:id', async function (req, res){
   const user = await User.findById(req.params.id)
   res.json(user)

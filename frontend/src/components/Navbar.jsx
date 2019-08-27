@@ -15,7 +15,7 @@ export default function myNavbar() {
                 <NavItem href={'/signup'}> Registration</NavItem>
                 <NavItem href={'/login'} >Login</NavItem>
                 <NavItem href={'/logout'}>Logout</NavItem>
-
+                <NavItem href={'/map'} >Map</NavItem>
             </Navbar>
         </div>
     )
