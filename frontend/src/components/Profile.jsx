@@ -1,10 +1,20 @@
-import React from 'react'
-import Image from './Image'
-import { Link } from "react-router-dom";
-import { TextInput, Col, Row, Collection, CollectionItem, Checkbox, DatePicker, Select, Button } from 'react-materialize'
-import 'materialize-css/dist/css/materialize.min.css'
-import axios from 'axios'
-import '../App.css'
+import React from 'react';
+import Image from './Image';
+import { Link } from 'react-router-dom';
+import {
+  TextInput,
+  Col,
+  Row,
+  Collection,
+  CollectionItem,
+  Checkbox,
+  DatePicker,
+  Select,
+  Button
+} from 'react-materialize';
+import 'materialize-css/dist/css/materialize.min.css';
+import axios from 'axios';
+import '../App.css';
 // import moment from 'moment'
 // import 'moment/locale/ru';
 
@@ -127,24 +137,24 @@ class Profile extends React.Component {
         imageFormObj.append("about", this.state.about)
         imageFormObj.append("contacts", this.state.contacts)
 
-        axios.post('http://localhost:3001/profilesend', imageFormObj)
-            .then((data) => {
-                // console.log(data)
-                if (data.data.success) {
-                    alert("Image");
-                }
-            })
-            .catch((err) => {
-                alert("Error");
-            });
-        this.setState({
-            image: URL.createObjectURL(this.state.selectedFile)
-        });
-
-    }
+    axios
+      .post('http://localhost:3001/profilesend', imageFormObj)
+      .then(data => {
+        // console.log(data)
+        if (data.data.success) {
+          alert('Image');
+        }
+      })
+      .catch(err => {
+        alert('Error');
+      });
+    this.setState({
+      image: URL.createObjectURL(this.state.selectedFile)
+    });
+  };
         render() {
             return (
-                <div>
+                <div className="formProfile">
                     <TextInput label="Your name" placeholder="Your name" onChange={this.changeName} />
                     Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
                     Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
@@ -185,8 +195,8 @@ class Profile extends React.Component {
                     <Link to={'/company'}></Link>
                     </Button>
                 </div>
-            )
-        }
-    }
+    );
+  }
+}
 
-    export default Profile;
+export default Profile;
