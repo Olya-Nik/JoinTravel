@@ -27,6 +27,7 @@ class Messages extends Component {
   onSubmit = async () => {
     const resp = await fetch('http://localhost:3001/messages', {
       method: 'POST',
+      credentials : 'include', // cookie
       headers: {
         'Content-Type': 'application/json'
       },
@@ -40,7 +41,9 @@ class Messages extends Component {
   };
 
   fetchMessages = async () => {
-    const resp = await fetch('http://localhost:3001/messages');
+    const resp = await fetch('http://localhost:3001/messages', {
+      credentials : 'include',
+    });
     const data = await resp.json();
     console.log(data[0]);
   };
@@ -59,7 +62,7 @@ class Messages extends Component {
         </div>
 
         <div className="button">
-          <button className="loginButton" type="submit" onClick={this.fetchMessages}>
+          <button className="loginButton" type="submit" onClick={this.onSubmit}>
             SEND
           </button>
         </div>
