@@ -1,5 +1,5 @@
 import React from 'react'
-import { Collection, CollectionItem, Row, Col, Icon } from 'react-materialize'
+import { Collection, CollectionItem, Row, Col } from 'react-materialize'
 import { Link } from "react-router-dom";
 
 class Company extends React.Component {
@@ -17,19 +17,20 @@ class Company extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.state.allusers ? this.state.allusers.map((user) =>
-                    <div key={user._id}>
-                        <CollectionItem className="avatar">
-                            <img src="https://materializecss.com/images/yuna.jpg" alt="" className="circle" />
-                            <span className="title">
-                                <Link to={`/company/${user._id}`}>{user.name}</Link>
-                            </span>
-                        </CollectionItem>
-                        
-                    </div>
-                ) : null}
-            </div>
+            <Row>
+                <Col m={6} s={12}>
+                    <Collection>
+                        {this.state.allusers ? this.state.allusers.map((user) =>
+                            <CollectionItem className="avatar" key={user._id}>
+                                <img src="https://materializecss.com/images/yuna.jpg" alt="" className="circle" />
+                                <span className="title">
+                                    <Link to={`/company/${user._id}`}>{user.name}</Link>
+                                </span>
+                            </CollectionItem>
+                        ) : null}
+                    </Collection>
+                </Col>
+            </Row>
         )
     }
 }
