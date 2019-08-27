@@ -24,7 +24,7 @@ class Messages extends Component {
     });
   };
 
-  onSubmit = async () => {
+  onSubmit = async () => { //send to DB
     const resp = await fetch('http://localhost:3001/messages', {
       method: 'POST',
       credentials : 'include', // cookie
