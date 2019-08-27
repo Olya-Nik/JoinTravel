@@ -10,7 +10,7 @@ const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
 const { Messeges} = require('./models/Messeges');
 const multer = require('multer')
-
+const { User } = require('./models/User')
 const { myImage } = require('./models/myImage')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
