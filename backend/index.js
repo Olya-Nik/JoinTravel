@@ -20,21 +20,9 @@ const storage = multer.diskStorage({
   }
 });
 
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-//     cb(null, true);
-//   } else {
-//     cb(null, false)
-//   }
-// }
-
 const upload = multer({
   storage: storage,
-  // limits: {
-  //   fileSize: 1024 * 1024 * 5
-  // },
-  // fileFilter: fileFilter
-})
+  })
 
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
@@ -44,7 +32,6 @@ const app = express();
 app.use(cookieParser());
 app.use(logger('dev'));
 app.use(cookieParser());
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -157,46 +144,49 @@ app.post('/messages', async function(req, res) {
   res.send(mes);
 });
 
-app.post('/profilesend', async function (req, res) {
+app.post('/profilesend', upload.single('imageData'), async function (req, res) {
+  console.log(req.body)
   const user = new User ({
       name: req.body.name,
       age: req.body.age,
-      avatar: req.body.avatar,
+      imageName: req.body.imageName,
+      imageData: req.file.path,
+      image: req.body.image,
       country: req.body.country,
       city: req.body.city,
       dateDepature: req.body.dateDepature,
       dateReturn: req.body.dateReturn,
       gastronomy: req.body.gastronomy,
-      shopping: req.body.shopping
+      shopping: req.body.shopping,
+      sightSeeings: req.body.sightSeeings,
+      seaChilling: req.body.seaChilling
   })
   await user.save()
   res.end()
 })
 
-app.post('/uploadimage', upload.single('imageData'), async (req, res, next) => {
-  console.log(req.body)
-  console.log(req.file)
-  const newImage = new myImage({
-    imageName: req.body.imageName,
-    imageData: req.file.path
-  });
-  await newImage.save()
-  res.end()
-})
+// app.post('/uploadimage', upload.single('imageData'), async (req, res, next) => {
+//   console.log(req.body)
+//   console.log(req.file)
+//   const newImage = new myImage({
+//     imageName: req.body.imageName,
+//     imageData: req.file.path
+//   });
+//   await newImage.save()
+//   res.end()
+// })
 // app.get ('/getprofileready', async function (req, res){
 //   const profileData = await User.findById()
 // })
 app.get ('/getall', async function (req, res){
   const users = await User.find()
+  console.log(users)
   res.json(users)
 })
-app.get ('/:id', async function (req, res){
+app.get ('/user/:id', async function (req, res){
   const user = await User.findById(req.params.id)
   res.json(user)
 })
-
-
-
 
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
