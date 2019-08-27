@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-materialize';
 
 class Register extends Component {
   constructor(props) {
@@ -8,26 +9,6 @@ class Register extends Component {
       password: ''
     };
   }
-
-  onClick = async () => {
-    const sendForm = {
-      username: this.state.username,
-      password: this.state.password
-    };
-
-    console.log(sendForm);
-
-    await fetch('http://localhost:3001/signup', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      
-      body: JSON.stringify(sendForm)
-    });
-  };
 
   changeName = e => {
     this.setState({
@@ -41,19 +22,58 @@ class Register extends Component {
     });
   };
 
+  onClick = async e => {
+    e.preventDefault();
+    const sendForm = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    console.log(sendForm);
+
+    await fetch('http://localhost:3001/auth/signup', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+
+      body: JSON.stringify(sendForm)
+    });
+  };
+
   render() {
     return (
       <div className="form">
         <div className="inputForm">
-          ЗАРЕГИСТРИРОВАТЬСЯ
-          <input type="text" placeholder="Имя" onChange={this.changeName} />
-          <input type="password" placeholder="Пароль"  onChange={this.changePassword} />
+          <h2>Registration</h2>
+          <input
+            type="text"
+            placeholder="Name"
+            onChange={this.changeName}
+            value={this.state.username}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={this.changePassword}
+          />
         </div>
 
         <div className="button">
-          <button className="loginButton" type="submit" onClick={this.onClick}>
-            Подтвердить
-          </button>
+          <div>
+            <Button
+              className="loginButton"
+              type="submit"
+              onClick={this.onClick}
+              value={this.state.password}
+            >
+              Register User
+            </Button>
+            <a className="facebook" href="/auth/facebook">
+              <span className="iconF">facebook</span>
+            </a>
+          </div>
         </div>
       </div>
     );

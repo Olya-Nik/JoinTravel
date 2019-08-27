@@ -13,7 +13,7 @@ router.get('/', function (req, res) {
 router.post('/map', async function (req, res){
     const resp = await fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=55.704724199999994,37.5959547&radius=1500&type=restaurant&keyword=cafe&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk')
     const json = await resp.json();
-    console.log(json)
+    //console.log(json)
     res.json(json);
 })
 
