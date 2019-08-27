@@ -1,6 +1,6 @@
 import React from 'react'
 import { Collection, CollectionItem, Row, Col } from 'react-materialize'
-
+import { Link } from "react-router-dom";
 class ProfileReady extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +11,7 @@ class ProfileReady extends React.Component {
     }
     async componentDidMount() {
         const id = this.props.match.params.id;
-        const resp = await fetch(`http://localhost:3001/${id}`, {
+        const resp = await fetch(`http://localhost:3001/user/${id}`, {
             method: 'GET'
         })
         const user = await resp.json()
@@ -22,21 +22,25 @@ class ProfileReady extends React.Component {
 console.log(this.state)
         return (
             <div>
-    {this.state.user ? this.state.user._id : <p>loading</p>} 
+    {/* {this.state.user ? this.state.user._id : <p>loading</p>}  */}
                 <Row>
                     <Col m={6} s={12}>
-                        <Collection header={this.state.user.name}>
+                        <Collection header={`You may join ${this.state.user.name}`}>
                             <CollectionItem>
-                                {this.state.user.name}
+                            <img src={`http://localhost:3001/${this.state.user.imageData}`} alt="" />
                             </CollectionItem>
                             <CollectionItem>
-                                Alvin
+                            {`${this.state.user.name} is ${this.state.user.age} old`}
         </CollectionItem>
                             <CollectionItem>
-                                Alvin
+                            {`${this.state.user.name} is going to visit ${this.state.user.country}`}
         </CollectionItem>
                             <CollectionItem>
-                                Alvin
+                            {`${this.state.user.name} is interested in ${this.state.user.gastronomy} as you`}
+        </CollectionItem>
+        <CollectionItem>
+                            {`You may send a message to ${this.state.user.name}`}
+                            <Link to={`/messages/${this.state.user._id}`}>{`Contact to ${this.state.user.name}`}</Link>
         </CollectionItem>
                         </Collection>
                     </Col>

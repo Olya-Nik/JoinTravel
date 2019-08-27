@@ -11,7 +11,7 @@ export default function myNavbar() {
                 <NavItem href={'/search'}>Search</NavItem>
                 <NavItem href={'/company'}>Company</NavItem>
                 <NavItem href={'/profile'}>Profile</NavItem>
-                <NavItem href={'/messages'}>Messages</NavItem>
+                <NavItem href={'/messages/:id'}>Messages</NavItem>
                 <NavItem href={'/signup'}> Registration</NavItem>
                 <NavItem href={'/login'} >Login</NavItem>
                 <NavItem href={'/logout'}>Logout</NavItem>
