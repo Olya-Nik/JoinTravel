@@ -8,11 +8,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
-
-const { User } = require('./models/User');
-const {Messeges} = require('./models/Messeges');
-
-
+const { Messeges} = require('./models/Messeges');
 const multer = require('multer')
 
 const { myImage } = require('./models/myImage')
@@ -101,6 +97,13 @@ app.get('/auth', (req, res) => {
   res.json(req.user);
 });
 
+
+app.get('/auth/facebook', passport.authenticate('facebook'))
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/' }),
+  (req, res) => res.redirect('/')
+)
+
 app.post('/login', (req, res, next) => {
   passport.authenticate(
     'local-login',
@@ -153,13 +156,14 @@ app.post('/logout', (req, res) => {
 });
 
 app.get('/messages', async function(req, res) {
-  const dataMongo = await User.find({});
+  //const dataMongo = await User.find({});
   // const arrMessages = [];
   // for (let i = 0; i < dataMongo.length; i++) {
   //   arrMessages.push(dataMongo[i].message);
   // }
   // res.send(arrMessages.slice(-10));
-  res.send(dataMongo)
+  //res.send(dataMongo)
+  res.send('mes')
 });
 
 app.post('/messages', async function (req, res) {
@@ -222,16 +226,10 @@ app.post('/uploadimage', upload.single('imageData'), async (req, res, next) => {
 // app.get ('/getprofileready', async function (req, res){
 //   const profileData = await User.findById()
 // })
-app.get ('/getall', async function (req, res){
-  const users = await User.find()
-  res.json(users)
-})
-app.get ('/:id', async function (req, res){
-  const user = await User.findById(req.params.id)
-  res.json(user)
-})
-
-
+// app.get ('/getall', async function (req, res){
+//   const users = await User.find()
+//   res.json(users)
+// })
 
 
 
@@ -239,6 +237,11 @@ app.get('/getprofileready', async function(req, res) {
   const profileData = await User.findById();
 });
 
+
+app.get ('/user/:id', async function (req, res){
+  const user = await User.findById(req.params.id)
+  res.json(user)
+})
 
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
