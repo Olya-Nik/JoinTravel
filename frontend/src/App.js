@@ -3,7 +3,7 @@ import './App.css';
 import Main from "./components/Main"
 import Navbar from "./components/Navbar"
 import Profile from "./components/Profile"
-
+import Logout from './components/Logout'
 import Map from "./components/Map"
 import ProfileReady from "./components/ProfileReady"
 import Company from "./components/Company"
@@ -28,7 +28,6 @@ function App() {
           <Route path='/messages' component={Messages}/>
           <Route path="/auth/signup" component={Register}/>
           <Route path="/auth/login" component={Login}/>
-          <Route path="/auth/logout" />
           <Route path="/sms" component={SMS} />
         </Switch>
       </div>
