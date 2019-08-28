@@ -12,8 +12,8 @@ export default class Map extends Component {
             startPos = position;
             let a = startPos.coords.latitude;
             let b = startPos.coords.longitude;
-            console.log(a)
-            console.log(b)
+            //console.log(a)
+            //console.log(b)
             this.setState({ latitude: a, longitude: b })
         }
         navigator.geolocation.getCurrentPosition(geoSuccess);
@@ -32,10 +32,10 @@ export default class Map extends Component {
                 },
                 
             })
-            console.log(places);
+            //console.log(places);
            
             const data = await places.json()
-            console.log(data)
+            //console.log(data)
         } catch (err) {
             console.log(err);
 

@@ -12,19 +12,19 @@ const { Messeges} = require('./models/Messeges');
 const multer = require('multer')
 const { User } = require('./models/User')
 const { myImage } = require('./models/myImage')
+
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function(req, file, cb) {
     cb(null, './uploads');
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname)
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + file.originalname);
   }
 });
 
 const upload = multer({
-  storage: storage,
-  })
-
+  storage: storage
+});
 
 mongoose.connect('mongodb://localhost:27017/JoinTravel', {
   useNewUrlParser: true
@@ -56,7 +56,7 @@ app.use(
     store: new MongoStore(
       {
         uri: 'mongodb://localhost/JoinTravel',
-        collection: 'sessions',
+        collection: 'sessions'
         // expires: 1000 * 60 * 60 * 24
       },
       error => {}
@@ -85,14 +85,14 @@ app.get('/auth', (req, res) => {
   res.json(req.user);
 });
 
-
-app.get('/auth/facebook', passport.authenticate('facebook'))
-app.get('/auth/facebook/callback',
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get(
+  '/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/' }),
   (req, res) => res.redirect('/')
-)
+);
 
-app.post('/login', (req, res, next) => {
+app.post('/auth/login', (req, res, next) => {
   passport.authenticate(
     'local-login',
     { failureFlash: true },
@@ -114,9 +114,8 @@ app.post('/login', (req, res, next) => {
   )(req, res, next);
 });
 
-app.post('/signup', (req, res, next) => {
-  console.log(req.body);
-
+app.post('/auth/signup', (req, res, next) => {
+  //console.log(req.body);
   passport.authenticate(
     'local-signup',
     { failureFlash: true },
@@ -138,7 +137,7 @@ app.post('/signup', (req, res, next) => {
   )(req, res, next);
 });
 
-app.post('/logout', (req, res) => {
+app.post('/auth/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
@@ -151,10 +150,10 @@ app.get('/messages', async function(req, res) {
   // }
   // res.send(arrMessages.slice(-10));
   //res.send(dataMongo)
-  res.send('mes')
+  res.send('mes');
 });
 
-app.post('/messages', async function (req, res) {
+app.post('/messages', async function(req, res) {
   const dataMongo = await req.body.data;
   console.log(dataMongo);
   const mes = new User({ message: dataMongo });
@@ -162,26 +161,26 @@ app.post('/messages', async function (req, res) {
   res.send(mes);
 });
 
-app.post('/profilesend', upload.single('imageData'), async function (req, res) {
-  console.log(req.body)
-  const user = new User ({
-      name: req.body.name,
-      age: req.body.age,
-      imageName: req.body.imageName,
-      imageData: req.file.path,
-      image: req.body.image,
-      country: req.body.country,
-      city: req.body.city,
-      dateDepature: req.body.dateDepature,
-      dateReturn: req.body.dateReturn,
-      gastronomy: req.body.gastronomy,
-      shopping: req.body.shopping,
-      sightSeeings: req.body.sightSeeings,
-      seaChilling: req.body.seaChilling
-  })
-  await user.save()
-  res.end()
-})
+app.post('/profilesend', upload.single('imageData'), async function(req, res) {
+  console.log(req.body);
+  const user = new User({
+    name: req.body.name,
+    age: req.body.age,
+    imageName: req.body.imageName,
+    imageData: req.file.path,
+    image: req.body.image,
+    country: req.body.country,
+    city: req.body.city,
+    dateDepature: req.body.dateDepature,
+    dateReturn: req.body.dateReturn,
+    gastronomy: req.body.gastronomy,
+    shopping: req.body.shopping,
+    sightSeeings: req.body.sightSeeings,
+    seaChilling: req.body.seaChilling
+  });
+  await user.save();
+  res.end();
+});
 
 // app.post('/uploadimage', upload.single('imageData'), async (req, res, next) => {
 //   console.log(req.body)
@@ -196,20 +195,20 @@ app.post('/profilesend', upload.single('imageData'), async function (req, res) {
 // app.get ('/getprofileready', async function (req, res){
 //   const profileData = await User.findById()
 // })
-app.get ('/getall', async function (req, res){
-  const users = await User.find()
-  console.log(users)
-  res.json(users)
-})
+app.get('/getall', async function(req, res) {
+  const users = await User.find();
+  console.log(users);
+  res.json(users);
+});
 
 app.get('/getprofileready', async function(req, res) {
   const profileData = await User.findById();
 });
 
-app.get ('/user/:id', async function (req, res){
-  const user = await User.findById(req.params.id)
-  res.json(user)
-})
+app.get('/user/:id', async function(req, res) {
+  const user = await User.findById(req.params.id);
+  res.json(user);
+});
 
 app.post('/filter', async function (req, res) {
   console.log(req.body)
