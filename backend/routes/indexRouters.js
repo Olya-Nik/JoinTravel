@@ -16,7 +16,7 @@ router.post('/map', async function (req, res) {
     let coordB = String(req.body.longitude);
     console.log(req.body.trip);
     let typeTrip = req.body.trip;
-    const resp = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordA},${coordB}&radius=5000&type=${typeTrip}&keyword=sights&key=`)
+    const resp = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordA},${coordB}&radius=5000&type=${typeTrip}&keyword=sights&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk`)
     const json = await resp.json();
     console.log(json);
 
@@ -29,7 +29,7 @@ router.post('/map', async function (req, res) {
             continue;
         }
         let hash = json.results[i].photos[0].photo_reference;
-        const resp1 = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${hash}&key=`)
+        const resp1 = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${hash}&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk`)
         const image = await resp1.url;
         json.results[i].image = image;
         // arrLink.push(json1)

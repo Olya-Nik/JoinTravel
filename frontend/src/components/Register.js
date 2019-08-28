@@ -74,7 +74,7 @@ class Register extends Component {
 
             <div>
               <a className="facebookIcon" href="/auth/facebook">
-                <img src={fbIcon} />
+                <img src={fbIcon} alt="none"/>
               </a>
             </div>
           </div>

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import 'materialize-css/dist/css/materialize.min.css'
 import { Card, Row, Col, CardTitle, Select } from 'react-materialize';
-import Places from './Places';
+import spinner from '../img/lg.ajax-spinner-preloader.gif'
+
 
 
 export default class Map extends Component {
@@ -83,7 +84,7 @@ export default class Map extends Component {
         // return null;
         return (
             <div>
-                <h1>Places Nearby</h1>
+                <h3> Places Nearby</h3>
 
                 <div>
                     <Select defaultValue="" onChange={this.changeAction}>
@@ -108,7 +109,7 @@ export default class Map extends Component {
                 </div>
 
                 <div>
-                    {this.state.places ? this.state.places.map((item, index) => {
+                    {this.state.places.length >0 ? this.state.places.map((item, index) => {
                         return (
                             <div class="cards">
                                 <Row>
@@ -120,7 +121,10 @@ export default class Map extends Component {
                                 </Row>
                             </div>
                         )
-                    }) : null}
+                    }) : <><p>Hohooh</p> <img src={spinner} alt="loading..." /></>}
+
+                    
+
                 </div>
             </div>
         )

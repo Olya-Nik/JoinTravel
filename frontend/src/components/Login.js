@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import fbIcon from '../icons/facebook.png';
-import { connect } from 'react-redux'
+
 
 class Login extends Component {
   constructor(props) {
@@ -76,7 +76,7 @@ class Login extends Component {
               Login User
             </Button>
             <div><a className="facebookIcon" href="/auth/facebook">
-              <img src={fbIcon} />
+              <img src={fbIcon} alt="none" />
             </a></div>
           </div>
         </div>
