@@ -37,7 +37,6 @@ class Register extends Component {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-
       body: JSON.stringify(sendForm)
     });
   };
@@ -70,6 +69,7 @@ class Register extends Component {
             >
               Register User
             </Button>
+
             <a className="facebook" href="/auth/facebook">
               <span className="iconF">facebook</span>
             </a>

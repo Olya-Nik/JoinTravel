@@ -6,7 +6,8 @@ const messagesSchema = new mongoose.Schema({
   senderUserId: { type: ObjectId },
   recevierUserId: { type: ObjectId },
   date: { type: Date, default: Date.now },
-  messageText: String
+  messageText: String,
+  // sendMessageFrom: String,
 });
 
 const chatSchema = new mongoose.Schema({

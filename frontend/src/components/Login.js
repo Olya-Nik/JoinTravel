@@ -69,8 +69,6 @@ class Login extends Component {
               className="loginButton"
               type="submit"
               onClick={this.onClick}
-              // disabled={disabled}
-              // onClick={() => this.auth('login')}
             >
               Login User
             </Button>
@@ -78,16 +76,7 @@ class Login extends Component {
               <span className="iconF">facebook</span>
             </a>
           </div>
-          {/* <button
-            className="loginButton" type="submit" onClick={this.onClick}
-            disabled={disabled}
-            onClick={() => this.auth('signup')}
-          >
-            Регистрация
-          </button> */}
         </div>
-
-        {/* <div className={styles.loading}>{this.renderByStatus()}</div> */}
       </div>
     );
   }
