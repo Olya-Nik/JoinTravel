@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import 'materialize-css/dist/css/materialize.min.css'
-import { Card, Row, Col, CardTitle } from 'react-materialize';
+import { Card, Row, Col, CardTitle, Select } from 'react-materialize';
 import Places from './Places';
+
 
 export default class Map extends Component {
     constructor(props) {
@@ -10,8 +11,19 @@ export default class Map extends Component {
             latitude: null,
             longitude: null,
             places: [],
+            trip: null,
         };
     }
+    changeAction = (e) => {
+        this.setState({
+            trip: e.target.value
+        })
+        this.geo()
+        console.log(e.target.value)
+    }
+
+
+
 
     geo = async () => {
         let startPos;
@@ -39,7 +51,7 @@ export default class Map extends Component {
                     body: JSON.stringify({
                         latitude: x,
                         longitude: y,
-                        test: 'test'
+                        trip: this.state.trip,
                     })
 
 
@@ -62,7 +74,7 @@ export default class Map extends Component {
 
 
     async componentDidMount() {
-        this.geo()
+        // this.geo()
     }
 
     render() {
@@ -71,16 +83,37 @@ export default class Map extends Component {
         // return null;
         return (
             <div>
-                <p>latitude {this.state.latitude}</p>
-                <p>longitude {this.state.longitude}</p>
+                <h1>Places Nearby</h1>
+
+                <div>
+                    <Select defaultValue="" onChange={this.changeAction}>
+                        <option value="" disabled>
+                            Choose your option
+                        </option>
+
+                        <option value="sights">
+                            Sightseeings
+                        </option>
+                        <option value="beaches">
+                            SeaChilling
+                        </option>
+                        <option value="clothing_store">
+                            Shopping
+                        </option>
+                        <option value="restaurant">
+                            Gastronomy
+                        </option>
+                    </Select>
+
+                </div>
 
                 <div>
                     {this.state.places ? this.state.places.map((item, index) => {
                         return (
-                            <div>
+                            <div class="cards">
                                 <Row>
                                     <Col m={3} s={3}>
-                                        <Card horizontal header={<CardTitle />} actions={[<img src={item.image} alt="none" width="500" height="500" />, <p> Geolocation: {item.vicinity} </p>, <p> Price-level {item.price_level ? item.price_level : "?"}/10 </p>, <p> Raiting: {item.rating}/10 </p>]}>
+                                        <Card horizontal header={<CardTitle />} actions={[<img src={item.image} alt="none" width="400" height="500" />, <p> Geolocation: {item.vicinity} </p>, <p> Price-level {item.price_level ? item.price_level : "?"}/10 </p>, <p> Raiting: {item.rating}/10 </p>]}>
                                             {item.name}
                                         </Card>
                                     </Col>

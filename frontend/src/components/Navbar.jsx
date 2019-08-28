@@ -6,7 +6,7 @@ export default function myNavbar() {
     return (
         <div className='Links'>
 
-            <Navbar>
+            <Navbar alignLinks="right">
                 <NavItem href={'/'}>Main Page</NavItem>
                 <NavItem href={'/search'}>Search</NavItem>
                 <NavItem href={'/company'}>Company</NavItem>

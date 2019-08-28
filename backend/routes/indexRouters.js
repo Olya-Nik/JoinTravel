@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 const { User } = require('../models/User')
-
+require('dotenv').config()
 
 router.get('/', function (req, res) {
     res.send('Hi')
@@ -14,8 +14,11 @@ router.post('/map', async function (req, res) {
     // console.log(req.body.latitude)
     let coordA = String(req.body.latitude);
     let coordB = String(req.body.longitude);
-    const resp = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordA},${coordB}&radius=2000&type=restaurant&keyword=food&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk`)
+    console.log(req.body.trip);
+    let typeTrip = req.body.trip;
+    const resp = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordA},${coordB}&radius=5000&type=${typeTrip}&keyword=sights&key=`)
     const json = await resp.json();
+    console.log(json);
 
     console.log(coordA, coordB);
     let hash = json.results[0].photos[0].photo_reference;
@@ -26,7 +29,7 @@ router.post('/map', async function (req, res) {
             continue;
         }
         let hash = json.results[i].photos[0].photo_reference;
-        const resp1 = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${hash}&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk`)
+        const resp1 = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${hash}&key=`)
         const image = await resp1.url;
         json.results[i].image = image;
         // arrLink.push(json1)

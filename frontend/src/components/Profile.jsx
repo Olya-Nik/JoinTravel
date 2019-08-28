@@ -38,10 +38,10 @@ class Profile extends React.Component {
     fileSelected = (e) => {
         this.setState({
             selectedFile: e.target.files[0]
-        }, state =>  console.log(this.state.selectedFile))
-       
+        }, state => console.log(this.state.selectedFile))
+
     }
-   
+
     uploadImage = (e) => {
         let imageFormObj = new FormData();
         // imageFormObj.append("imageName", "multer-image-" + Date.now());
@@ -55,15 +55,15 @@ class Profile extends React.Component {
                 console.log(ProgressEvent.loaded / ProgressEvent.total)
             }
         })
-        .then((data) => {
-            console.log(data)
-            if (data.data.success) {
-                alert("Image SUCCESSSSS");
-            }
-        })
-        .catch((err)=>{
-            alert("Error");
-        });
+            .then((data) => {
+                console.log(data)
+                if (data.data.success) {
+                    alert("Image SUCCESSSSS");
+                }
+            })
+            .catch((err) => {
+                alert("Error");
+            });
 
     }
     changeCountry = (e) => {
@@ -113,7 +113,7 @@ class Profile extends React.Component {
             seaChilling: true
         })
     }
-    
+
     onClick = async () => {
         const sendForm = {
             name: this.state.name,
@@ -123,12 +123,12 @@ class Profile extends React.Component {
             city: this.state.city,
             dateDepature: this.state.dateDepature,
             dateReturn: this.state.dateReturn,
-            gastronomy:this.state.gastronomy,
+            gastronomy: this.state.gastronomy,
             shopping: this.state.shopping,
             sightseeings: this.state.sightseeings,
             seaChilling: this.state.seaChilling
 
-            
+
         }
         console.log(sendForm)
         await fetch('http://localhost:3001/profilesend', {
@@ -140,8 +140,8 @@ class Profile extends React.Component {
             body: JSON.stringify(sendForm)
         })
     }
-    
-    
+
+
     render() {
         return (
             <div>
@@ -149,10 +149,10 @@ class Profile extends React.Component {
                     <TextInput label="Your name" placeholder="Your name" onChange={this.changeName} />
                     Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
                     Your foto <div>
-                    <input type="file" placeholder="Download foto" onChange={this.fileSelected} />
-                    <img src={this.state.multerImage} alt="uploading" />
-                    <button onClick={this.uploadImage}>Upload</button>
-                        </div> 
+                        <input type="file" placeholder="Download foto" onChange={this.fileSelected} />
+                        <img src={this.state.multerImage} alt="uploading" />
+                        <button onClick={this.uploadImage}>Upload</button>
+                    </div>
                     Country to visit<Select defaultValue="" onChange={this.changeCountry}>
                         <option value="" disabled>
                             Choose country
@@ -177,13 +177,13 @@ class Profile extends React.Component {
                                     <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
                                 </CollectionItem>
                                 <CollectionItem>
-                                    <Checkbox value="No" label="Shopping" onChange={this.changeShopping}/>
+                                    <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
                                 </CollectionItem>
                                 <CollectionItem>
-                                    <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings}/>
+                                    <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
                                 </CollectionItem>
                                 <CollectionItem>
-                                    <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling}/>
+                                    <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
                                 </CollectionItem>
                             </Collection>
                         </Col>
