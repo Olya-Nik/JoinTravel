@@ -13,7 +13,7 @@ export default function myNavbar() {
         <Link to={'/search'}>Search</Link>
         <Link to={'/company'}>Company</Link>
         <Link to={'/profile'}>Profile</Link>
-        <Link to={'/messages'}>Messages</Link>
+        {/* <Link to={'/messages'}>Messages</Link> */}
         <Link to={'/auth/signup'}>Sign Up</Link>
         <Link to={'/auth/login'}>Sign In</Link>
         <Route component={Logout} />
