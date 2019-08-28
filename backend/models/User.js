@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   seaChilling: Boolean,
   about: String,
   contacts: String,
-  message: String
+  messages: []
 })
 
 const User = mongoose.model ('User', userSchema);

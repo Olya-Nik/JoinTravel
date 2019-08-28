@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { User } = require('./User');
 
 const { ObjectId } = mongoose.Schema.Types;
 
@@ -7,7 +8,7 @@ const messagesSchema = new mongoose.Schema({
   recevierUserId: { type: ObjectId },
   date: { type: Date, default: Date.now },
   messageText: String,
-  // sendMessageFrom: String,
+  sendMessageFrom: String,
 });
 
 const chatSchema = new mongoose.Schema({
@@ -22,7 +23,8 @@ async function seeds() {
     senderUserId: '5d5fc042e6da5a013747778a',
     recevierUserId: '5d5fd00d1c8b061874174866',
     date: new Date(),
-    messageText: 'Hello'
+    messageText: 'Hello',
+
   });
 
   const mes2 = new Messages({
@@ -39,9 +41,14 @@ async function seeds() {
     ]
   });
 
+  const user = new User({
+    userId: '5d65769d548cce40c1774ce5',
+    name: 'As',
+  })
   //await mes1.save();
   //await mes2.save();
-  await chat.save();
+  //await chat.save();
+  await user.save()
 }
 
 //seeds();

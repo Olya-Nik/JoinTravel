@@ -3,7 +3,6 @@ import './App.css';
 import Main from "./components/Main"
 import Navbar from "./components/Navbar"
 import Profile from "./components/Profile"
-import Logout from './components/Logout'
 import Map from "./components/Map"
 import ProfileReady from "./components/ProfileReady"
 import Company from "./components/Company"
