@@ -2,26 +2,40 @@ const { UserAuth } = require('./models/UserAuth');
 const config = require('./config/constants');
 
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy  = require('passport-facebook').Strategy
 
-// function findOrCreateUser(provider, profile, done) {  // FACEBOOK
-//   UserAuth.findOne({ provider, providerId: profile.id }, (err, user) => {
-//     if (err) return done(err);
-//     if (user) return done(err, user);
-//   });
+function findOrCreateUser(provider, profile, done) {  // FACEBOOK
+  UserAuth.findOne({ provider, providerId: profile.id }, (err, user) => {
+    if (err) return done(err);
+    if (user) return done(err, user);
+  });
 
-//   let user = new UserAuth({
-//     username: profile.displayName,
-//     provider,
-//     providerId: profile.id
-//   });
+  let user = new UserAuth({
+    username: profile.displayName,
+    provider,
+    providerId: profile.id
+  });
 
-//   user.save(err => {
-//     if (err) console.log(err);
-//     return done(err, user);
-//   });
-// }
+  user.save(err => {
+    if (err) console.log(err);
+    return done(err, user);
+  });
+}
 
 module.exports = passport => {
+  passport.use(new FacebookStrategy({
+    clientID: "",
+    clientSecret: "",
+    callbackURL: "http://localhost:3001/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    findOrCreateUser('facebook', { facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+  
+  
   passport.use(
     'local-signup',
     new LocalStrategy(

@@ -1,0 +1,27 @@
+{
+  "name": "JoinTravel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olya-Nik/JoinTravel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Olya-Nik/JoinTravel/issues"
+  },
+  "homepage": "https://github.com/Olya-Nik/JoinTravel#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "node-fetch": "^2.6.0",
+    "prop-types": "^15.7.2",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.0.1"
+  }
+}

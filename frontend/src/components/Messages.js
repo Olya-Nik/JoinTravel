@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addMessAC, addMongoMessAC } from '../redux/actions';
+import { Button } from 'react-materialize';
 
 class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: '',
       message: ''
     };
   }
 
-  // async componentDidMount() {
-  //   let resp = await fetch('http://localhost:3001/messages');
-  //   let data = await resp.json();
-  //   console.log(data);
-  //   this.props.addMongoMess(data.message);
-  // }
+  async componentDidMount() {
+    let resp = await fetch('http://localhost:3001/messages');
+console.log(resp)
+    // let data = await resp.json();
+    // console.log(data);
+    // this.props.addMongoMess(data.message);
+  }
 
   changeMess = e => {
     this.setState({
@@ -24,9 +27,10 @@ class Messages extends Component {
     });
   };
 
-  onSubmit = async () => {
+  onSubmit = async () => { //send to DB
     const resp = await fetch('http://localhost:3001/messages', {
       method: 'POST',
+      credentials : 'include', // cookie
       headers: {
         'Content-Type': 'application/json'
       },
@@ -40,7 +44,9 @@ class Messages extends Component {
   };
 
   fetchMessages = async () => {
-    const resp = await fetch('http://localhost:3001/messages');
+    const resp = await fetch('http://localhost:3001/messages', {
+      credentials : 'include',
+    });
     const data = await resp.json();
     console.log(data[0]);
   };
@@ -49,9 +55,10 @@ class Messages extends Component {
   render() {
     return (
       <div className="messages">
+        <h5>Send message</h5>
         <div className="messagesInput">
           <input
-            type="text 1"
+            type="text"
             placeholder="Send message"
             onChange={this.changeMess}
             value={this.state.message}
@@ -59,13 +66,14 @@ class Messages extends Component {
         </div>
 
         <div className="button">
-          <button className="loginButton" type="submit" onClick={this.fetchMessages}>
+          <Button className="loginButton" type="submit" onClick={this.onSubmit}>
             SEND
-          </button>
+          </Button>
         </div>
 
         <div className="messagesField">
           Messages
+          {this.props.message}
         </div>
       </div>
     );

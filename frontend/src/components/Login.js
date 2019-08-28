@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Button } from 'react-materialize';
+import fbIcon from '../icons/facebook.png';
+import { connect } from 'react-redux'
 
 class Login extends Component {
   constructor(props) {
@@ -14,15 +17,16 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    await fetch ('http://localhost:3001/login', {
-        method: 'POST',
-        credentials : 'include',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(sendForm)
-    })
+    await fetch('http://localhost:3001/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(sendForm)
+    });
+    this.props.history.push('/')
   };
 
   changeName = e => {
@@ -38,7 +42,6 @@ class Login extends Component {
   };
 
   render() {
-
     return (
       <div className="form">
         {/* <div className={styles.social_buttons}>
@@ -54,29 +57,29 @@ class Login extends Component {
         </div> */}
 
         <div className="inputForm">
-          ВОЙТИ
-          <input type="text" placeholder="Имя" onChange={this.changeName} />
-          <input type="password" placeholder="Пароль" onChange={this.changePassword}/>
+          <h2>Login</h2>
+          <input type="text" placeholder="Name" onChange={this.changeName} />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={this.changePassword}
+          />
         </div>
 
         <div className="button">
-          <button
-            className="loginButton" type="submit" onClick={this.onClick}
-            // disabled={disabled}
-            // onClick={() => this.auth('login')}
-          >
-            Войти
-          </button>
-          {/* <button
-            className="loginButton" type="submit" onClick={this.onClick}
-            disabled={disabled}
-            onClick={() => this.auth('signup')}
-          >
-            Регистрация
-          </button> */}
+          <div>
+            <Button
+              className="loginButton"
+              type="submit"
+              onClick={this.onClick}
+            >
+              Login User
+            </Button>
+            <div><a className="facebookIcon" href="/auth/facebook">
+              <img src={fbIcon} />
+            </a></div>
+          </div>
         </div>
-
-        {/* <div className={styles.loading}>{this.renderByStatus()}</div> */}
       </div>
     );
   }

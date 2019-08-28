@@ -4,8 +4,11 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema({
   userId: { type: ObjectId },
+  name: String,
   age: Number,
-  avatar: String,
+  imageName: String,
+  imageData: String,
+  image: String,
   country: String,
   city: String,
   dateDepature: Date,
@@ -17,7 +20,7 @@ const userSchema = new mongoose.Schema({
   seaChilling: Boolean,
   about: String,
   contacts: String,
-  message: String
+  messages: []
 })
 
 const User = mongoose.model ('User', userSchema);

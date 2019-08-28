@@ -6,6 +6,10 @@
   margin-left:50px;
   text-align: right;
 }
+.image {
+  max-width: 50px;
+  max-height: 60px;
+}
 
 .messagesField{
   background-color: aquamarine;

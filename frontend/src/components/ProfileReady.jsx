@@ -1,5 +1,9 @@
 import React from 'react'
 import { Collection, CollectionItem, Row, Col } from 'react-materialize'
+import { Link } from "react-router-dom";
+import moment from 'moment'
+// import 'moment/locale/ru';
+
 
 class ProfileReady extends React.Component {
     constructor(props) {
@@ -11,33 +15,40 @@ class ProfileReady extends React.Component {
     }
     async componentDidMount() {
         const id = this.props.match.params.id;
-        const resp = await fetch(`http://localhost:3001/${id}`, {
+        const resp = await fetch(`http://localhost:3001/user/${id}`, {
             method: 'GET'
         })
         const user = await resp.json()
         this.setState({ user: user, loading: false })
     }
     render() {
+        const dateDepature = moment(this.state.dateDepature).format("DD MMM YYYY")
+        const dateReturn = moment(this.state.dateReturn).format("DD MMM YYYY")
 
-console.log(this.state)
         return (
             <div>
-    {this.state.user ? this.state.user._id : <p>loading</p>} 
+                {/* {this.state.user ? this.state.user._id : <p>loading</p>}  */}
                 <Row>
                     <Col m={6} s={12}>
-                        <Collection header={this.state.user.name}>
+                        <Collection header={`You may join ${this.state.user.name}`}>
                             <CollectionItem>
-                                {this.state.user.name}
+                                <img src={`http://localhost:3001/${this.state.user.imageData}`} alt="" />
                             </CollectionItem>
                             <CollectionItem>
-                                Alvin
-        </CollectionItem>
+                                {`${this.state.user.name} is going to visit ${this.state.user.country}, ${this.state.user.city}`}
+                            </CollectionItem>
                             <CollectionItem>
-                                Alvin
-        </CollectionItem>
+                                {`Date of trip ${dateDepature} - ${dateReturn}`}
+                            </CollectionItem>
                             <CollectionItem>
-                                Alvin
-        </CollectionItem>
+                                {`${this.state.user.name} is interested ${this.state.user.gastronomy ? "in gastronomy" : ""} ${this.state.user.shopping ? "shopping" : ""} ${this.state.user.sightseeings ? "to see sightseeings" : ""} ${this.state.user.seaChilling ? "seachilling" : ""} as you`}
+                            </CollectionItem>
+                            <CollectionItem>
+                                {`You may send a message to ${this.state.user.name}`}
+                            </CollectionItem>
+                            <CollectionItem>
+                                <Link to={`/messages/${this.state.user._id}`}>{`Send a message ${this.state.user.name}`}</Link>
+                            </CollectionItem>
                         </Collection>
                     </Col>
                 </Row>
