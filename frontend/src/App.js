@@ -11,7 +11,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from './components/Login';
 import Register from './components/Register';
 import Messages from './components/Messages';
-import SMS from './components/TestSMS'
+import SMS from './components/TestSMS';
+import Search from "./components/Search"
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
           
           <Route exact path="/map" component={Map}/>
           <Route exact path="/" component={Main} />
-          <Route path="/search" />
+
           <Route exact path="/company" component={Company} />
           <Route path="/company/:id" component={ProfileReady} />
           <Route exact path="/profile" component={Profile} />
@@ -33,6 +34,7 @@ function App() {
           <Route path="/login" component={Login}/>
           <Route path="/logout" />
           <Route path="/sms" component={SMS} />
+          <Route path="/search" component={Search} />
 
         </Switch>
       </div>
