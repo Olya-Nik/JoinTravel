@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from './components/Login';
 import Register from './components/Register';
 import Messages from './components/Messages';
+import SMS from './components/TestSMS'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/signup" component={Register}/>
           <Route path="/login" component={Login}/>
           <Route path="/logout" />
+          <Route path="/sms" component={SMS} />
 
         </Switch>
       </div>

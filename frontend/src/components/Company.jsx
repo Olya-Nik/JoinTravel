@@ -1,7 +1,7 @@
 import React from 'react'
 import { Collection, CollectionItem, Row, Col, Icon } from 'react-materialize'
-import { Link } from "react-router-dom";
-// const img = require('../../../backend/uploads/1566930137341download.png')
+import moment from 'moment'
+
 class Company extends React.Component {
     constructor(props) {
         super(props);
@@ -28,14 +28,14 @@ class Company extends React.Component {
                                     {user.name}
                                 </span>
                                 <p>
-                                    Age: {user.age}
+                                    Dates of trip: {`${moment(user.dateDepature).format("DD MMM YYYY")} - ${moment(user.dateReturn).format("DD MMM YYYY")}`}
                                 </p>
                                 <p>
                                     Contacts: {user.contacts}
                                 </p>
                                 <a href={`/company/${user._id}`} className="secondary-content">
                                     <Icon>
-                                        More details
+                                        More info
                                 </Icon>
                                 </a>
                             </CollectionItem>

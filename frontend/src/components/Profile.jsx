@@ -26,6 +26,8 @@ class Profile extends React.Component {
             shopping: false,
             sightseeings: false,
             seaChilling: false,
+            about: String,
+            contacts: String,
         }
     }
 
@@ -98,6 +100,16 @@ class Profile extends React.Component {
             seaChilling: true
         })
     }
+    changeAbout = (e) => {
+        this.setState({
+            about: e.target.value
+        })
+    }
+    changeContacts = (e) => {
+        this.setState({
+            contacts: e.target.value
+        })
+    }
 
     onClick = async () => {
         let imageFormObj = new FormData();
@@ -111,7 +123,9 @@ class Profile extends React.Component {
         imageFormObj.append("dateDepature", this.state.dateDepature)
         imageFormObj.append("dateReturn", this.state.dateReturn)
         imageFormObj.append("gastronomy", this.state.gastronomy)
-        imageFormObj.append("shoping", this.state.shopping)
+        imageFormObj.append("shopping", this.state.shopping)
+        imageFormObj.append("about", this.state.about)
+        imageFormObj.append("contacts", this.state.contacts)
 
         axios.post('http://localhost:3001/profilesend', imageFormObj)
             .then((data) => {
@@ -151,9 +165,7 @@ class Profile extends React.Component {
                     City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
                     Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
                     Date of retutn <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
-                    <Row>
-                        <Col m={6} s={12}>
-                            <Collection header="What are you interested in">
+                    
                                 <CollectionItem>
                                     <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
                                 </CollectionItem>
@@ -166,11 +178,11 @@ class Profile extends React.Component {
                                 <CollectionItem>
                                     <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
                                 </CollectionItem>
-                            </Collection>
-                        </Col>
-                    </Row>
-                    <Button type="submit" onClick={this.onClick}>
-                    <Link to={'/company'}>SAVE</Link>
+                               
+                    Some words about you<TextInput placeholder="Abour you" onChange={this.changeAbout} />
+                    Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
+                    <Button type="submit" onClick={this.onClick}>SAVE
+                    <Link to={'/company'}></Link>
                     </Button>
                 </div>
             )
