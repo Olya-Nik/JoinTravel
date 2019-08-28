@@ -40,6 +40,7 @@ class Register extends Component {
       },
       body: JSON.stringify(sendForm)
     });
+    this.props.history.push('/auth/login')
   };
 
   render() {

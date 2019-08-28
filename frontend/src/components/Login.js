@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import fbIcon from '../icons/facebook.png';
+import { connect } from 'react-redux'
 
 class Login extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Login extends Component {
       },
       body: JSON.stringify(sendForm)
     });
+    this.props.history.push('/')
   };
 
   changeName = e => {

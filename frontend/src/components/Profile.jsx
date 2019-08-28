@@ -151,6 +151,7 @@ class Profile extends React.Component {
     this.setState({
       image: URL.createObjectURL(this.state.selectedFile)
     });
+    this.props.history.push('/company');
   };
         render() {
             return (
@@ -192,7 +193,7 @@ class Profile extends React.Component {
                     Some words about you<TextInput placeholder="Abour you" onChange={this.changeAbout} />
                     Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
                     <Button type="submit" onClick={this.onClick}>SAVE
-                    <Link to={'/company'}></Link>
+                    {/* <Link to={'/company'}></Link> */}
                     </Button>
                 </div>
     );
