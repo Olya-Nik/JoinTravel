@@ -210,6 +210,14 @@ app.get('/user/:id', async function(req, res) {
   res.json(user);
 });
 
+app.post('/filter', async function (req, res) {
+  console.log(req.body)
+  const matchesDep = await User.find({dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
+  const matchesRet = await User.find({dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
+  const allMatches = matchesDep.concat(matchesRet)
+  res.json(allMatches)
+})
+
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
 });
