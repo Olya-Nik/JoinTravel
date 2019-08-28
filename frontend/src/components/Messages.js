@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addMessAC, addMongoMessAC } from '../redux/actions';
+import { Button } from 'react-materialize';
 
 class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      username: '',
       message: ''
     };
   }
@@ -52,9 +54,10 @@ class Messages extends Component {
   render() {
     return (
       <div className="messages">
+        <h5>Send message</h5>
         <div className="messagesInput">
           <input
-            type="text 1"
+            type="text"
             placeholder="Send message"
             onChange={this.changeMess}
             value={this.state.message}
@@ -62,9 +65,9 @@ class Messages extends Component {
         </div>
 
         <div className="button">
-          <button className="loginButton" type="submit" onClick={this.onSubmit}>
+          <Button className="loginButton" type="submit" onClick={this.onSubmit}>
             SEND
-          </button>
+          </Button>
         </div>
 
         <div className="messagesField">

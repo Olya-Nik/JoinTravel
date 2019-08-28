@@ -8,9 +8,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
-const { Messeges} = require('./models/Messeges');
+const { Messages, Chat} = require('./models/Messages');
 const multer = require('multer')
-const { User } = require('./models/User')
+const { User } = require('./models/User');
+const { UserAuth } = require('./models/UserAuth');
 const { myImage } = require('./models/myImage')
 
 const storage = multer.diskStorage({
@@ -31,9 +32,8 @@ mongoose.connect('mongodb://localhost:27017/JoinTravel', {
 });
 const app = express();
 
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(logger('dev'));
-app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -49,7 +49,6 @@ const corsMiddleware = (req, res, next) => {
   next();
 };
 
-app.use(cookieParser());
 require('./passport')(passport);
 app.use(
   session({
@@ -57,13 +56,14 @@ app.use(
       {
         uri: 'mongodb://localhost/JoinTravel',
         collection: 'sessions'
-        // expires: 1000 * 60 * 60 * 24
+       // expires: 1000 * 60 * 60 * 24
       },
       error => {}
     ),
+    sameSite: false,
     secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: false
   })
 );
 
@@ -75,14 +75,14 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 app.use('/', indexRouter);
 
-// function isAuth(req, res, next) {
-//   if (!req.isAuthenticated()) return res.status(401).end();
-//   next();
-// }
+function isAuth(req, res, next) {
+  if (!req.isAuthenticated()) return res.status(401).end();
+  next();
+}
 
 app.get('/auth', (req, res) => {
   if (!req.isAuthenticated()) return res.status(401).end();
-  res.json(req.user);
+  res.json(req.username);
 });
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
@@ -93,10 +93,12 @@ app.get(
 );
 
 app.post('/auth/login', (req, res, next) => {
+  console.log(1, req.session);
   passport.authenticate(
     'local-login',
     { failureFlash: true },
     (err, user, info) => {
+      console.log(2, req.session);
       if (err) {
         return next(err);
       }
@@ -142,21 +144,34 @@ app.post('/auth/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/messages', async function(req, res) {
-  //const dataMongo = await User.find({});
-  // const arrMessages = [];
-  // for (let i = 0; i < dataMongo.length; i++) {
-  //   arrMessages.push(dataMongo[i].message);
+app.get('/messages', isAuth, async function(req, res) {
+  const dataMongo = await Messages.find({});
+  console.log(dataMongo)
+  const arrMessages = [];
+  
+  for (let i = 0; i < dataMongo.length; i++) {
+    arrMessages.push({
+      sender: dataMongo[i].senderUserId,
+      messageText: dataMongo[i].messageText,
+      date: dataMongo[i].date});
+  }
+
+  // const userId = await UserAuth.find({});
+  // for (let i = 0; i < userId.length; i++){
+  //   if (arrMessages[i].sender === userId[i]._id){
+  //     return arrMessages[i].sender = userId[i].username
+  //   }
+  //   res.send(arrMessages)
   // }
-  // res.send(arrMessages.slice(-10));
-  //res.send(dataMongo)
-  res.send('mes');
+
+  //res.send(userId[0]._id)
+  res.send(arrMessages);
 });
 
 app.post('/messages', async function(req, res) {
   const dataMongo = await req.body.data;
   console.log(dataMongo);
-  const mes = new User({ message: dataMongo });
+  const mes = new Messages({ messageText: dataMongo });
   mes.save();
   res.send(mes);
 });

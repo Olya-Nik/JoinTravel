@@ -38,3 +38,13 @@ code {
   margin-block-end: 30px;
 }
 
+.messages {
+  margin-top: 100px;
+  width: 500px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px;
+  border-radius: 5px;
+  border: 2px solid grey;
+}
+

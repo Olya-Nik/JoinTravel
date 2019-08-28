@@ -1,19 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
-import { Navbar, NavItem } from 'react-materialize';
+import { Navbar } from 'react-materialize';
+import Logout from './Logout'
+import { Route } from "react-router-dom";
 
 export default function myNavbar() {
   return (
     <div className="Links">
       <Navbar>
-        <NavItem href={'/'}>Main Page</NavItem>
-        <NavItem href={'/search'}>Search</NavItem>
-        <NavItem href={'/company'}>Company</NavItem>
-        <NavItem href={'/profile'}>Profile</NavItem>
-        <NavItem href={'/messages/:id'}>Messages</NavItem>
-        <NavItem href={'/auth/signup'}>Sign Up</NavItem>
-        <NavItem href={'/auth/login'}>Sign In</NavItem>
-        <NavItem href={'/map'}>Map</NavItem>
+        <Link to={'/'}>Main Page</Link>
+        <Link to={'/search'}>Search</Link>
+        <Link to={'/company'}>Company</Link>
+        <Link to={'/profile'}>Profile</Link>
+        <Link to={'/messages'}>Messages</Link>
+        <Link to={'/auth/signup'}>Sign Up</Link>
+        <Link to={'/auth/login'}>Sign In</Link>
+        <Route component={Logout} />
+        <Link to={'/map'}>Map</Link>
       </Navbar>
     </div>
   );

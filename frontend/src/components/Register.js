@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
+import fbIcon from '../icons/facebook.png';
 
 class Register extends Component {
   constructor(props) {
@@ -37,7 +38,6 @@ class Register extends Component {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-
       body: JSON.stringify(sendForm)
     });
   };
@@ -70,9 +70,12 @@ class Register extends Component {
             >
               Register User
             </Button>
-            <a className="facebook" href="/auth/facebook">
-              <span className="iconF">facebook</span>
-            </a>
+
+            <div>
+              <a className="facebookIcon" href="/auth/facebook">
+                <img src={fbIcon} />
+              </a>
+            </div>
           </div>
         </div>
       </div>
