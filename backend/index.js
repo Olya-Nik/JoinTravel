@@ -187,10 +187,10 @@ app.post('/messages/add', isAuth, async function(req, res) {
   // mes.save();
   // res.send(mes);
   const mes = {
-    ...req.body,
+    // ...req.body,
     user_id: req.user._id,
     _id: mongoose.Types.ObjectId(),
-    sentText: req.body.data
+    messageText: req.body.data
   }
   await new Messages(mes).save((err, r) => {
     res.json(mes)

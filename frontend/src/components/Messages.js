@@ -43,7 +43,7 @@ class Messages extends Component {
     const data = await resp.json();
     console.log(data);
     this.props.addMess(data);
-    this.setState({ message: '' });
+    //this.setState({ message: '' });
     const respUser = await fetch (`http://localhost:3001/user/${this.props.match.params.id}`, {
       method: 'GET'
     })
