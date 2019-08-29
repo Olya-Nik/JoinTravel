@@ -179,6 +179,7 @@ app.post('/messages', async function(req, res) {
 app.post('/profilesend', upload.single('imageData'), async function(req, res) {
   console.log(req.body);
   const user = new User({
+    _id: UserAuth._id,
     name: req.body.name,
     age: req.body.age,
     imageName: req.body.imageName,
@@ -212,7 +213,9 @@ app.post('/profilesend', upload.single('imageData'), async function(req, res) {
 // })
 app.get('/getall', async function(req, res) {
   const users = await User.find();
-  console.log(users);
+  // console.log(req.session.passport.user)
+  const me = await User.findById(req.session.passport.user)
+  console.log(me);
   res.json(users);
 });
 

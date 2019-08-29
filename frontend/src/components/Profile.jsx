@@ -38,9 +38,14 @@ class Profile extends React.Component {
             seaChilling: false,
             about: String,
             contacts: String,
+            error: ''
+            
         }
     }
-
+async componentDidMount() {
+    const respCountry = await fetch ('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
+    console.log(respCountry.url)
+}
     changeName = (e) => {
         this.setState({
             name: e.target.value
@@ -81,11 +86,14 @@ class Profile extends React.Component {
         })
     }
     changeDateReturn = (e) => {
-        this.setState({
+        e > this.state.dateDepature
+        ? this.setState({
             dateReturn: e
         })
+        : alert('DATE OF RETURN SHOULD BE LATER')
     }
     changeBudgetPerDay = (e) => {
+        
         this.setState({
             budgetPerDay: e.target.value
         })
@@ -155,7 +163,7 @@ class Profile extends React.Component {
         render() {
             return (
                 <div className="formProfile">
-                    <TextInput label="Your name" placeholder="Your name" onChange={this.changeName} />
+                    Your name<TextInput placeholder="Your name" onChange={this.changeName} />
                     Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
                     Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
                     Country to visit<Select defaultValue="" onChange={this.changeCountry}>
@@ -174,7 +182,7 @@ class Profile extends React.Component {
                     </Select>
                     City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
                     Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
-                    Date of retutn <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
+                    Date of return <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
                     
                                 <CollectionItem>
                                     <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
@@ -189,7 +197,7 @@ class Profile extends React.Component {
                                     <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
                                 </CollectionItem>
                                
-                    Some words about you<TextInput placeholder="Abour you" onChange={this.changeAbout} />
+                    Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
                     Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
                     <Button type="submit" onClick={this.onClick}>SAVE
                     <Link to={'/company'}></Link>
