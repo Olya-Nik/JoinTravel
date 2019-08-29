@@ -18,7 +18,7 @@ class Company extends React.Component {
 
     render() {
         return (
-            <Row>
+            <Row className="company">
                 <Col m={6} s={12}>
                     <Collection>
                         {this.state.allusers ? this.state.allusers.map((user) =>

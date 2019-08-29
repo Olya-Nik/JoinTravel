@@ -30,27 +30,28 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Switch>
-            <Route exact path="/map" component={Map} />
-            <Route exact path="/" component={Main} />
-            <Route exact path="/company" component={Company} />
-            <Route path="/company/:id" component={ProfileReady} />
-            <Route exact path="/profile" component={Profile} />
-            <Route path="/messages" component={Messages} />
-            <Route path="/auth/signup" component={Register} />
-            <Route path="/auth/login" component={Login} />
-            <Route path="/sms" component={SMS} />
-            <Route path="/search" component={Search} />
-          </Switch>
-        </div>
-        {/* <Test/> */}
-      </Router>
-    );
-  }
+  return (
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Switch>
+          <Route exact path="/map" component={Map}/>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/company" component={Company} />
+          <Route path="/company/:id" component={ProfileReady} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path='/messages' component={Messages}/>
+          <Route exact path='/messages/:id' component={Messages}/>
+          <Route path="/auth/signup" component={Register}/>
+          <Route path="/auth/login" component={Login}/>
+          <Route path="/sms" component={SMS} />
+          <Route path="/search" component={Search} />
+        </Switch>
+      </div>
+      {/* <Test/> */}
+    </Router>
+  );
+}
 }
 // if (navigator.geolocation) {
 //   console.log('Geolocation is supported!');

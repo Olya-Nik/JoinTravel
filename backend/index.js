@@ -67,9 +67,9 @@ app.use(
   })
 );
 
+app.use(corsMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(corsMiddleware);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
@@ -182,10 +182,10 @@ app.post('/messages/add', isAuth, async function(req, res) {
 });
 
 app.post('/profilesend', upload.single('imageData'), async function(req, res) {
-  console.log(req.body);
+  // console.log(req.session.passport.user);
   const user = new User({
+    // _id: req.session.passport.user,
     name: req.body.name,
-    age: req.body.age,
     imageName: req.body.imageName,
     imageData: req.file.path,
     image: req.body.image,
@@ -193,10 +193,13 @@ app.post('/profilesend', upload.single('imageData'), async function(req, res) {
     city: req.body.city,
     dateDepature: req.body.dateDepature,
     dateReturn: req.body.dateReturn,
+    budgetPerDay: req.body.budgetPerDay,
     gastronomy: req.body.gastronomy,
     shopping: req.body.shopping,
-    sightSeeings: req.body.sightSeeings,
-    seaChilling: req.body.seaChilling
+    sightseeings: req.body.sightseeings,
+    seaChilling: req.body.seaChilling,
+    about: req.body.about,
+    contacts: req.body.contacts
   });
   await user.save();
   res.end();
@@ -217,7 +220,9 @@ app.post('/profilesend', upload.single('imageData'), async function(req, res) {
 // })
 app.get('/getall', async function(req, res) {
   const users = await User.find();
-  console.log(users);
+  // console.log(req.session.passport.user)
+  const me = await User.findById()
+  console.log(me);
   res.json(users);
 });
 
@@ -232,10 +237,17 @@ app.get('/user/:id', async function(req, res) {
 
 app.post('/filter', async function (req, res) {
   console.log(req.body)
-  const matchesDep = await User.find({dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
-  const matchesRet = await User.find({dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
+  const matchesDep = await User.find(req.body.dateDepature && req.body.dateReturn ? {dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}} : {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
+  const matchesRet = await User.find(req.body.dateDepature && req.body.dateReturn ?{dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}}: {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
+  
+  // const matchesDep = await User.find({dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
+  // const matchesRet = await User.find({dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
   const allMatches = matchesDep.concat(matchesRet)
+  // console.log(matchesDep)
+  // console.log(matchesRet)
+  console.log(allMatches)
   res.json(allMatches)
+  
 })
 
 app.listen(3001, function() {
