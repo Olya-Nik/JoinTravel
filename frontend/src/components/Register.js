@@ -40,7 +40,7 @@ class Register extends Component {
       },
       body: JSON.stringify(sendForm)
     });
-    this.props.history.push('/auth/login')
+    this.props.history.push('/auth/login');
   };
 
   render() {
@@ -74,7 +74,7 @@ class Register extends Component {
 
             <div>
               <a className="facebookIcon" href="/auth/facebook">
-                <img src={fbIcon} />
+                <img src={fbIcon} alt="facebook"/>
               </a>
             </div>
           </div>
