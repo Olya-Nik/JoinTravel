@@ -99,7 +99,8 @@ app.get(
 );
 
 app.post('/auth/login', (req, res, next) => {
-  //console.log(1, req.session);
+  // req.session.name = req.body;
+  // console.log(1, req.session);
   passport.authenticate(
     'local-login',
     { failureFlash: true },
@@ -146,7 +147,9 @@ app.post('/auth/signup', (req, res, next) => {
 });
 
 app.post('/auth/logout', (req, res) => {
-  req.logout();
+  // req.session.destroy();
+  console.log('================LOGOUT')
+  req.logout(); 
   res.redirect('/');
 });
 

@@ -52,14 +52,6 @@ class Messages extends Component {
     const send = await fetch (`https://api.voximplant.com/platform_api/SendSmsMessage/?account_id=3199898&api_key=bd0a9853-7f4c-469e-9007-172f1e820277&source=79581008962&destination=${user.contacts}&sms_body=Test%20message`)
   };
 
-  fetchMessages = async () => {
-    const resp = await fetch('http://localhost:3001/messages', {
-      credentials : 'include',
-    });
-    const data = await resp.json();
-    console.log(data[0]);
-  };
-
   // fetchMessages = async () => {
   //   const resp = await fetch('http://localhost:3001/messages', {
   //     credentials: 'include'
