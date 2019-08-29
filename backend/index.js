@@ -83,6 +83,7 @@ function isAuth(req, res, next) {
 app.get('/auth', (req, res) => {
   if (!req.isAuthenticated()) return res.status(401).end();
   res.json(req.username);
+  console.log(req.username)
 });
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
@@ -93,12 +94,12 @@ app.get(
 );
 
 app.post('/auth/login', (req, res, next) => {
-  console.log(1, req.session);
+  //console.log(1, req.session);
   passport.authenticate(
     'local-login',
     { failureFlash: true },
     (err, user, info) => {
-      console.log(2, req.session);
+      //console.log(2, req.session);
       if (err) {
         return next(err);
       }

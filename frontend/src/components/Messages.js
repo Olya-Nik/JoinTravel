@@ -12,12 +12,13 @@ class Messages extends Component {
     };
   }
 
-  // async componentDidMount() {
-  //   let resp = await fetch('http://localhost:3001/messages');
-  //   let data = await resp.json();
-  //   console.log(data);
-  //   this.props.addMongoMess(data.message);
-  // }
+  async componentDidMount() {
+    let resp = await fetch('http://localhost:3001/messages');
+console.log(resp)
+    // let data = await resp.json();
+    // console.log(data);
+    // this.props.addMongoMess(data.message);
+  }
 
   changeMess = e => {
     this.setState({
@@ -72,6 +73,7 @@ class Messages extends Component {
 
         <div className="messagesField">
           Messages
+          {this.props.message}
         </div>
       </div>
     );

@@ -159,6 +159,7 @@ async componentDidMount() {
     this.setState({
       image: URL.createObjectURL(this.state.selectedFile)
     });
+    this.props.history.push('/company');
   };
         render() {
             return (
@@ -200,7 +201,7 @@ async componentDidMount() {
                     Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
                     Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
                     <Button type="submit" onClick={this.onClick}>SAVE
-                    <Link to={'/company'}></Link>
+                    {/* <Link to={'/company'}></Link> */}
                     </Button>
                 </div>
     );
