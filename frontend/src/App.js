@@ -42,7 +42,8 @@ class App extends Component {
           <Route exact path="/company" component={Company} />
           <Route path="/company/:id" component={ProfileReady} />
           <Route exact path="/profile" component={Profile} />
-          <Route path='/messages' component={Messages}/>
+          <Route exact path='/messages' component={Messages}/>
+          <Route exact path='/messages/:id' component={Messages}/>
           <Route path="/auth/signup" component={Register}/>
           <Route path="/auth/login" component={Login}/>
           <Route path="/sms" component={SMS} />

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "react-materialize";
 
 export default class Main extends Component {
     
@@ -11,6 +12,9 @@ export default class Main extends Component {
             <div>
                 <h1> JoinTravel </h1>
                 <h3> Welcome to our application. It helps you to find  interesting people to make you travel awesome!   </h3>
+                <Button href={'/profile'}>
+                    Create profile
+                </Button>
             </div>
         );
     }

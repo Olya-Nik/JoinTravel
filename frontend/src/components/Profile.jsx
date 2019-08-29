@@ -15,7 +15,7 @@ import {
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
 import '../App.css';
-// import moment from 'moment'
+import moment from 'moment'
 // import 'moment/locale/ru';
 
 class Profile extends React.Component {
@@ -32,25 +32,27 @@ class Profile extends React.Component {
             city: '',
             dateDepature: '',
             dateReturn: '',
+            budgetPerDay: '',
             gastronomy: false,
             shopping: false,
             sightseeings: false,
             seaChilling: false,
             about: String,
             contacts: String,
+            error: ''
+            
         }
     }
-
+async componentDidMount() {
+    const respCountry = await fetch ('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
+    console.log(respCountry.url)
+}
     changeName = (e) => {
         this.setState({
             name: e.target.value
         })
     }
-    changeAge = (e) => {
-        this.setState({
-            age: e.target.value
-        })
-    }
+    
     fileSelected = (e) => {
         this.setState({
 <<<<<<< HEAD
@@ -104,15 +106,16 @@ class Profile extends React.Component {
         // const dateStart = moment(e).format('D/M/Y')
         // console.log(dateStart)
         this.setState({
-            dateDepature: e
+            dateDepature: moment(e).format("DD MMM YYYY")
         })
     }
     changeDateReturn = (e) => {
         this.setState({
-            dateReturn: e
+            dateReturn: moment(e).format("DD MMM YYYY")
         })
     }
-    changeBudgetPerDay = (e) => {
+    changeBudget = (e) => {
+        
         this.setState({
             budgetPerDay: e.target.value
         })
@@ -196,13 +199,15 @@ class Profile extends React.Component {
         imageFormObj.append("imageData", this.state.selectedFile, this.state.selectedFile.name);
         imageFormObj.append("image", this.state.image)
         imageFormObj.append("name", this.state.name)
-        imageFormObj.append("age", this.state.age)
         imageFormObj.append("country", this.state.country)
         imageFormObj.append("city", this.state.city)
         imageFormObj.append("dateDepature", this.state.dateDepature)
         imageFormObj.append("dateReturn", this.state.dateReturn)
+        imageFormObj.append("budgetPerDay", this.state.budgetPerDay)
         imageFormObj.append("gastronomy", this.state.gastronomy)
         imageFormObj.append("shopping", this.state.shopping)
+        imageFormObj.append("sightseeings", this.state.sightseeings)
+        imageFormObj.append("seaChilling", this.state.seaChilling)
         imageFormObj.append("about", this.state.about)
         imageFormObj.append("contacts", this.state.contacts)
 
@@ -225,8 +230,7 @@ class Profile extends React.Component {
         render() {
             return (
                 <div className="formProfile">
-                    <TextInput label="Your name" placeholder="Your name" onChange={this.changeName} />
-                    Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
+                    Your name<TextInput placeholder="Your name" onChange={this.changeName} />
                     Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
 >>>>>>> master
                     Country to visit<Select defaultValue="" onChange={this.changeCountry}>
@@ -245,7 +249,21 @@ class Profile extends React.Component {
                     </Select>
                     City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
                     Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
-                    Date of retutn <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
+                    Date of return <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
+                    Budget per day<Select defaultValue="" onChange={this.changeBudget}>
+                        <option value="" disabled>
+                            Your budget
+                    </option>
+                        <option value="Australia">
+                            100$
+                    </option>
+                        <option value="Iceland">
+                            100-200$
+                    </option>
+                        <option value="Morocco">
+                            200$ and more
+                    </option>
+                    </Select>
                     
                                 <CollectionItem>
                                     <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
@@ -260,7 +278,7 @@ class Profile extends React.Component {
                                     <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
                                 </CollectionItem>
                                
-                    Some words about you<TextInput placeholder="Abour you" onChange={this.changeAbout} />
+                    Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
                     Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
                     <Button type="submit" onClick={this.onClick}>SAVE
                     {/* <Link to={'/company'}></Link> */}
