@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
-import Main from "./components/Main"
-import Navbar from "./components/Navbar"
-import Profile from "./components/Profile"
-import Map from "./components/Map"
-import ProfileReady from "./components/ProfileReady"
-import Company from "./components/Company"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Main from './components/Main';
+import Navbar from './components/Navbar';
+import Profile from './components/Profile';
+import Map from './components/Map';
+import ProfileReady from './components/ProfileReady';
+import Company from './components/Company';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Messages from './components/Messages';
 import SMS from './components/TestSMS';
-import Search from "./components/Search";
+import Search from './components/Search';
 import { connect } from 'react-redux';
 import { checkLoginAC } from './redux/actions';
 import Test from './components/Test';
-
 
 class App extends Component {
   async componentDidMount() {
@@ -24,13 +23,12 @@ class App extends Component {
         credentials: 'include'
       });
       const login = await resp.json();
-      console.log(login);
+      this.props.checkLogin(login.login);
     } catch (e) {
-      console.log('unatorized');
+      console.log('Unauthorized');
     }
   }
 
-  
   render() {
   return (
     <Router>
@@ -55,11 +53,6 @@ class App extends Component {
   );
 }
 }
-
-
-
-
-
 // if (navigator.geolocation) {
 //   console.log('Geolocation is supported!');
 // }
@@ -79,11 +72,17 @@ class App extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    checkLogin: loginUser => dispatch(checkLoginAC(loginUser)),
+    checkLogin: loginUser => dispatch(checkLoginAC(loginUser))
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    login: state.login
   };
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);

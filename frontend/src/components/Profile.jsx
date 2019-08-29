@@ -1,12 +1,12 @@
 import React from 'react';
 import Image from './Image';
-// import { Link } from 'react-router-dom';
 import {
-    TextInput,
-    Checkbox,
-    DatePicker,
-    Select,
-    Button
+  TextInput,
+  CollectionItem,
+  Checkbox,
+  DatePicker,
+  Select,
+  Button
 } from 'react-materialize';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
@@ -138,30 +138,30 @@ class Profile extends React.Component {
         imageFormObj.append("about", this.state.about)
         imageFormObj.append("contacts", this.state.contacts)
 
-        axios
-            .post('http://localhost:3001/profilesend', imageFormObj)
-            .then(data => {
-                // console.log(data)
-                if (data.data.success) {
-                    alert('Image');
-                }
-            })
-            .catch(err => {
-                alert('Error');
-            });
-        this.setState({
-            image: URL.createObjectURL(this.state.selectedFile)
-        });
-        this.props.history.push('/company');
-    };
-    render() {
-        return (
-            <div className="formProfile">
-                Your name<TextInput placeholder="Your name" onChange={this.changeName} />
-                Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
-                Country to visit<Select defaultValue="" onChange={this.changeCountry}>
-                    <option value="" disabled>
-                        Choose country
+    axios
+      .post('http://localhost:3001/profilesend', imageFormObj)
+      .then(data => {
+        // console.log(data)
+        if (data.data.success) {
+          alert('Image');
+        }
+      })
+      .catch(err => {
+        alert('Error');
+      });
+    this.setState({
+      image: URL.createObjectURL(this.state.selectedFile)
+    });
+    this.props.history.push('/company');
+  };
+        render() {
+            return (
+                <div className="formProfile">
+                    Your name<TextInput placeholder="Your name" onChange={this.changeName} />
+                    Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
+                    Country to visit<Select defaultValue="" onChange={this.changeCountry}>
+                        <option value="" disabled>
+                            Choose country
                     </option>
                     <option value="Australia">
                         Australia
