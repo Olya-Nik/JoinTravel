@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import 'materialize-css/dist/css/materialize.min.css'
 import { Card, Row, Col, CardTitle, Select } from 'react-materialize';
 import spinner from '../img/lg.ajax-spinner-preloader.gif'
-
+import '../App.css'
 
 
 export default class Map extends Component {
@@ -12,6 +12,7 @@ export default class Map extends Component {
             latitude: null,
             longitude: null,
             places: [],
+            loading: false,
             trip: null,
         };
     }
@@ -39,6 +40,7 @@ export default class Map extends Component {
                 const x = this.state.latitude;
                 const y = this.state.longitude;
 
+                await this.setState({ loading: true, places: [] })
 
                 const places = await fetch('http://localhost:3001/map', {
                     credentials: 'include',
@@ -59,7 +61,7 @@ export default class Map extends Component {
                 });
 
                 const data = await places.json()
-                await this.setState({ places: data })
+                await this.setState({ places: data, loading: false })
                 console.log(data);
 
 
@@ -79,14 +81,12 @@ export default class Map extends Component {
     }
 
     render() {
-        // console.log(this.state.places)
-        // console.log(this.state.places && this.state.places.json.results)
-        // return null;
+
         return (
-            <div>
+            <div className='map'>
                 <h3> Places Nearby</h3>
 
-                <div>
+                <div className='selectplace'>
                     <Select defaultValue="" onChange={this.changeAction}>
                         <option value="" disabled>
                             Choose your option
@@ -95,7 +95,7 @@ export default class Map extends Component {
                         <option value="sights">
                             Sightseeings
                         </option>
-                        <option value="beaches">
+                        <option value="natural_feature">
                             SeaChilling
                         </option>
                         <option value="clothing_store">
@@ -108,23 +108,22 @@ export default class Map extends Component {
 
                 </div>
 
-                <div>
-                    {this.state.places.length >0 ? this.state.places.map((item, index) => {
+                <div className='cards'>
+                    {this.state.loading && <> <img src={spinner} alt="loading..." /></>}
+
+                    {this.state.places.length > 0 && this.state.places.map((item, index) => {
                         return (
-                            <div class="cards">
+                            <div className="cards">
                                 <Row>
-                                    <Col m={3} s={3}>
-                                        <Card horizontal header={<CardTitle />} actions={[<img src={item.image} alt="none" width="400" height="500" />, <p> Geolocation: {item.vicinity} </p>, <p> Price-level {item.price_level ? item.price_level : "?"}/10 </p>, <p> Raiting: {item.rating}/10 </p>]}>
+                                    <Col m={15} s={15} className='f'>
+                                        <Card horizontal header={<CardTitle />} actions={[<img src={item.image} alt="none" width="400" height="500" />, <p> Geolocation: {item.vicinity} </p>, <p> Price-level {item.price_level ? item.price_level : "?"}/5 </p>, <p> Raiting: {item.rating}/5 </p>]}>
                                             {item.name}
                                         </Card>
                                     </Col>
                                 </Row>
                             </div>
                         )
-                    }) : <><p>Hohooh</p> <img src={spinner} alt="loading..." /></>}
-
-                    
-
+                    })}
                 </div>
             </div>
         )

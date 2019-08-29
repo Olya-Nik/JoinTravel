@@ -8,7 +8,7 @@ import { Route } from "react-router-dom";
 export default function myNavbar() {
   return (
     <div className="Links">
-      <Navbar>
+      <Navbar className = 'navbar' alignLinks="right">
         <Link to={'/'}>Main Page</Link>
         <Link to={'/search'}>Search</Link>
         <Link to={'/company'}>Company</Link>

@@ -11,6 +11,7 @@ export default class Main extends Component {
             <div>
                 <h1> JoinTravel </h1>
                 <h3> Welcome to our application. It helps you to find  interesting people to make you travel awesome!   </h3>
+                {/* <img src='https://cdn.pixabay.com/photo/2015/07/05/13/44/beach-832346_960_720.jpg'></img> */}
             </div>
         );
     }

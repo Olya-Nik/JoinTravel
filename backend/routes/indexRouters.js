@@ -23,7 +23,7 @@ router.post('/map', async function (req, res) {
     console.log(coordA, coordB);
     let hash = json.results[0].photos[0].photo_reference;
     let arrLink = [];
-    //console.log(hash)
+    
     for (let i = 0; i < json.results.length; i++) {
         if (!json.results[i].photos) {
             continue;
@@ -32,7 +32,6 @@ router.post('/map', async function (req, res) {
         const resp1 = await fetch(`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${hash}&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk`)
         const image = await resp1.url;
         json.results[i].image = image;
-        // arrLink.push(json1)
         console.log(image);
     }
 
