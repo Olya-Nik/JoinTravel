@@ -7,30 +7,33 @@ class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
       message: ''
     };
   }
 
   async componentDidMount() {
-    let resp = await fetch('http://localhost:3001/messages');
-console.log(resp)
-    // let data = await resp.json();
-    // console.log(data);
-    // this.props.addMongoMess(data.message);
+    let resp = await fetch('http://localhost:3001/messages', {
+      credentials: 'include'
+    });
+    console.log(resp);
+    let data = await resp.json();
+    //console.log(data);
+    this.props.addMongoMess(data.messageText);
   }
 
   changeMess = e => {
     this.setState({
-      username: "",
+      username: '',
       message: e.target.value
     });
   };
 
-  onSubmit = async () => { //send to DB
-    const resp = await fetch('http://localhost:3001/messages', {
+  onSubmit = async () => {
+    this.setState({ message: '' });
+    //send to DB
+    const resp = await fetch('http://localhost:3001/messages/add', {
       method: 'POST',
-      credentials : 'include', // cookie
+      credentials: 'include', // cookie
       headers: {
         'Content-Type': 'application/json'
       },
@@ -41,6 +44,12 @@ console.log(resp)
     console.log(data);
     this.props.addMess(data);
     this.setState({ message: '' });
+    const respUser = await fetch (`http://localhost:3001/user/${this.props.match.params.id}`, {
+      method: 'GET'
+    })
+    const user = await respUser.json()
+    console.log(user.contacts)
+    const send = await fetch (`https://api.voximplant.com/platform_api/SendSmsMessage/?account_id=3199898&api_key=bd0a9853-7f4c-469e-9007-172f1e820277&source=79581008962&destination=${user.contacts}&sms_body=Test%20message`)
   };
 
   fetchMessages = async () => {
@@ -51,9 +60,16 @@ console.log(resp)
     console.log(data[0]);
   };
 
+  // fetchMessages = async () => {
+  //   const resp = await fetch('http://localhost:3001/messages', {
+  //     credentials: 'include'
+  //   });
+  //   const data = await resp.json();
+  //   console.log(data[0]);
+  // };
 
   render() {
-    return (
+      return (
       <div className="messages">
         <h5>Send message</h5>
         <div className="messagesInput">
@@ -73,7 +89,8 @@ console.log(resp)
 
         <div className="messagesField">
           Messages
-          {this.props.message}
+          {/* {this.props.messTexts} */}
+          {JSON.stringify(this.props.messTexts)}
         </div>
       </div>
     );

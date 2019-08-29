@@ -40,7 +40,11 @@ class Register extends Component {
       },
       body: JSON.stringify(sendForm)
     });
-    this.props.history.push('/auth/login')
+    this.props.history.push('/auth/login');
+  };
+
+  onClickFacebook = e => {
+    window.location.assign('http://localhost:3001/auth/facebook/cb');
   };
 
   render() {
@@ -73,8 +77,8 @@ class Register extends Component {
             </Button>
 
             <div>
-              <a className="facebookIcon" href="/auth/facebook">
-                <img src={fbIcon} alt="none"/>
+              <a className="facebookIcon" onClick={this.onClickFacebook}>
+                <img src={fbIcon} alt="facebook" />
               </a>
             </div>
           </div>
