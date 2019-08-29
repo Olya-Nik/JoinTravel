@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema.Types;
 
 const messagesSchema = new mongoose.Schema({
-  senderUserId: { type: ObjectId },
+  user_id: { type: ObjectId },
   // recevierUserId: { type: ObjectId },
   date: { type: Date, default: Date.now },
   messageText: String,
-  sendMessageFrom: String,
+  sentText: String,
 });
 
 const chatSchema = new mongoose.Schema({

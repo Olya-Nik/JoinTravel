@@ -25,7 +25,7 @@ class Login extends Component {
       },
       body: JSON.stringify(sendForm)
     });
-    this.props.history.push('/');
+     this.props.history.push('/');
   };
 
   changeName = e => {
@@ -41,7 +41,8 @@ class Login extends Component {
   };
 
   onClickFacebook = e => {
-    window.location.assign('http://localhost:3001/auth/facebook/cb')
+    window.location.assign('http://localhost:3001/auth/facebook/cb');
+    //this.props.history.push('/');
   }
 
   render() {
