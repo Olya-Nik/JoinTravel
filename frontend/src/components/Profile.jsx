@@ -1,11 +1,7 @@
 import React from 'react';
 import Image from './Image';
-// import { Link } from 'react-router-dom';
 import {
   TextInput,
-//   Col,
-//   Row,
-//   Collection,
   CollectionItem,
   Checkbox,
   DatePicker,

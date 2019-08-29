@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  font-family: 'Permanent Marker', cursive;
+  /* background: url(https://cdn.pixabay.com/photo/2015/07/05/13/44/beach-832346_960_720.jpg) no-repeat;
+  background-size: 100%; */
   
 }
 html{
@@ -20,9 +23,39 @@ html{
   max-width: 500px;
   margin: 50px auto;
 }
-.back{
-  background: beige
+
+nav.navbar {
+  background-color:rgb(42, 146, 1);
+  opacity: .7;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 200px;
+  font-weight: 600;
+
 }
+
+.cards{
+  display:flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+
+input{
+  font-family: 'Permanent Marker', cursive;
+  font-size: 200px;
+  font-weight: 600;
+}
+.img{
+  background: url(https://cdn.pixabay.com/photo/2015/07/05/13/44/beach-832346_960_720.jpg) no-repeat;
+  background-size: 100%;
+}
+.card.horizontal{
+  border-radius:20px; 
+}
+
+
+
 /* .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
