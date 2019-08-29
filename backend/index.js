@@ -80,10 +80,13 @@ function isAuth(req, res, next) {
   next();
 }
 
-app.get('/auth', (req, res) => {
+app.get('/auth', async (req, res) => {
  
   if (!req.isAuthenticated()) return res.status(401).end();
-  res.json({login: 'As'});
+  
+  const user = await UserAuth.findById(req.session.passport.user);
+  console.log(user)
+  res.json({login: user.username});
   //console.log(req.username);
 });
 
