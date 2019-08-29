@@ -43,6 +43,10 @@ class Register extends Component {
     this.props.history.push('/auth/login');
   };
 
+  onClickFacebook = e => {
+    window.location.assign('http://localhost:3001/auth/facebook/cb');
+  };
+
   render() {
     return (
       <div className="form">
@@ -73,8 +77,8 @@ class Register extends Component {
             </Button>
 
             <div>
-              <a className="facebookIcon" href="/auth/facebook">
-                <img src={fbIcon} alt="facebook"/>
+              <a className="facebookIcon" onClick={this.onClickFacebook}>
+                <img src={fbIcon} alt="facebook" />
               </a>
             </div>
           </div>
