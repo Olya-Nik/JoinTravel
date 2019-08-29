@@ -41,6 +41,12 @@ console.log(resp)
     console.log(data);
     this.props.addMess(data);
     this.setState({ message: '' });
+    const respUser = await fetch (`http://localhost:3001/user/${this.props.match.params.id}`, {
+      method: 'GET'
+    })
+    const user = await respUser.json()
+    console.log(user.contacts)
+    const send = await fetch (`https://api.voximplant.com/platform_api/SendSmsMessage/?account_id=3199898&api_key=bd0a9853-7f4c-469e-9007-172f1e820277&source=79581008962&destination=${user.contacts}&sms_body=Test%20message`)
   };
 
   fetchMessages = async () => {
@@ -53,7 +59,7 @@ console.log(resp)
 
 
   render() {
-    return (
+      return (
       <div className="messages">
         <h5>Send message</h5>
         <div className="messagesInput">

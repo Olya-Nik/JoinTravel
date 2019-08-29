@@ -15,7 +15,7 @@ import {
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
 import '../App.css';
-// import moment from 'moment'
+import moment from 'moment'
 // import 'moment/locale/ru';
 
 class Profile extends React.Component {
@@ -32,6 +32,7 @@ class Profile extends React.Component {
             city: '',
             dateDepature: '',
             dateReturn: '',
+            budgetPerDay: '',
             gastronomy: false,
             shopping: false,
             sightseeings: false,
@@ -51,11 +52,7 @@ async componentDidMount() {
             name: e.target.value
         })
     }
-    changeAge = (e) => {
-        this.setState({
-            age: e.target.value
-        })
-    }
+    
     fileSelected = (e) => {
         this.setState({
             selectedFile: e.target.files[0],
@@ -82,17 +79,15 @@ async componentDidMount() {
         // const dateStart = moment(e).format('D/M/Y')
         // console.log(dateStart)
         this.setState({
-            dateDepature: e
+            dateDepature: moment(e).format("DD MMM YYYY")
         })
     }
     changeDateReturn = (e) => {
-        e > this.state.dateDepature
-        ? this.setState({
-            dateReturn: e
+        this.setState({
+            dateReturn: moment(e).format("DD MMM YYYY")
         })
-        : alert('DATE OF RETURN SHOULD BE LATER')
     }
-    changeBudgetPerDay = (e) => {
+    changeBudget = (e) => {
         
         this.setState({
             budgetPerDay: e.target.value
@@ -135,13 +130,15 @@ async componentDidMount() {
         imageFormObj.append("imageData", this.state.selectedFile, this.state.selectedFile.name);
         imageFormObj.append("image", this.state.image)
         imageFormObj.append("name", this.state.name)
-        imageFormObj.append("age", this.state.age)
         imageFormObj.append("country", this.state.country)
         imageFormObj.append("city", this.state.city)
         imageFormObj.append("dateDepature", this.state.dateDepature)
         imageFormObj.append("dateReturn", this.state.dateReturn)
+        imageFormObj.append("budgetPerDay", this.state.budgetPerDay)
         imageFormObj.append("gastronomy", this.state.gastronomy)
         imageFormObj.append("shopping", this.state.shopping)
+        imageFormObj.append("sightseeings", this.state.sightseeings)
+        imageFormObj.append("seaChilling", this.state.seaChilling)
         imageFormObj.append("about", this.state.about)
         imageFormObj.append("contacts", this.state.contacts)
 
@@ -165,7 +162,6 @@ async componentDidMount() {
             return (
                 <div className="formProfile">
                     Your name<TextInput placeholder="Your name" onChange={this.changeName} />
-                    Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
                     Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
                     Country to visit<Select defaultValue="" onChange={this.changeCountry}>
                         <option value="" disabled>
@@ -184,6 +180,20 @@ async componentDidMount() {
                     City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
                     Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
                     Date of return <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
+                    Budget per day<Select defaultValue="" onChange={this.changeBudget}>
+                        <option value="" disabled>
+                            Your budget
+                    </option>
+                        <option value="Australia">
+                            100$
+                    </option>
+                        <option value="Iceland">
+                            100-200$
+                    </option>
+                        <option value="Morocco">
+                            200$ and more
+                    </option>
+                    </Select>
                     
                                 <CollectionItem>
                                     <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
