@@ -81,16 +81,18 @@ function isAuth(req, res, next) {
 }
 
 app.get('/auth', (req, res) => {
+ 
   if (!req.isAuthenticated()) return res.status(401).end();
-  res.json(req.username);
-  console.log(req.username)
+  res.json({login: 'As'});
+  //console.log(req.username);
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+// app.get('/auth/facebook',
+//   passport.authenticate('facebook'));
 app.get(
-  '/auth/facebook/callback',
+  '/auth/facebook/cb',
   passport.authenticate('facebook', { failureRedirect: '/' }),
-  (req, res) => res.redirect('/')
+  (req, res) => res.redirect('http://localhost:3000/')
 );
 
 app.post('/auth/login', (req, res, next) => {
@@ -147,15 +149,14 @@ app.post('/auth/logout', (req, res) => {
 
 app.get('/messages', isAuth, async function(req, res) {
   const dataMongo = await Messages.find({});
-  console.log(dataMongo)
-  const arrMessages = [];
+  // console.log(dataMongo)
+  // const arrMessages = [];
   
-  for (let i = 0; i < dataMongo.length; i++) {
-    arrMessages.push({
-      sender: dataMongo[i].senderUserId,
-      messageText: dataMongo[i].messageText,
-      date: dataMongo[i].date});
-  }
+  // for (let i = 0; i < dataMongo.length; i++) {
+  //   arrMessages.push({
+  //     messageText: dataMongo[i].messageText,
+  //     date: dataMongo[i].date});
+  // }
 
   // const userId = await UserAuth.find({});
   // for (let i = 0; i < userId.length; i++){
@@ -166,10 +167,10 @@ app.get('/messages', isAuth, async function(req, res) {
   // }
 
   //res.send(userId[0]._id)
-  res.send(arrMessages);
+  res.json({messageText: dataMongo});
 });
 
-app.post('/messages', async function(req, res) {
+app.post('/messages/add', isAuth, async function(req, res) {
   const dataMongo = await req.body.data;
   console.log(dataMongo);
   const mes = new Messages({ messageText: dataMongo });

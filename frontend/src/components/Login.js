@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import fbIcon from '../icons/facebook.png';
-import { connect } from 'react-redux'
 
 class Login extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class Login extends Component {
       },
       body: JSON.stringify(sendForm)
     });
-    this.props.history.push('/')
+    this.props.history.push('/');
   };
 
   changeName = e => {
@@ -41,21 +40,13 @@ class Login extends Component {
     });
   };
 
+  onClickFacebook = e => {
+    window.location.assign('http://localhost:3001/auth/facebook/cb')
+  }
+
   render() {
     return (
       <div className="form">
-        {/* <div className={styles.social_buttons}>
-          <a className={styles.link} href="/auth/vkontakte">
-            <span className={styles.vk_icon} />
-          </a>
-          <a className={styles.link} href="auth/twitter">
-            <span className={styles.twitter_icon} />
-          </a>
-          <a className={styles.link} href="/auth/facebook">
-            <span className={styles.facebook_icon} />
-          </a>
-        </div> */}
-
         <div className="inputForm">
           <h2>Login</h2>
           <input type="text" placeholder="Name" onChange={this.changeName} />
@@ -75,9 +66,11 @@ class Login extends Component {
             >
               Login User
             </Button>
-            <div><a className="facebookIcon" href="/auth/facebook">
-              <img src={fbIcon} />
-            </a></div>
+            <div>
+              <a className="facebookIcon" onClick={this.onClickFacebook}>
+                <img src={fbIcon} alt="facebook"/>
+              </a>
+            </div>
           </div>
         </div>
       </div>
