@@ -8,7 +8,7 @@ class Logout extends Component {
   onLogout = async (e) => {
     e.preventDefault();
     this.props.logout()
-    // this.props.history.push('/auth/login')
+    this.props.history.push('/auth/login')
   }
 
   render() {
