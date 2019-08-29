@@ -55,42 +55,15 @@ async componentDidMount() {
     
     fileSelected = (e) => {
         this.setState({
-<<<<<<< HEAD
-            selectedFile: e.target.files[0]
-        }, state => console.log(this.state.selectedFile))
-
-=======
             selectedFile: e.target.files[0],
             image: URL.createObjectURL(e.target.files[0])
         })
->>>>>>> master
     }
 
     uploadImage = (e) => {
         this.setState({
-<<<<<<< HEAD
-            multerImage: URL.createObjectURL(this.state.selectedFile)
-        });
-        // console.log(imageFormObj)
-        axios.post('http://localhost:3001/uploadimage', imageFormObj, {
-            onUploadProgress: ProgressEvent => {
-                console.log(ProgressEvent.loaded / ProgressEvent.total)
-            }
-        })
-            .then((data) => {
-                console.log(data)
-                if (data.data.success) {
-                    alert("Image SUCCESSSSS");
-                }
-            })
-            .catch((err) => {
-                alert("Error");
-            });
-
-=======
             image: URL.createObjectURL(this.state.selectedFile)
         });
->>>>>>> master
     }
     changeCountry = (e) => {
         this.setState({
@@ -140,48 +113,6 @@ async componentDidMount() {
             seaChilling: true
         })
     }
-<<<<<<< HEAD
-
-    onClick = async () => {
-        const sendForm = {
-            name: this.state.name,
-            age: this.state.age,
-            avatar: this.state.avatar,
-            country: this.state.country,
-            city: this.state.city,
-            dateDepature: this.state.dateDepature,
-            dateReturn: this.state.dateReturn,
-            gastronomy: this.state.gastronomy,
-            shopping: this.state.shopping,
-            sightseeings: this.state.sightseeings,
-            seaChilling: this.state.seaChilling
-
-
-        }
-        console.log(sendForm)
-        await fetch('http://localhost:3001/profilesend', {
-            method: 'POST',
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(sendForm)
-        })
-    }
-
-
-    render() {
-        return (
-            <div>
-                <form>
-                    <TextInput label="Your name" placeholder="Your name" onChange={this.changeName} />
-                    Your age<TextInput placeholder="Your age" onChange={this.changeAge} />
-                    Your foto <div>
-                        <input type="file" placeholder="Download foto" onChange={this.fileSelected} />
-                        <img src={this.state.multerImage} alt="uploading" />
-                        <button onClick={this.uploadImage}>Upload</button>
-                    </div>
-=======
     changeAbout = (e) => {
         this.setState({
             about: e.target.value
@@ -232,7 +163,6 @@ async componentDidMount() {
                 <div className="formProfile">
                     Your name<TextInput placeholder="Your name" onChange={this.changeName} />
                     Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
->>>>>>> master
                     Country to visit<Select defaultValue="" onChange={this.changeCountry}>
                         <option value="" disabled>
                             Choose country
