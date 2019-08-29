@@ -181,7 +181,7 @@ app.post('/messages/add', isAuth, async function(req, res) {
 app.post('/profilesend', upload.single('imageData'), async function(req, res) {
   // console.log(req.session.passport.user);
   const user = new User({
-    // _id: req.session.passport.user,
+    _id: req.session.passport.user,
     name: req.body.name,
     imageName: req.body.imageName,
     imageData: req.file.path,
@@ -202,24 +202,12 @@ app.post('/profilesend', upload.single('imageData'), async function(req, res) {
   res.end();
 });
 
-// app.post('/uploadimage', upload.single('imageData'), async (req, res, next) => {
-//   console.log(req.body)
-//   console.log(req.file)
-//   const newImage = new myImage({
-//     imageName: req.body.imageName,
-//     imageData: req.file.path
-//   });
-//   await newImage.save()
-//   res.end()
-// })
-// app.get ('/getprofileready', async function (req, res){
-//   const profileData = await User.findById()
-// })
 app.get('/getall', async function(req, res) {
   const users = await User.find();
-  // console.log(req.session.passport.user)
-  const me = await User.findById()
+  console.log(req.session.passport.user)
+  const me = await User.findById(req.session.passport.user)
   console.log(me);
+  console.log(req.session);
   res.json(users);
 });
 
