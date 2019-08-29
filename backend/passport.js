@@ -24,8 +24,8 @@ function findOrCreateUser(provider, profile, done) {  // FACEBOOK
 
 module.exports = passport => {
   passport.use(new FacebookStrategy({
-    clientID: "902894376737142",
-    clientSecret: "aa63048dc7c64f0214822fea5a48d163",
+    clientID: "",
+    clientSecret: "",
     callbackURL: "http://localhost:3001/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, cb) {

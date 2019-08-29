@@ -7,30 +7,33 @@ class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
       message: ''
     };
   }
 
   async componentDidMount() {
-    let resp = await fetch('http://localhost:3001/messages');
-console.log(resp)
-    // let data = await resp.json();
-    // console.log(data);
-    // this.props.addMongoMess(data.message);
+    let resp = await fetch('http://localhost:3001/messages', {
+      credentials: 'include'
+    });
+    console.log(resp);
+    let data = await resp.json();
+    //console.log(data);
+    this.props.addMongoMess(data.messageText);
   }
 
   changeMess = e => {
     this.setState({
-      username: "",
+      username: '',
       message: e.target.value
     });
   };
 
-  onSubmit = async () => { //send to DB
-    const resp = await fetch('http://localhost:3001/messages', {
+  onSubmit = async () => {
+    this.setState({ message: '' });
+    //send to DB
+    const resp = await fetch('http://localhost:3001/messages/add', {
       method: 'POST',
-      credentials : 'include', // cookie
+      credentials: 'include', // cookie
       headers: {
         'Content-Type': 'application/json'
       },
@@ -57,6 +60,13 @@ console.log(resp)
     console.log(data[0]);
   };
 
+  // fetchMessages = async () => {
+  //   const resp = await fetch('http://localhost:3001/messages', {
+  //     credentials: 'include'
+  //   });
+  //   const data = await resp.json();
+  //   console.log(data[0]);
+  // };
 
   render() {
       return (
@@ -79,7 +89,8 @@ console.log(resp)
 
         <div className="messagesField">
           Messages
-          {this.props.message}
+          {/* {this.props.messTexts} */}
+          {JSON.stringify(this.props.messTexts)}
         </div>
       </div>
     );

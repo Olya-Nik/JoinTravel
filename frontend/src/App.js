@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Main from "./components/Main"
 import Navbar from "./components/Navbar"
@@ -11,9 +11,27 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Messages from './components/Messages';
 import SMS from './components/TestSMS';
-import Search from "./components/Search"
+import Search from "./components/Search";
+import { connect } from 'react-redux';
+import { checkLoginAC } from './redux/actions';
+import Test from './components/Test';
 
-function App() {
+
+class App extends Component {
+  async componentDidMount() {
+    try {
+      let resp = await fetch('http://localhost:3001/auth', {
+        credentials: 'include'
+      });
+      const login = await resp.json();
+      console.log(login);
+    } catch (e) {
+      console.log('unatorized');
+    }
+  }
+
+  
+  render() {
   return (
     <Router>
       <div className="App">
@@ -30,12 +48,14 @@ function App() {
           <Route path="/auth/login" component={Login}/>
           <Route path="/sms" component={SMS} />
           <Route path="/search" component={Search} />
-
         </Switch>
       </div>
+      {/* <Test/> */}
     </Router>
   );
 }
+}
+
 
 
 
@@ -57,4 +77,13 @@ function App() {
 //   navigator.geolocation.getCurrentPosition(geoSuccess);
 // }
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return {
+    checkLogin: loginUser => dispatch(checkLoginAC(loginUser)),
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

@@ -1,4 +1,4 @@
-import { ADD_MESS, ADD_MONGO_MESS } from './types';
+import { ADD_MESS, ADD_MONGO_MESS, CHECK_LOGIN } from './types';
 
 const addMessAC = messText => {
   return {
@@ -14,4 +14,11 @@ const addMongoMessAC = data => {
   };
 };
 
-export { addMessAC, addMongoMessAC };
+const checkLoginAC = loginUser => {
+  return {
+    type: CHECK_LOGIN,
+    loginUser: loginUser
+  };
+};
+
+export { addMessAC, addMongoMessAC, checkLoginAC };
