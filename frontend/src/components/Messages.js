@@ -69,7 +69,7 @@ class Messages extends Component {
     let text = this.props.messTexts;
     return (
       <div className="messages">
-        <h5>Send message</h5>
+        <h3>Send message</h3>
         <div className="messagesInput">
           <input
             type="text"

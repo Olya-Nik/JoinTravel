@@ -44,6 +44,7 @@ class Profile extends React.Component {
         }
     }
 
+
     async componentDidMount() {
         // const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
         // const parts = await resp.json()
@@ -55,6 +56,7 @@ class Profile extends React.Component {
         // })
         // console.log(arr)
     }
+
 
     changePart = async (e) => {
         this.setState({
