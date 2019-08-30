@@ -19,20 +19,22 @@ class Company extends React.Component {
     render() {
         return (
             <Row className="company">
-                <Col m={6} s={12}>
+                <Col m={4} s={12} block>
                     <Collection>
                         {this.state.allusers ? this.state.allusers.map((user) =>
                             <CollectionItem className="avatar" key={user._id}>
-                                <img src={`http://localhost:3001/${user.imageData}`} alt="" className="circle" />
-                                <span className="title">
+                                <img  className= 'imagepop' src={`http://localhost:3001/${user.imageData}`} alt="" className="circle" />
+                                <span className="title" >
                                     {user.name}
                                 </span>
+                                <div className='textprofile'>
                                 <p>
                                     Dates of trip: {`${moment(user.dateDepature).format("DD MMM YYYY")} - ${moment(user.dateReturn).format("DD MMM YYYY")}`}
                                 </p>
                                 <p>
                                     Contacts: {user.contacts}
                                 </p>
+                                </div>
                                 <a href={`/company/${user._id}`} className="secondary-content">
                                     <Icon>
                                         More info

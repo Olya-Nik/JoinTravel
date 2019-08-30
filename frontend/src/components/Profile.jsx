@@ -41,7 +41,7 @@ class Profile extends React.Component {
     }
 async componentDidMount() {
     const respCountry = await fetch ('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
-    console.log(respCountry.url)
+    // console.log(respCountry.url)
 }
     changeName = (e) => {
         this.setState({
@@ -157,9 +157,9 @@ async componentDidMount() {
         render() {
             return (
                 <div className="formProfile">
-                    Your name<TextInput placeholder="Your name" onChange={this.changeName} />
-                    Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
-                    Country to visit<Select defaultValue="" onChange={this.changeCountry}>
+                    <TextInput placeholder="Your name" onChange={this.changeName} />
+                    <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
+                    <Select defaultValue="" onChange={this.changeCountry}>
                         <option value="" disabled>
                             Choose country
                     </option>

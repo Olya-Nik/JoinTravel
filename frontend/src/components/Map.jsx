@@ -115,9 +115,24 @@ export default class Map extends Component {
                         return (
                             <div className="cards">
                                 <Row>
-                                    <Col m={15} s={15} className='f'>
-                                        <Card horizontal header={<CardTitle />} actions={[<img src={item.image} alt="none" width="400" height="500" />, <p> Geolocation: {item.vicinity} </p>, <p> Price-level {item.price_level ? item.price_level : "?"}/5 </p>, <p> Raiting: {item.rating}/5 </p>]}>
-                                            {item.name}
+                                    <Col m={15} s={15} className='f' style={{
+                                        width: "448px",
+                                        height: "812px",
+                                        boxSizing: "content-box"
+                                    }}>
+                                        <Card horizontal header={<CardTitle />} actions={[
+                                        <div style={{
+                                            backgroundColor: "#fff", 
+                                            backgroundImage: `url(${item.image})`,
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundSize: "cover",
+                                            backgroundPosition: "center",
+                                            height:"500px", 
+                                            width:"400px"
+                                        }}></div>,
+            
+                                        <p> Geolocation: {item.vicinity} </p>, <p> Price-level {item.price_level ? item.price_level : "?"}/5 </p>, <p> Raiting: {item.rating}/5 </p>]}>
+                                            <p id ='Nameplace'>{item.name}</p>
                                         </Card>
                                     </Col>
                                 </Row>

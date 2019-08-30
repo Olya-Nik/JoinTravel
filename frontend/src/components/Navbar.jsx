@@ -8,19 +8,19 @@ import { Route } from 'react-router-dom';
 
 function myNavbar(props) {
   return (
-    <div className="Links">
+    <div className="Links" >
       {props.login ? (
-        <Navbar>
+        <Navbar  brand={<a />} alignLinks="right">
           <Link to={'/'}>Main Page</Link>
           <Link to={'/profile'}>Profile</Link>
           <Link to={'/search'}>Search</Link>
           <Link to={'/company'}>Company</Link>
           <Link to={'/map'}>Map</Link>
           <Route component={Logout} />
-          <h5>{props.login}</h5>
+          <h7 id='name'>{props.login}</h7>
         </Navbar>
       ) : (
-        <Navbar>
+        <Navbar alignLinks="right">
           <Link to={'/'}>Main Page</Link>
           <Link to={'/auth/signup'}>Sign Up</Link>
           <Link to={'/auth/login'}>Sign In</Link>

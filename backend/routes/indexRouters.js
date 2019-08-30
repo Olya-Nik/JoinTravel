@@ -16,7 +16,7 @@ router.post('/map', async function (req, res) {
     let coordB = String(req.body.longitude);
     console.log(req.body.trip);
     let typeTrip = req.body.trip;
-    const resp = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordA},${coordB}&radius=5000&type=${typeTrip}&keyword=sights&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk`)
+    const resp = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordA},${coordB}&radius=50000&type=${typeTrip}&keyword=sights&key=AIzaSyAIINAfLqMXFcgFSBFbxrm3oxIgnSM-Gfk`)
     const json = await resp.json();
     console.log(json);
 
