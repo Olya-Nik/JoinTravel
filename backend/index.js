@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
+const fetch = require('node-fetch');
 const session = require('express-session');
 const indexRouter = require('./routes/indexRouters');
 const mongoose = require('mongoose');
@@ -85,7 +86,6 @@ app.get('/auth', async (req, res) => {
   if (!req.isAuthenticated()) return res.status(401).end();
   
   const user = await UserAuth.findById(req.session.passport.user);
-  console.log(user)
   res.json({login: user.username});
   //console.log(req.username);
 });
@@ -185,9 +185,10 @@ app.post('/messages/add', isAuth, async function(req, res) {
 });
 
 app.post('/profilesend', upload.single('imageData'), async function(req, res) {
-  // console.log(req.session.passport.user);
+  // const currentUser = UserAuth.find()
+  // console.log(currentUser);
   const user = new User({
-    _id: req.session.passport.user,
+    // _id: req.session.passport.user,
     name: req.body.name,
     imageName: req.body.imageName,
     imageData: req.file.path,
@@ -210,10 +211,10 @@ app.post('/profilesend', upload.single('imageData'), async function(req, res) {
 
 app.get('/getall', async function(req, res) {
   const users = await User.find();
-  console.log(req.session.passport.user)
-  const me = await User.findById(req.session.passport.user)
-  console.log(me);
-  console.log(req.session);
+  // console.log(req.session.passport.user)
+  // const me = await User.findById(req.session.passport.user)
+  // console.log(me);
+  // console.log(req.session._id);
   res.json(users);
 });
 
@@ -227,7 +228,7 @@ app.get('/user/:id', async function(req, res) {
 });
 
 app.post('/filter', async function (req, res) {
-  console.log(req.body)
+  // console.log(req.body)
   const matchesDep = await User.find(req.body.dateDepature && req.body.dateReturn ? {dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}} : {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
   const matchesRet = await User.find(req.body.dateDepature && req.body.dateReturn ?{dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}}: {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
   
@@ -236,10 +237,17 @@ app.post('/filter', async function (req, res) {
   const allMatches = matchesDep.concat(matchesRet)
   // console.log(matchesDep)
   // console.log(matchesRet)
-  console.log(allMatches)
+  // console.log(allMatches)
   res.json(allMatches)
   
 })
+
+// app.get('/countries', async function (req, res){
+//   const send = await fetch ('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=New&types=(cities)&key=')
+//   const countries = await send.json()
+//     console.log(cou)
+//     res.end()
+// })
 
 app.listen(3001, function() {
   console.log('Example app listening on port 3001!');
