@@ -28,10 +28,18 @@ export default function(state = initialState, action) {
         login: action.login
       };
     }
+    // case LOGIN: {
+    //   return {
+    //     ...state,
+    //     isLogged: true,
+    //     login: action.login
+    //   };
+    // }
+
     case LOGOUT: {
       return {
         initialState
-      }
+      };
     }
     default:
       return state;

@@ -8,7 +8,7 @@ const messagesSchema = new mongoose.Schema({
   // recevierUserId: { type: ObjectId },
   date: { type: Date, default: Date.now },
   messageText: String,
-  sentText: String,
+  // sentText: String,
 });
 
 const chatSchema = new mongoose.Schema({

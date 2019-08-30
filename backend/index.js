@@ -97,9 +97,15 @@ app.get(
   (req, res) => res.redirect('http://localhost:3000/')
 );
 
+app.get(
+  '/auth/vkontakte/cb',
+  passport.authenticate('vkontakte', { failureRedirect: '/' }),
+  //  (req, res) => res.redirect('http://localhost:3000/')
+);
+
 app.post('/auth/login', (req, res, next) => {
   // req.session.name = req.body;
-   //console.log(1, req.session);
+  //console.log(1, req.session);
   passport.authenticate(
     'local-login',
     { failureFlash: true },
@@ -191,10 +197,10 @@ app.post('/messages/add', isAuth, async function(req, res) {
     user_id: req.user._id,
     _id: mongoose.Types.ObjectId(),
     messageText: req.body.data
-  }
+  };
   await new Messages(mes).save((err, r) => {
-    res.json(mes)
-  })
+    res.json(mes);
+  });
 });
 
 app.post('/profilesend', upload.single('imageData'), async function(req, res) {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import fbIcon from '../icons/facebook.png';
+import vkIcon from '../icons/vk.png';
 
 class Register extends Component {
   constructor(props) {
@@ -47,6 +48,11 @@ class Register extends Component {
     window.location.assign('http://localhost:3001/auth/facebook/cb');
   };
 
+  onClickVK = e => {
+    window.location.assign('http://localhost:3001/auth/vkontakte/cb');
+    //this.props.history.push('/');
+  };
+
   render() {
     return (
       <div className="form">
@@ -79,6 +85,9 @@ class Register extends Component {
             <div>
               <a className="facebookIcon" onClick={this.onClickFacebook}>
                 <img src={fbIcon} alt="facebook" />
+              </a>
+              <a className="vKIcon" onClick={this.onClickVK}>
+                <img src={vkIcon} alt="vk" />
               </a>
             </div>
           </div>

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { checkLoginAC } from '../redux/actions';
 import { Button } from 'react-materialize';
 import fbIcon from '../icons/facebook.png';
+import vkIcon from '../icons/vk.png';
+
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: '',
+      password: ''
     };
   }
 
@@ -25,7 +29,18 @@ class Login extends Component {
       },
       body: JSON.stringify(sendForm)
     });
-     this.props.history.push('/');
+
+    try {
+      let resp = await fetch('http://localhost:3001/auth', {
+        credentials: 'include'
+      });
+      const login = await resp.json();
+      this.props.checkLogin(login.login);
+    } catch (e) {
+      console.log('Unauthorized');
+    }
+
+    this.props.history.push('/');
   };
 
   changeName = e => {
@@ -41,9 +56,14 @@ class Login extends Component {
   };
 
   onClickFacebook = e => {
-    window.location.assign('http://localhost:3001/auth/facebook/cb');
+    window.location.assign('http://localhost:3001/auth/facebook/cb'); //set global state
+    this.props.history.push('/');
+  };
+
+  onClickVK = e => {
+    window.location.assign('http://localhost:3001/auth/vkontakte/cb');
     //this.props.history.push('/');
-  }
+  };
 
   render() {
     return (
@@ -69,7 +89,10 @@ class Login extends Component {
             </Button>
             <div>
               <a className="facebookIcon" onClick={this.onClickFacebook}>
-                <img src={fbIcon} alt="facebook"/>
+                <img src={fbIcon} alt="facebook" />
+              </a>
+              <a className="vKIcon" onClick={this.onClickVK}>
+                <img src={vkIcon} alt="vk" />
               </a>
             </div>
           </div>
@@ -79,4 +102,19 @@ class Login extends Component {
   }
 }
 
-export default Login;
+function mapDispatchToProps(dispatch) {
+  return {
+    checkLogin: loginUser => dispatch(checkLoginAC(loginUser))
+  };
+}
+
+// function mapStateToProps(state) {
+//   return {
+//     login: state.login
+//   };
+// }
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);;

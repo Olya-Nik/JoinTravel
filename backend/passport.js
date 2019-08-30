@@ -3,6 +3,7 @@ const config = require('./config/constants');
 
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const VKontakteStrategy = require('passport-vkontakte').Strategy;
 
 function findOrCreateUser(provider, profile, done) {
   // FACEBOOK
@@ -33,6 +34,25 @@ module.exports = passport => {
       },
       function(accessToken, refreshToken, profile, cb) {
         findOrCreateUser('facebook', { facebookId: profile.id }, function(
+          err,
+          user
+        ) {
+          return cb(err, user);
+        });
+
+      }
+    )
+  );
+
+  passport.use(
+    new VKontakteStrategy(
+      {
+        clientID: 7117356,
+        clientSecret: '3MhsCq8CoeN6badkxLm0',
+        callbackURL: 'http://localhost:3001/auth/vkontakte/cb'
+      },
+      (accessToken, refreshToken, profile, cb) => {
+        findOrCreateUser('vkontakte', { vkontakteId: profile.id }, function(
           err,
           user
         ) {

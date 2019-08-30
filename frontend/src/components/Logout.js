@@ -14,7 +14,7 @@ class Logout extends Component {
       }
     });
     this.props.logout(this.props.history);
-    // this.props.history.push('/auth/login')
+    this.props.history.push('/auth/login');
   };
 
   render() {
