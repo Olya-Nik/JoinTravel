@@ -6,15 +6,15 @@ import { logoutAC } from '../redux/actions';
 class Logout extends Component {
   onLogout = async e => {
     e.preventDefault();
-    const logOut = await fetch('http://localhost:3001/auth/logout', {
+     await fetch('http://localhost:3001/auth/logout', {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       }
     });
-    this.props.logout();
-    //this.props.history.push('/auth/login')
+    this.props.logout(this.props.history);
+    this.props.history.push('/auth/login');
   };
 
   render() {

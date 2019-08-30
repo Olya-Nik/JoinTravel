@@ -9,11 +9,11 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const MongoStore = require('connect-mongodb-session')(session);
-const { Messages, Chat} = require('./models/Messages');
-const multer = require('multer')
+const { Messages, Chat } = require('./models/Messages');
+const multer = require('multer');
 const { User } = require('./models/User');
 const { UserAuth } = require('./models/UserAuth');
-const { myImage } = require('./models/myImage')
+const { myImage } = require('./models/myImage');
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -33,9 +33,7 @@ mongoose.connect('mongodb://localhost:27017/JoinTravel', {
 });
 const app = express();
 
-//app.use(cookieParser());
 app.use(logger('dev'));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -57,7 +55,7 @@ app.use(
       {
         uri: 'mongodb://localhost/JoinTravel',
         collection: 'sessions'
-       // expires: 1000 * 60 * 60 * 24
+        // expires: 1000 * 60 * 60 * 24
       },
       error => {}
     ),
@@ -82,11 +80,12 @@ function isAuth(req, res, next) {
 }
 
 app.get('/auth', async (req, res) => {
- 
   if (!req.isAuthenticated()) return res.status(401).end();
-  
+
   const user = await UserAuth.findById(req.session.passport.user);
-  res.json({login: user.username});
+  // console.log(user);
+  res.json({ login: user.username });
+
   //console.log(req.username);
 });
 
@@ -95,12 +94,20 @@ app.get('/auth', async (req, res) => {
 app.get(
   '/auth/facebook/cb',
   passport.authenticate('facebook', { failureRedirect: '/' }),
+  (req, res) => {
+    console.log("+++++++++",req.session), res.redirect('http://localhost:3000/');
+  }
+);
+
+app.get(
+  '/auth/vkontakte/cb',
+  passport.authenticate('vkontakte', { failureRedirect: '/' }),
   (req, res) => res.redirect('http://localhost:3000/')
 );
 
 app.post('/auth/login', (req, res, next) => {
   // req.session.name = req.body;
-  // console.log(1, req.session);
+  //console.log(1, req.session);
   passport.authenticate(
     'local-login',
     { failureFlash: true },
@@ -118,6 +125,7 @@ app.post('/auth/login', (req, res, next) => {
           return next(err);
         }
         res.json({ username: user.username, id: user._id });
+        //console.log(3, user.username);
       });
     }
   )(req, res, next);
@@ -148,16 +156,22 @@ app.post('/auth/signup', (req, res, next) => {
 
 app.post('/auth/logout', (req, res) => {
   // req.session.destroy();
-  console.log('================LOGOUT')
-  req.logout(); 
-  res.redirect('/');
+  //console.log('================LOGOUT');
+  // req.logout();
+  // res.redirect('/');
+  req.session.destroy(function() {
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  });
 });
 
 app.get('/messages', isAuth, async function(req, res) {
-  const dataMongo = await Messages.find({});
+  const dataMongo = await Messages.find({ user_id: req.user._id });
   // console.log(dataMongo)
   // const arrMessages = [];
-  
+  // const userId = await UserAuth.find({});
+  // console.log(userId);
+
   // for (let i = 0; i < dataMongo.length; i++) {
   //   arrMessages.push({
   //     messageText: dataMongo[i].messageText,
@@ -173,15 +187,27 @@ app.get('/messages', isAuth, async function(req, res) {
   // }
 
   //res.send(userId[0]._id)
-  res.json({messageText: dataMongo});
+  res.json({ messageText: dataMongo });
 });
 
 app.post('/messages/add', isAuth, async function(req, res) {
-  const dataMongo = await req.body.data;
-  console.log(dataMongo);
-  const mes = new Messages({ messageText: dataMongo });
-  mes.save();
-  res.send(mes);
+  // const dataMongo = await req.body.data;
+  // console.log(dataMongo);
+  // const mes = new Messages({ messageText: dataMongo });
+  // mes.save();
+  // res.send(mes);
+
+  const mes = {
+    // ...req.body,
+    user_id: req.user._id,
+    _id: mongoose.Types.ObjectId(),
+    messageText: req.body.data
+  };
+
+  
+  await new Messages(mes).save((err, r) => {
+    res.json(mes);
+  });
 });
 
 app.post('/profilesend', upload.single('imageData'), async function(req, res) {
@@ -215,6 +241,7 @@ app.get('/getall', async function(req, res) {
   // const me = await User.findById(req.session.passport.user)
   // console.log(me);
   // console.log(req.session._id);
+
   res.json(users);
 });
 
@@ -227,14 +254,16 @@ app.get('/user/:id', async function(req, res) {
   res.json(user);
 });
 
+
 app.post('/filter', async function (req, res) {
   // console.log(req.body)
   const matchesDep = await User.find(req.body.dateDepature && req.body.dateReturn ? {dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}} : {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
   const matchesRet = await User.find(req.body.dateDepature && req.body.dateReturn ?{dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}}: {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
   
+
   // const matchesDep = await User.find({dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
   // const matchesRet = await User.find({dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
-  const allMatches = matchesDep.concat(matchesRet)
+  const allMatches = matchesDep.concat(matchesRet);
   // console.log(matchesDep)
   // console.log(matchesRet)
   // console.log(allMatches)
