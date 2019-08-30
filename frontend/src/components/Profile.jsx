@@ -176,6 +176,7 @@ class Profile extends React.Component {
         imageFormObj.append("image", this.state.image)
         imageFormObj.append("name", this.state.name)
         imageFormObj.append("country", this.state.country)
+        imageFormObj.append("region", this.state.region)
         imageFormObj.append("city", this.state.city)
         imageFormObj.append("dateDepature", this.state.dateDepature)
         imageFormObj.append("dateReturn", this.state.dateReturn)

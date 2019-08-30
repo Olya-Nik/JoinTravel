@@ -74,10 +74,6 @@ class SMS extends React.Component {
 
 
     render() {
-        console.log('------');
-        
-        console.log(this.state.countries);
-        console.log(this.state.regions);
         
         return (
             <div>
