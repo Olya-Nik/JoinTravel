@@ -89,7 +89,7 @@ onClick = async () => {
 }
     render() {
         return (
-            <div>
+            <div className="searchClass">
                 Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
                 Date of retutn <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
                 Country to visit<Select defaultValue="" onChange={this.changeCountry}>
