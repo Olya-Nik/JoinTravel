@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from './Image';
 import {
-  TextInput,
-  Checkbox,
-  DatePicker,
-  Select,
-  Button
+    TextInput,
+    Checkbox,
+    DatePicker,
+    Select,
+    Button
 } from 'react-materialize';
 import 'materialize-css/dist/css/materialize.min.css';
 import axios from 'axios';
@@ -44,22 +44,24 @@ class Profile extends React.Component {
         }
     }
 
-    // async componentDidMount() {
-    //     const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
-    //     const parts = await resp.json()
-    //     const arr = Object.keys(parts).map(function (key) {
-    //         return [Number(key), parts[key]]
-    //     })
-    //     this.setState({
-    //         parts: arr,
-    //     })
-    //     console.log(arr)
-    // }
+
+    async componentDidMount() {
+        // const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
+        // const parts = await resp.json()
+        // const arr = Object.keys(parts).map(function (key) {
+        //     return [Number(key), parts[key]]
+        // })
+        // this.setState({
+        //     parts: arr,
+        // })
+        // console.log(arr)
+    }
+
 
     changePart = async (e) => {
         this.setState({
             part: e.target.value
-        }, ()=>this.chooseCountry())      
+        }, () => this.chooseCountry())
     }
 
     changeName = (e) => {
@@ -94,11 +96,11 @@ class Profile extends React.Component {
     changeCountry = async (e) => {
         this.setState({
             country: e.target.value
-        }, ()=>this.chooseRegion())
+        }, () => this.chooseRegion())
     }
     chooseRegion = async () => {
         const idArr = this.state.country.split(' ')
-        const id = idArr[idArr.length-1]
+        const id = idArr[idArr.length - 1]
         console.log(this.state.country)
         const resp2 = await fetch(`http://htmlweb.ru/geo/api.php?country=${id}&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e`)
         const regions = await resp2.json()
@@ -177,6 +179,7 @@ class Profile extends React.Component {
         imageFormObj.append("image", this.state.image)
         imageFormObj.append("name", this.state.name)
         imageFormObj.append("country", this.state.country)
+        imageFormObj.append("region", this.state.region)
         imageFormObj.append("city", this.state.city)
         imageFormObj.append("dateDepature", this.state.dateDepature)
         imageFormObj.append("dateReturn", this.state.dateReturn)
@@ -188,32 +191,32 @@ class Profile extends React.Component {
         imageFormObj.append("about", this.state.about)
         imageFormObj.append("contacts", this.state.contacts)
 
-    axios.post('http://localhost:3001/profilesend', imageFormObj)
-      .then(data => {
-        console.log(data)
-    //     if (data.data.success) {
-    //       alert('Image');
-    //     }
-      })
-      .catch(err => {
-        alert('Error');
-      });
-    this.setState({
-      image: URL.createObjectURL(this.state.selectedFile)
-    });
-    this.props.history.push('/company');
-  };
-        render() {
-            return (
-                <div className="formProfile">
+        axios.post('http://localhost:3001/profilesend', imageFormObj)
+            .then(data => {
+                console.log(data)
+                //     if (data.data.success) {
+                //       alert('Image');
+                //     }
+            })
+            .catch(err => {
+                alert('Error');
+            });
+        this.setState({
+            image: URL.createObjectURL(this.state.selectedFile)
+        });
+        this.props.history.push('/company');
+    };
+    render() {
+        return (
+            <div className="formProfile">
 
-                    Your name<TextInput placeholder="Your name" onChange={this.changeName} />
-                    Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
-                    Country to visit
+                Your name<TextInput placeholder="Your name" onChange={this.changeName} />
+                Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
+                Country to visit
                     <Select defaultValue="" onChange={this.changePart}>
                     <option value="" disabled>
                         Choose part
-        </option>
+                    </option>
                     {this.state.parts ? this.state.parts.map((part) =>
                         <option value={`${part[1]}`}>
                             {part[1]}
@@ -264,9 +267,9 @@ class Profile extends React.Component {
                 <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
                 <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
 
-                
+
                 Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
-                    
+
                 Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
                 <Button type="submit" onClick={this.onClick}>SAVE
                     {/* <Link to={'/company'}></Link> */}

@@ -46,6 +46,9 @@ class ProfileReady extends React.Component {
                                 {`${this.state.user.name} is interested ${this.state.user.gastronomy ? "in gastronomy" : ""} ${this.state.user.shopping ? "shopping" : ""} ${this.state.user.sightseeings ? "to see sightseeings" : ""} ${this.state.user.seaChilling ? "seachilling" : ""} as you`}
                             </CollectionItem>
                             <CollectionItem>
+                                {this.state.user.about}
+                            </CollectionItem>
+                            <CollectionItem>
                                 {`You may send a message to ${this.state.user.name}`}
                             </CollectionItem>
                             <CollectionItem>
