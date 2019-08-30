@@ -94,13 +94,15 @@ app.get('/auth', async (req, res) => {
 app.get(
   '/auth/facebook/cb',
   passport.authenticate('facebook', { failureRedirect: '/' }),
-  (req, res) => res.redirect('http://localhost:3000/')
+  (req, res) => {
+    console.log("+++++++++",req.session), res.redirect('http://localhost:3000/');
+  }
 );
 
 app.get(
   '/auth/vkontakte/cb',
   passport.authenticate('vkontakte', { failureRedirect: '/' }),
-  //  (req, res) => res.redirect('http://localhost:3000/')
+  (req, res) => res.redirect('http://localhost:3000/')
 );
 
 app.post('/auth/login', (req, res, next) => {

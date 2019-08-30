@@ -62,7 +62,7 @@ class Login extends Component {
 
   onClickVK = e => {
     window.location.assign('http://localhost:3001/auth/vkontakte/cb');
-    //this.props.history.push('/');
+    this.props.history.push('/');
   };
 
   render() {

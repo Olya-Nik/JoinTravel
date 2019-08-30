@@ -33,13 +33,25 @@ module.exports = passport => {
         callbackURL: 'http://localhost:3001/auth/facebook/cb'
       },
       function(accessToken, refreshToken, profile, cb) {
-        findOrCreateUser('facebook', { facebookId: profile.id }, function(
-          err,
-          user
-        ) {
-          return cb(err, user);
-        });
+        UserAuth.findOne(
+          {
+            providerId: profile.id
+          },
+          (err, user) => {
+            // if (err) return cb(err);
 
+            // if (user) return cb(null, false, { message: 'Имя уже занято!' });
+
+            const newUser = new UserAuth();
+            newUser.username = profile.displayName;
+            newUser.provider = 'facebook';
+            newUser.providerId = profile.id;
+            newUser.save(err => {
+              if (err) throw err;
+              return cb(null, newUser);
+            });
+          }
+        );
       }
     )
   );
@@ -48,10 +60,11 @@ module.exports = passport => {
     new VKontakteStrategy(
       {
         clientID: 7117356,
-        clientSecret: '3MhsCq8CoeN6badkxLm0',
+        clientSecret: 'oZG8uSvxNVSgb74QKNI9',
         callbackURL: 'http://localhost:3001/auth/vkontakte/cb'
       },
       (accessToken, refreshToken, profile, cb) => {
+        console.log('=================',profile)
         findOrCreateUser('vkontakte', { vkontakteId: profile.id }, function(
           err,
           user
