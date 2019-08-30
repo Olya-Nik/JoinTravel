@@ -14,7 +14,7 @@ import SMS from './components/TestSMS';
 import Search from './components/Search';
 import { connect } from 'react-redux';
 import { checkLoginAC } from './redux/actions';
-import Test from './components/Test';
+
 
 class App extends Component {
   async componentDidMount() {

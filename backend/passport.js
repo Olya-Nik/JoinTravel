@@ -25,6 +25,7 @@ function findOrCreateUser(provider, profile, done) {
 
 module.exports = passport => {
 
+
   passport.use(
     new FacebookStrategy(
       {
@@ -55,6 +56,7 @@ module.exports = passport => {
       }
     )
   );
+
 
   passport.use(
     new VKontakteStrategy(
@@ -96,6 +98,7 @@ module.exports = passport => {
     )
   );
   
+
   passport.use(
     'local-signup',
     new LocalStrategy(

@@ -43,6 +43,7 @@ class Profile extends React.Component {
 
         }
     }
+
     async componentDidMount() {
         const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
         const parts = await resp.json()
@@ -205,6 +206,7 @@ class Profile extends React.Component {
         render() {
             return (
                 <div className="formProfile">
+
                     Your name<TextInput placeholder="Your name" onChange={this.changeName} />
                     Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
                     Country to visit
@@ -245,6 +247,7 @@ class Profile extends React.Component {
                 Budget per day<Select defaultValue="" onChange={this.changeBudget}>
                     <option value="" disabled>
                         Your budget
+
                     </option>
                     <option value="100">
                         100$
