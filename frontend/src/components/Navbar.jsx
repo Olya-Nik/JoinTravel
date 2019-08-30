@@ -16,6 +16,7 @@ function myNavbar(props) {
           <Link to={'/search'}>Search</Link>
           <Link to={'/company'}>Company</Link>
           <Link to={'/map'}>Map</Link>
+          <Link to={'/messages'}>Messages</Link>
           <Route component={Logout} />
           <h7 id='name'>{props.login}</h7>
         </Navbar>

@@ -13,7 +13,6 @@ class Company extends React.Component {
         const resp = await fetch('http://localhost:3001/getall')
         const allusers = await resp.json()
         this.setState({ allusers: allusers })
-        console.log(this.state)
     }
 
     render() {

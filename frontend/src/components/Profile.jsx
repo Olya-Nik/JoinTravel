@@ -2,7 +2,6 @@ import React from 'react';
 import Image from './Image';
 import {
   TextInput,
-  CollectionItem,
   Checkbox,
   DatePicker,
   Select,
@@ -24,7 +23,12 @@ class Profile extends React.Component {
             imageName: '',
             imageData: '',
             image: '',
+            parts: [],
+            part: '',
+            countries: [],
             country: '',
+            regions: [],
+            region: '',
             city: '',
             dateDepature: '',
             dateReturn: '',
@@ -35,20 +39,35 @@ class Profile extends React.Component {
             seaChilling: false,
             about: String,
             contacts: String,
-            error: ''
-            
+            apicountries: {}
+
         }
     }
-async componentDidMount() {
-    const respCountry = await fetch ('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
-    // console.log(respCountry.url)
-}
+
+    async componentDidMount() {
+        const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
+        const parts = await resp.json()
+        const arr = Object.keys(parts).map(function (key) {
+            return [Number(key), parts[key]]
+        })
+        this.setState({
+            parts: arr,
+        })
+        console.log(arr)
+    }
+
+    changePart = async (e) => {
+        this.setState({
+            part: e.target.value
+        }, ()=>this.chooseCountry())      
+    }
+
     changeName = (e) => {
         this.setState({
             name: e.target.value
         })
     }
-    
+
     fileSelected = (e) => {
         this.setState({
             selectedFile: e.target.files[0],
@@ -61,9 +80,40 @@ async componentDidMount() {
             image: URL.createObjectURL(this.state.selectedFile)
         });
     }
-    changeCountry = (e) => {
+    chooseCountry = async () => {
+        const resp1 = await fetch(`http://htmlweb.ru/geo/api.php?location=${this.state.part}&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e`)
+        const countries = await resp1.json()
+        const arr1 = Object.keys(countries).map(function (key) {
+            return [Number(key), countries[key]]
+        })
+        console.log(arr1)
+        this.setState({
+            countries: arr1
+        })
+    }
+    changeCountry = async (e) => {
         this.setState({
             country: e.target.value
+        }, ()=>this.chooseRegion())
+    }
+    chooseRegion = async () => {
+        const idArr = this.state.country.split(' ')
+        const id = idArr[idArr.length-1]
+        console.log(this.state.country)
+        const resp2 = await fetch(`http://htmlweb.ru/geo/api.php?country=${id}&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e`)
+        const regions = await resp2.json()
+        console.log(regions)
+        const arr2 = Object.keys(regions).map(function (key) {
+            return [Number(key), regions[key]]
+        })
+        console.log(arr2)
+        this.setState({
+            regions: arr2
+        })
+    }
+    changeRegion = async (e) => {
+        this.setState({
+            region: e.target.value
         })
     }
     changeCity = (e) => {
@@ -84,7 +134,7 @@ async componentDidMount() {
         })
     }
     changeBudget = (e) => {
-        
+
         this.setState({
             budgetPerDay: e.target.value
         })
@@ -138,13 +188,12 @@ async componentDidMount() {
         imageFormObj.append("about", this.state.about)
         imageFormObj.append("contacts", this.state.contacts)
 
-    axios
-      .post('http://localhost:3001/profilesend', imageFormObj)
+    axios.post('http://localhost:3001/profilesend', imageFormObj)
       .then(data => {
-        // console.log(data)
-        if (data.data.success) {
-          alert('Image');
-        }
+        console.log(data)
+    //     if (data.data.success) {
+    //       alert('Image');
+    //     }
       })
       .catch(err => {
         alert('Error');
@@ -157,61 +206,74 @@ async componentDidMount() {
         render() {
             return (
                 <div className="formProfile">
-                    <TextInput placeholder="Your name" onChange={this.changeName} />
-                    <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
-                    <Select defaultValue="" onChange={this.changeCountry}>
-                        <option value="" disabled>
-                            Choose country
+
+                    Your name<TextInput placeholder="Your name" onChange={this.changeName} />
+                    Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
+                    Country to visit
+                    <Select defaultValue="" onChange={this.changePart}>
+                    <option value="" disabled>
+                        Choose part
+        </option>
+                    {this.state.parts ? this.state.parts.map((part) =>
+                        <option value={`${part[1]}`}>
+                            {part[1]}
+                        </option>
+                    ) : null}
+                </Select>
+                <Select defaultValue="" onChange={this.changeCountry}>
+                    <option value="" disabled>
+                        Choose country
+    </option>
+                    {this.state.countries ? this.state.countries.map((country) =>
+                        <option value={`${country[1].name} ${country[1].id}`} >
+                            {`${country[1].name} ${country[1].id}`}
+                        </option>
+                    ) : null}
+                </Select>
+
+                <Select defaultValue="" onChange={this.changeRegion}>
+                    <option value="" disabled>
+                        Choose region
+    </option>
+                    {this.state.regions ? this.state.regions.map((region) =>
+                        <option value={`${region[1].name}`} >
+                            {region[1].name}
+                        </option>
+                    ) : null}
+                </Select>
+                City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
+                Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
+                Date of return <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
+                Budget per day<Select defaultValue="" onChange={this.changeBudget}>
+                    <option value="" disabled>
+                        Your budget
+
                     </option>
-                        <option value="Australia">
-                            Australia
+                    <option value="100">
+                        100$
                     </option>
-                        <option value="Iceland">
-                            Iceland
+                    <option value="100-200">
+                        100-200$
                     </option>
-                        <option value="Morocco">
-                            Morocco
+                    <option value="200 and more">
+                        200$ and more
                     </option>
-                    </Select>
-                    City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
-                    Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
-                    Date of return <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
-                    Budget per day<Select defaultValue="" onChange={this.changeBudget}>
-                        <option value="" disabled>
-                            Your budget
-                    </option>
-                        <option value="Australia">
-                            100$
-                    </option>
-                        <option value="Iceland">
-                            100-200$
-                    </option>
-                        <option value="Morocco">
-                            200$ and more
-                    </option>
-                    </Select>
+                </Select>
+                <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
+                <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
+                <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
+                <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
+
+                
+                Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
                     
-                                <CollectionItem>
-                                    <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
-                                </CollectionItem>
-                                <CollectionItem>
-                                    <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
-                                </CollectionItem>
-                                <CollectionItem>
-                                    <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
-                                </CollectionItem>
-                                <CollectionItem>
-                                    <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
-                                </CollectionItem>
-                               
-                    Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
-                    Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
-                    <Button type="submit" onClick={this.onClick}>SAVE
+                Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
+                <Button type="submit" onClick={this.onClick}>SAVE
                     {/* <Link to={'/company'}></Link> */}
-                    </Button>
-                </div>
-    );
-  }
+                </Button>
+            </div>
+        );
+    }
 }
 
 export default Profile;
