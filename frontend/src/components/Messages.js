@@ -102,7 +102,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    messTexts: state.messTexts
+    messTexts: state.messTexts,
   };
 }
 

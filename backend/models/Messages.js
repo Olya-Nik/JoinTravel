@@ -8,7 +8,7 @@ const messagesSchema = new mongoose.Schema({
   // recevierUserId: { type: ObjectId },
   date: { type: Date, default: Date.now },
   messageText: String,
-  // chat: []
+  chat: []
 });
 
 const chatSchema = new mongoose.Schema({
@@ -41,10 +41,6 @@ async function seeds() {
     ]
   });
 
-  const user = new User({
-    userId: '5d65769d548cce40c1774ce5',
-    name: 'As',
-  })
   //await mes1.save();
   //await mes2.save();
   //await chat.save();
