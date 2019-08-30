@@ -19,7 +19,10 @@ class Company extends React.Component {
     render() {
         return (
             <Row className="company">
-                <Col m={4} s={12} block>
+                <Col m={4} s={12} block style={{
+                    width: "800px",
+                    
+                }}>
                     <Collection>
                         {this.state.allusers ? this.state.allusers.map((user) =>
                             <CollectionItem className="avatar" key={user._id}>
