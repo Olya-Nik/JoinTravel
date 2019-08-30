@@ -84,7 +84,7 @@ export default class Map extends Component {
 
         return (
             <div className='map'>
-                <h3> Places Nearby</h3>
+            <h3 className="places"> Places Nearby</h3>
 
                 <div className='selectplace'>
                     <Select defaultValue="" onChange={this.changeAction}>

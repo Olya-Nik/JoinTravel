@@ -30,7 +30,7 @@ class ProfileReady extends React.Component {
         return (
             <div className="back">
                 {/* {this.state.user ? this.state.user._id : <p>loading</p>}  */}
-                <Row style={{color: "#FF8C00"}}>
+                <Row style={{}}>
                     <Col m={6} s={12}>
                         <Collection header={`You may join ${this.state.user.name}`}>
                             <CollectionItem>
