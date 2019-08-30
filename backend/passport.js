@@ -6,7 +6,6 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const VKontakteStrategy = require('passport-vkontakte').Strategy;
 
 function findOrCreateUser(provider, profile, done) {
-  // FACEBOOK
   UserAuth.findOne({ provider, providerId: profile.id }, (err, user) => {
     if (err) return done(err);
     if (user) return done(err, user);
@@ -63,14 +62,35 @@ module.exports = passport => {
         clientSecret: 'oZG8uSvxNVSgb74QKNI9',
         callbackURL: 'http://localhost:3001/auth/vkontakte/cb'
       },
-      (accessToken, refreshToken, profile, cb) => {
-        console.log('=================',profile)
-        findOrCreateUser('vkontakte', { vkontakteId: profile.id }, function(
-          err,
-          user
-        ) {
-          return cb(err, user);
-        });
+      // (accessToken, refreshToken, profile, cb) => {
+      //   console.log('=================',profile)
+      //   findOrCreateUser('vkontakte', { vkontakteId: profile.id }, function(
+      //     err,
+      //     user
+      //   ) {
+      //     return cb(err, user);
+      //   });
+      // }
+      function(accessToken, refreshToken, profile, cb) {
+        UserAuth.findOne(
+          {
+            providerId: profile.id
+          },
+          (err, user) => {
+            // if (err) return cb(err);
+
+            // if (user) return cb(null, false, { message: 'Имя уже занято!' });
+
+            const newUser = new UserAuth();
+            newUser.username = profile.displayName;
+            newUser.provider = 'vkontakte';
+            newUser.providerId = profile.id;
+            newUser.save(err => {
+              if (err) throw err;
+              return cb(null, newUser);
+            });
+          }
+        );
       }
     )
   );
