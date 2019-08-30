@@ -32,9 +32,7 @@ mongoose.connect('mongodb://localhost:27017/JoinTravel', {
 });
 const app = express();
 
-//app.use(cookieParser());
 app.use(logger('dev'));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -169,6 +167,8 @@ app.get('/messages', isAuth, async function(req, res) {
   const dataMongo = await Messages.find({ user_id: req.user._id });
   // console.log(dataMongo)
   // const arrMessages = [];
+  // const userId = await UserAuth.find({});
+  // console.log(userId);
 
   // for (let i = 0; i < dataMongo.length; i++) {
   //   arrMessages.push({
@@ -194,12 +194,15 @@ app.post('/messages/add', isAuth, async function(req, res) {
   // const mes = new Messages({ messageText: dataMongo });
   // mes.save();
   // res.send(mes);
+
   const mes = {
     // ...req.body,
     user_id: req.user._id,
     _id: mongoose.Types.ObjectId(),
     messageText: req.body.data
   };
+
+  
   await new Messages(mes).save((err, r) => {
     res.json(mes);
   });
