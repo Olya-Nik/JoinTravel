@@ -95,7 +95,8 @@ app.get(
   '/auth/facebook/cb',
   passport.authenticate('facebook', { failureRedirect: '/' }),
   (req, res) => {
-    console.log("+++++++++",req.session), res.redirect('http://localhost:3000/');
+    console.log('+++++++++', req.session),
+      res.redirect('http://localhost:3000/');
   }
 );
 
@@ -166,7 +167,9 @@ app.post('/auth/logout', (req, res) => {
 });
 
 app.get('/messages', isAuth, async function(req, res) {
-  const dataMongo = await Messages.find({ user_id: req.user._id });
+  const dataMongo = await Messages.find({
+    $or: [{ user_id: req.user._id }, { receiver_id: req.user._id }]
+  });
   // console.log(dataMongo)
   // const arrMessages = [];
   // const userId = await UserAuth.find({});
@@ -201,10 +204,10 @@ app.post('/messages/add', isAuth, async function(req, res) {
     // ...req.body,
     user_id: req.user._id,
     _id: mongoose.Types.ObjectId(),
-    messageText: req.body.data
+    messageText: req.body.data,
+    receiver_id: req.body.receiver_id
   };
 
-  
   await new Messages(mes).save((err, r) => {
     res.json(mes);
   });
@@ -255,12 +258,41 @@ app.get('/user/:id', async function(req, res) {
   res.json(user);
 });
 
-
-app.post('/filter', async function (req, res) {
+app.post('/filter', async function(req, res) {
   // console.log(req.body)
-  const matchesDep = await User.find(req.body.dateDepature && req.body.dateReturn ? {dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}} : {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
-  const matchesRet = await User.find(req.body.dateDepature && req.body.dateReturn ?{dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}}: {}).where(req.body.country ?{ country: req.body.country} : {}).where(req.body.gastronomy ? {gastronomy: req.body.gastronomy} : {}).where(req.body.shopping ? {shopping: req.body.shopping} : {}).where(req.body.sightseeings ? {sightseeings: req.body.sightseeings} : {}).where(req.body.seaChilling ? {seaChilling: req.body.seaChilling} : {}).where(req.body.budgetPerDay ? {budgetPerDay: req.body.budgetPerDay} : {})
-  
+  const matchesDep = await User.find(
+    req.body.dateDepature && req.body.dateReturn
+      ? {
+          dateDepature: {
+            $gte: req.body.dateDepature,
+            $lte: req.body.dateReturn
+          }
+        }
+      : {}
+  )
+    .where(req.body.country ? { country: req.body.country } : {})
+    .where(req.body.gastronomy ? { gastronomy: req.body.gastronomy } : {})
+    .where(req.body.shopping ? { shopping: req.body.shopping } : {})
+    .where(req.body.sightseeings ? { sightseeings: req.body.sightseeings } : {})
+    .where(req.body.seaChilling ? { seaChilling: req.body.seaChilling } : {})
+    .where(
+      req.body.budgetPerDay ? { budgetPerDay: req.body.budgetPerDay } : {}
+    );
+  const matchesRet = await User.find(
+    req.body.dateDepature && req.body.dateReturn
+      ? {
+          dateReturn: { $gte: req.body.dateDepature, $lte: req.body.dateReturn }
+        }
+      : {}
+  )
+    .where(req.body.country ? { country: req.body.country } : {})
+    .where(req.body.gastronomy ? { gastronomy: req.body.gastronomy } : {})
+    .where(req.body.shopping ? { shopping: req.body.shopping } : {})
+    .where(req.body.sightseeings ? { sightseeings: req.body.sightseeings } : {})
+    .where(req.body.seaChilling ? { seaChilling: req.body.seaChilling } : {})
+    .where(
+      req.body.budgetPerDay ? { budgetPerDay: req.body.budgetPerDay } : {}
+    );
 
   // const matchesDep = await User.find({dateDepature: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
   // const matchesRet = await User.find({dateReturn: {$gte: req.body.dateDepature, $lte: req.body.dateReturn}})
@@ -268,10 +300,9 @@ app.post('/filter', async function (req, res) {
   // console.log(matchesDep)
   // console.log(matchesRet)
   // console.log(allMatches)
-  
-  res.json(allMatches)
-  
-})
+
+  res.json(allMatches);
+});
 
 // app.get('/countries', async function (req, res){
 //   const send = await fetch ('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=New&types=(cities)&key=')

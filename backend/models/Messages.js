@@ -5,7 +5,7 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const messagesSchema = new mongoose.Schema({
   user_id: { type: ObjectId },
-  // recevierUserId: { type: ObjectId },
+  receiver_id: { type: ObjectId },
   date: { type: Date, default: Date.now },
   messageText: String,
   chat: []
