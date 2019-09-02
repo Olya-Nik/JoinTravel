@@ -1,12 +1,13 @@
 # JoinTravel
 JoinTravel - это приложение, позволяющее найти подходящую компанию для путешествия.
+
 ![mainpage](mainpage.jpg)
 
 ## Getting Started
-```JoinTravel 1:bash cd frontend``` <br> 
+```cd frontend``` <br> 
 ```npm install``` <br>
 ```npm start``` <br>
-```JoinTravel 2:bash cd backend``` <br>
+```cd backend``` <br>
 ```npm install``` <br>
 ```nodemon``` <br>
 
