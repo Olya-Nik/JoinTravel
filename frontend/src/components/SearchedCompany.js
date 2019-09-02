@@ -21,7 +21,7 @@ class SearchedCompany extends React.Component {
         console.log(allusers)
         return (
             <Row>
-                <Col m={6} s={12}>
+                <Col m={6} s={12} style={{width: "900px"}}>
                     <Collection>
                         {allusers.map((user) =>
                             <CollectionItem className="avatar" key={user._id}>

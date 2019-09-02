@@ -46,15 +46,15 @@ class Profile extends React.Component {
 
 
     async componentDidMount() {
-        // const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
-        // const parts = await resp.json()
-        // const arr = Object.keys(parts).map(function (key) {
-        //     return [Number(key), parts[key]]
-        // })
-        // this.setState({
-        //     parts: arr,
-        // })
-        // console.log(arr)
+        const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
+        const parts = await resp.json()
+        const arr = Object.keys(parts).map(function (key) {
+            return [Number(key), parts[key]]
+        })
+        this.setState({
+            parts: arr,
+        })
+        console.log(arr)
     }
 
 
@@ -262,13 +262,14 @@ class Profile extends React.Component {
                         200$ and more
                     </option>
                 </Select>
-                <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
+                <Checkbox className='ff' value="No" label="Gastronomy" onChange={this.changeGastronomy} />
                 <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
                 <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
                 <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
+                
 
 
-                Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
+                <br/> Some words about you  <TextInput placeholder="About you" onChange={this.changeAbout} />
 
                 Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
                 <Button type="submit" onClick={this.onClick}>SAVE

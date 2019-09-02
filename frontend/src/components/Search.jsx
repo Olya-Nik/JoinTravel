@@ -25,18 +25,18 @@ export default class Search extends React.Component {
         }
     }
     async componentDidMount() {
-        // const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
-        
-        // const parts = await resp.json()
-        // const arr = Object.keys(parts).map(function (key) {
-        //     return [Number(key), parts[key]]
-        // })
+        const resp = await fetch('http://htmlweb.ru/geo/api.php?locations&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e')
 
-        // this.setState({
-        //     parts: arr,
+        const parts = await resp.json()
+        const arr = Object.keys(parts).map(function (key) {
+            return [Number(key), parts[key]]
+        })
 
-        // })
-        // console.log(arr)
+        this.setState({
+            parts: arr,
+
+        })
+        console.log(arr)
     }
     changeDateDepature = (e) => {
         this.setState({
@@ -51,7 +51,7 @@ export default class Search extends React.Component {
     changePart = async (e) => {
         this.setState({
             part: e.target.value
-        }, ()=>this.chooseCountry())      
+        }, () => this.chooseCountry())
     }
     chooseCountry = async () => {
         const resp1 = await fetch(`http://htmlweb.ru/geo/api.php?location=${this.state.part}&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e`)
@@ -67,11 +67,11 @@ export default class Search extends React.Component {
     changeCountry = async (e) => {
         this.setState({
             country: e.target.value
-        }, ()=>this.chooseRegion())
+        }, () => this.chooseRegion())
     }
     chooseRegion = async () => {
         const idArr = this.state.country.split(' ')
-        const id = idArr[idArr.length-1]
+        const id = idArr[idArr.length - 1]
         console.log(this.state.country)
         const resp2 = await fetch(`http://htmlweb.ru/geo/api.php?country=${id}&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e`)
         const regions = await resp2.json()
@@ -110,38 +110,38 @@ export default class Search extends React.Component {
         })
     }
     changeBudget = (e) => {
-        
+
         this.setState({
             budgetPerDay: e.target.value
         })
     }
-// async componentDidMount() {
-// }
-onClick = async () => {
-    const data = {
-        dateDepature: this.state.dateDepature,
-        dateReturn: this.state.dateReturn,
-        country: this.state.country,
-        gastronomy: this.state.gastronomy,
-        shopping: this.state.shopping,
-        sightSeeings: this.state.sightseeings,
-        seaChilling: this.state.seaChilling,
-        budgetPerDay: this.state.budgetPerDay
-    }
-    const resp = await fetch ('http://localhost:3001/filter', {
-        method: 'POST',
-        credentials : 'include', 
-        headers: {
+    // async componentDidMount() {
+    // }
+    onClick = async () => {
+        const data = {
+            dateDepature: this.state.dateDepature,
+            dateReturn: this.state.dateReturn,
+            country: this.state.country,
+            gastronomy: this.state.gastronomy,
+            shopping: this.state.shopping,
+            sightSeeings: this.state.sightseeings,
+            seaChilling: this.state.seaChilling,
+            budgetPerDay: this.state.budgetPerDay
+        }
+        const resp = await fetch('http://localhost:3001/filter', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
             },
-        body: JSON.stringify(data)
-    })
+            body: JSON.stringify(data)
+        })
 
-    const matches = await resp.json()
-    console.log(matches)
+        const matches = await resp.json()
+        console.log(matches)
         this.setState({ filterUsers: matches })
-}
+    }
     render() {
         return (
             <div className="searchClass">
@@ -149,8 +149,8 @@ onClick = async () => {
                 Date of retutn <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
                 <Select defaultValue="" onChange={this.changePart}>
                     <option value="" disabled>
-                        Choose part
-        </option>
+                        Choose Materic
+                    </option>
                     {this.state.parts ? this.state.parts.map((part) =>
                         <option value={`${part[1]}`}>
                             {part[1]}
@@ -161,7 +161,7 @@ onClick = async () => {
                 <Select defaultValue="" onChange={this.changeCountry}>
                     <option value="" disabled>
                         Choose country
-    </option>
+                        </option>
                     {this.state.countries ? this.state.countries.map((country) =>
                         <option value={`${country[1].name} ${country[1].id}`} >
                             {`${country[1].name} ${country[1].id}`}
@@ -179,36 +179,36 @@ onClick = async () => {
                         </option>
                     ) : null}
                 </Select>
-                    Budget per day<Select defaultValue="" onChange={this.changeBudget}>
-                        <option value="" disabled>
-                            Your budget
+                Budget per day<Select defaultValue="" onChange={this.changeBudget}>
+                    <option value="" disabled>
+                        Your budget
                     </option>
-                        <option value="Australia">
-                            100$
+                    <option value="Australia">
+                        100$
                     </option>
-                        <option value="Iceland">
-                            100-200$
+                    <option value="Iceland">
+                        100-200$
                     </option>
-                        <option value="Morocco">
-                            200$ and more
+                    <option value="Morocco">
+                        200$ and more
                     </option>
-                    </Select>
-                    <CollectionItem>
-                                    <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
-                                </CollectionItem>
-                                <CollectionItem>
-                                    <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
-                                </CollectionItem>
-                                <CollectionItem>
-                                    <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
-                                </CollectionItem>
-                                <CollectionItem>
-                                    <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
-                                </CollectionItem>
+                </Select>
+                <CollectionItem>
+                    <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
+                </CollectionItem>
+                <CollectionItem>
+                    <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
+                </CollectionItem>
+                <CollectionItem>
+                    <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
+                </CollectionItem>
+                <CollectionItem>
+                    <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
+                </CollectionItem>
                 <Button type="submit" onClick={this.onClick}>FIND COMP
                     <Link to={'/company'}></Link>
-                    </Button>
-<SearchedCompany users={this.state.filterUsers}/>
+                </Button>
+                <SearchedCompany users={this.state.filterUsers} />
             </div>
         )
     }
