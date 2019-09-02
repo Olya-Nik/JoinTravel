@@ -262,13 +262,14 @@ class Profile extends React.Component {
                         200$ and more
                     </option>
                 </Select>
-                <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
+                <Checkbox className='ff' value="No" label="Gastronomy" onChange={this.changeGastronomy} />
                 <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
                 <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
                 <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
+                
 
 
-                Some words about you<TextInput placeholder="About you" onChange={this.changeAbout} />
+                <br/> Some words about you  <TextInput placeholder="About you" onChange={this.changeAbout} />
 
                 Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
                 <Button type="submit" onClick={this.onClick}>SAVE

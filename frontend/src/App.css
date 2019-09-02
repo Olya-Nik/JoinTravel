@@ -73,7 +73,7 @@ input{
 
 
 #name{
-  padding-right:25%;
+  /* padding-right:; */
   font-weight:800;
 }
 .hide-on-med-and-down{
@@ -163,6 +163,17 @@ p{
 }
 .placeholder{
   color:black;
+}
+
+.searchClass{
+  width:700px;
+  text-align: center;
+  margin-left:auto;
+  margin-right:auto;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 25px;
+  margin-top:150px;
+ 
 }
 /* .loadbtn{
   height:200px;
