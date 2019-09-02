@@ -37,7 +37,7 @@ class Messages extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ data: this.state.message })
+      body: JSON.stringify({ data: this.state.message, receiver_id: this.props.match.params.id })
     });
 
     const data = await resp.json();
