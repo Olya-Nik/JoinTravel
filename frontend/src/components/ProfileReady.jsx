@@ -30,7 +30,7 @@ class ProfileReady extends React.Component {
         return (
             <div className="back">
                 {/* {this.state.user ? this.state.user._id : <p>loading</p>}  */}
-                <Row style={{color: "#FF8C00"}}>
+                <Row style={{}}>
                     <Col m={6} s={12}>
                         <Collection header={`You may join ${this.state.user.name}`}>
                             <CollectionItem>
@@ -44,6 +44,9 @@ class ProfileReady extends React.Component {
                             </CollectionItem>
                             <CollectionItem>
                                 {`${this.state.user.name} is interested ${this.state.user.gastronomy ? "in gastronomy" : ""} ${this.state.user.shopping ? "shopping" : ""} ${this.state.user.sightseeings ? "to see sightseeings" : ""} ${this.state.user.seaChilling ? "seachilling" : ""} as you`}
+                            </CollectionItem>
+                            <CollectionItem>
+                                {this.state.user.about}
                             </CollectionItem>
                             <CollectionItem>
                                 {`You may send a message to ${this.state.user.name}`}

@@ -223,6 +223,7 @@ app.post('/profilesend', upload.single('imageData'), async function(req, res) {
     imageData: req.file.path,
     image: req.body.image,
     country: req.body.country,
+    region: req.body.region,
     city: req.body.city,
     dateDepature: req.body.dateDepature,
     dateReturn: req.body.dateReturn,
@@ -299,6 +300,7 @@ app.post('/filter', async function(req, res) {
   // console.log(matchesDep)
   // console.log(matchesRet)
   // console.log(allMatches)
+
   res.json(allMatches);
 });
 

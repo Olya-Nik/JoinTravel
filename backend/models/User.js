@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   imageData: String,
   image: String,
   country: String,
+  region: String,
   city: String,
   dateDepature: String,
   dateReturn: String,

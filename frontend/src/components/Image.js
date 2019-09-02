@@ -6,9 +6,10 @@ class Image extends React.Component {
     render(){
         return(
             <div>
-            <input type="file" placeholder="Download foto" onChange={this.props.fileSelected} />
+
+            <input  type="file" placeholder="Download foto" onChange={this.props.fileSelected} />
             <img className="image" src={this.props.image} alt="" />
-            <Button onClick={this.props.uploadImage}>Upload</Button>
+            
         </div>
         )
     }
