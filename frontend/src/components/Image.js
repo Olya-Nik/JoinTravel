@@ -1,6 +1,6 @@
 import React from 'react'
 import '../App.css'
-import { Button } from 'react-materialize';
+
 class Image extends React.Component {
 
     render(){
