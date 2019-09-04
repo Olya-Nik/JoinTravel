@@ -10,7 +10,7 @@ function myNavbar(props) {
   return (
     <div className="Links" >
       {props.login ? (
-        <Navbar  brand={<a />} alignLinks="right">
+        <Navbar  brand={<a/>} alignLinks="right">
           <Link to={'/'}>Main Page</Link>
           <Link to={'/profile'}>Profile</Link>
           <Link to={'/search'}>Search</Link>

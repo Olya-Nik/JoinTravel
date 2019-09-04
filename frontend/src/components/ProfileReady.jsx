@@ -1,6 +1,5 @@
 import React from 'react'
 import { Collection, CollectionItem, Row, Col, Button } from 'react-materialize'
-import { Link } from "react-router-dom";
 import '../App.css';
 import moment from 'moment'
 // import 'moment/locale/ru';

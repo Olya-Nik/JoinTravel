@@ -5,6 +5,12 @@ const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const VKontakteStrategy = require('passport-vkontakte').Strategy;
 
+require('dotenv').config();
+const vkid = process.env.VK_ID;
+const vks = process.env.VK_SECRET;
+const fid = process.env.F_ID;
+const fs = process.env.F_SECRET;
+
 function findOrCreateUser(provider, profile, done) {
   UserAuth.findOne({ provider, providerId: profile.id }, (err, user) => {
     if (err) return done(err);
@@ -24,13 +30,11 @@ function findOrCreateUser(provider, profile, done) {
 }
 
 module.exports = passport => {
-
-
   passport.use(
     new FacebookStrategy(
       {
-        clientID: '902894376737142',
-        clientSecret: 'aa63048dc7c64f0214822fea5a48d163',
+        clientID: fid,
+        clientSecret: fs,
         callbackURL: 'http://localhost:3001/auth/facebook/cb'
       },
       function(accessToken, refreshToken, profile, cb) {
@@ -39,10 +43,6 @@ module.exports = passport => {
             providerId: profile.id
           },
           (err, user) => {
-            // if (err) return cb(err);
-
-            // if (user) return cb(null, false, { message: 'Имя уже занято!' });
-
             const newUser = new UserAuth();
             newUser.username = profile.displayName;
             newUser.provider = 'facebook';
@@ -57,33 +57,19 @@ module.exports = passport => {
     )
   );
 
-
   passport.use(
     new VKontakteStrategy(
       {
-        clientID: 7117356,
-        clientSecret: 'oZG8uSvxNVSgb74QKNI9',
+        clientID: vkid,
+        clientSecret: vks,
         callbackURL: 'http://localhost:3001/auth/vkontakte/cb'
       },
-      // (accessToken, refreshToken, profile, cb) => {
-      //   console.log('=================',profile)
-      //   findOrCreateUser('vkontakte', { vkontakteId: profile.id }, function(
-      //     err,
-      //     user
-      //   ) {
-      //     return cb(err, user);
-      //   });
-      // }
       function(accessToken, refreshToken, profile, cb) {
         UserAuth.findOne(
           {
             providerId: profile.id
           },
           (err, user) => {
-            // if (err) return cb(err);
-
-            // if (user) return cb(null, false, { message: 'Имя уже занято!' });
-
             const newUser = new UserAuth();
             newUser.username = profile.displayName;
             newUser.provider = 'vkontakte';
@@ -97,7 +83,6 @@ module.exports = passport => {
       }
     )
   );
-  
 
   passport.use(
     'local-signup',
