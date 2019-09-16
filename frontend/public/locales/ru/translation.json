@@ -24,7 +24,7 @@
     "Find": "Найти",
     "Places nearby": "Рядом с Вами:",
     "Choose your option": "Чем Вы хотите заняться",
-    "Dates of trip": "Даты путешествия",
+    "Dates of trip": "Даты путешествия: {{date, MM/DD/YYYY}} - {{date, MM/DD/YYYY}}",
     "More info": "Больше деталей",
     "You may join": "В путешествие тоже собирается "
   }

@@ -24,7 +24,7 @@
     "Find": "Find",
     "Places nearby": "Places nearby",
     "Choose your option": "Choose your option",
-    "Dates of trip": "Dates of trip",
+    "Dates of trip": "Dates of trip: {{date, MM/DD/YYYY}} - {{date, MM/DD/YYYY}}",
     "More info": "More info",
     "You may join": "You may join"
     

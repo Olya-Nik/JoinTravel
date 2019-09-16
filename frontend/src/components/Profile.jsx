@@ -123,12 +123,12 @@ class Profile extends React.Component {
     }
     changeDateDepature = (e) => {
         this.setState({
-            dateDepature: moment(e).format("DD MMM YYYY")
+            dateDepature: moment(e).format("DD MM YYYY")
         })
     }
     changeDateReturn = (e) => {
         this.setState({
-            dateReturn: moment(e).format("DD MMM YYYY")
+            dateReturn: moment(e).format("DD MM YYYY")
         })
     }
     changeBudget = (e) => {

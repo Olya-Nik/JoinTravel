@@ -12,7 +12,7 @@ function Languages() {
   
     return (
         <div className="App-header">
-          <Button onClick={() => changeLanguage('de')}>ru</Button>
+          <Button onClick={() => changeLanguage('ru')}>ru</Button>
           <Button onClick={() => changeLanguage('en')}>en</Button>
         </div>
     );
@@ -27,6 +27,6 @@ function Languages() {
     return (
       <Suspense fallback={<Loader />}>
         <Languages />
-      </Suspense>
+       </Suspense>
     );
   }

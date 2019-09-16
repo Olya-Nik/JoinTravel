@@ -2,6 +2,7 @@ import React, {Suspense} from 'react'
 import { useTranslation, withTranslation, Trans } from 'react-i18next'
 import { Collection, CollectionItem, Row, Col, Icon } from 'react-materialize'
 import moment from 'moment'
+import data from 'i18next';
 const server = "http://localhost:3001"
 
 class Company extends React.Component {
@@ -35,7 +36,7 @@ class Company extends React.Component {
                                 </span>
                                 <div className='textprofile'>
                                 <p>
-                                    {t('Dates of trip')}: {`${moment(user.dateDepature).format("DD MMM YYYY")} - ${moment(user.dateReturn).format("DD MMM YYYY")}`}
+                                    {t('Dates of trip', {date: user.dateDepature }, {date: user.dateReturn })}
                                 </p>
                                 <p>
                                 {t('Contacts')}: {user.contacts}
