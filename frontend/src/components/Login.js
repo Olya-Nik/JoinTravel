@@ -4,7 +4,7 @@ import { checkLoginAC } from '../redux/actions';
 import { Button } from 'react-materialize';
 import fbIcon from '../icons/facebook.png';
 import vkIcon from '../icons/vk.png';
-
+const server = "http://localhost:3001"
 
 class Login extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    await fetch('http://localhost:3001/auth/login', {
+    await fetch(`${server}/auth/login`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -31,7 +31,7 @@ class Login extends Component {
     });
 
     try {
-      let resp = await fetch('http://localhost:3001/auth', {
+      let resp = await fetch(`${server}/auth`, {
         credentials: 'include'
       });
       const login = await resp.json();
@@ -56,12 +56,12 @@ class Login extends Component {
   };
 
   onClickFacebook = e => {
-    window.location.assign('http://localhost:3001/auth/facebook/cb'); //set global state
+    window.location.assign(`${server}/auth/facebook/cb`); //set global state
     this.props.history.push('/');
   };
 
   onClickVK = e => {
-    window.location.assign('http://localhost:3001/auth/vkontakte/cb');
+    window.location.assign(`${server}/auth/vkontakte/cb`);
     this.props.history.push('/');
   };
 

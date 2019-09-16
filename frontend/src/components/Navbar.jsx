@@ -5,9 +5,13 @@ import { Navbar } from 'react-materialize';
 import Logout from './Logout';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
-
+import Languages from './Languages';
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 function myNavbar(props) {
+  
   return (
+   
+
     <div className="Links" >
       {props.login ? (
         <Navbar  brand={<a/>} alignLinks="right">
@@ -18,16 +22,19 @@ function myNavbar(props) {
           <Link to={'/map'}>Map</Link>
           {/* <Link to={'/messages'}>Messages</Link> */}
           <Route component={Logout} />
-          <h7 id='name'>{props.login}</h7>
+          <Languages/>
+          {/* <h7 id='name'>{props.login}</h7> */}
         </Navbar>
       ) : (
         <Navbar alignLinks="right">
           <Link to={'/'}>Main Page</Link>
           <Link to={'/auth/signup'}>Sign Up</Link>
           <Link to={'/auth/login'}>Sign In</Link>
+          <Languages/>
         </Navbar>
       )}
     </div>
+     
   );
 }
 
