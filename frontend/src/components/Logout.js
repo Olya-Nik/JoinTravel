@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { NavItem } from 'react-materialize';
 import { connect } from 'react-redux';
 import { logoutAC } from '../redux/actions';
+const server = "http://localhost:3001"
 
 class Logout extends Component {
   onLogout = async e => {
     e.preventDefault();
-     await fetch('http://localhost:3001/auth/logout', {
+     await fetch(`${server}/auth/logout`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -18,7 +19,6 @@ class Logout extends Component {
   };
 
   render() {
-    // console.log(this.props)
     return (
       <NavItem href="#" onClick={this.onLogout}>
         Logout

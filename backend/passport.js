@@ -30,59 +30,59 @@ function findOrCreateUser(provider, profile, done) {
 }
 
 module.exports = passport => {
-  passport.use(
-    new FacebookStrategy(
-      {
-        clientID: fid,
-        clientSecret: fs,
-        callbackURL: 'http://localhost:3001/auth/facebook/cb'
-      },
-      function(accessToken, refreshToken, profile, cb) {
-        UserAuth.findOne(
-          {
-            providerId: profile.id
-          },
-          (err, user) => {
-            const newUser = new UserAuth();
-            newUser.username = profile.displayName;
-            newUser.provider = 'facebook';
-            newUser.providerId = profile.id;
-            newUser.save(err => {
-              if (err) throw err;
-              return cb(null, newUser);
-            });
-          }
-        );
-      }
-    )
-  );
+  // passport.use(
+  //   new FacebookStrategy(
+  //     {
+  //       clientID: fid,
+  //       clientSecret: fs,
+  //       callbackURL: 'http://localhost:3001/auth/facebook/cb'
+  //     },
+  //     function(accessToken, refreshToken, profile, cb) {
+  //       UserAuth.findOne(
+  //         {
+  //           providerId: profile.id
+  //         },
+  //         (err, user) => {
+  //           const newUser = new UserAuth();
+  //           newUser.username = profile.displayName;
+  //           newUser.provider = 'facebook';
+  //           newUser.providerId = profile.id;
+  //           newUser.save(err => {
+  //             if (err) throw err;
+  //             return cb(null, newUser);
+  //           });
+  //         }
+  //       );
+  //     }
+  //   )
+  // );
 
-  passport.use(
-    new VKontakteStrategy(
-      {
-        clientID: vkid,
-        clientSecret: vks,
-        callbackURL: 'http://localhost:3001/auth/vkontakte/cb'
-      },
-      function(accessToken, refreshToken, profile, cb) {
-        UserAuth.findOne(
-          {
-            providerId: profile.id
-          },
-          (err, user) => {
-            const newUser = new UserAuth();
-            newUser.username = profile.displayName;
-            newUser.provider = 'vkontakte';
-            newUser.providerId = profile.id;
-            newUser.save(err => {
-              if (err) throw err;
-              return cb(null, newUser);
-            });
-          }
-        );
-      }
-    )
-  );
+  // passport.use(
+  //   new VKontakteStrategy(
+  //     {
+  //       clientID: vkid,
+  //       clientSecret: vks,
+  //       callbackURL: 'http://localhost:3001/auth/vkontakte/cb'
+  //     },
+  //     function(accessToken, refreshToken, profile, cb) {
+  //       UserAuth.findOne(
+  //         {
+  //           providerId: profile.id
+  //         },
+  //         (err, user) => {
+  //           const newUser = new UserAuth();
+  //           newUser.username = profile.displayName;
+  //           newUser.provider = 'vkontakte';
+  //           newUser.providerId = profile.id;
+  //           newUser.save(err => {
+  //             if (err) throw err;
+  //             return cb(null, newUser);
+  //           });
+  //         }
+  //       );
+  //     }
+  //   )
+  // );
 
   passport.use(
     'local-signup',

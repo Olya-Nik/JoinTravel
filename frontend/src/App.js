@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 import './App.css';
 import Main from './components/Main';
 import Navbar from './components/Navbar';
@@ -10,7 +11,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Register from './components/Register';
 import Messages from './components/Messages';
-import SMS from './components/TestSMS';
 import Search from './components/Search';
 import { connect } from 'react-redux';
 import { checkLoginAC } from './redux/actions';
@@ -44,7 +44,6 @@ class App extends Component {
             <Route exact path="/messages/:id" component={Messages} />
             <Route path="/auth/signup" component={Register} />
             <Route path="/auth/login" component={Login} />
-            <Route path="/sms" component={SMS} />
             <Route path="/search" component={Search} />
           </Switch>
         </div>

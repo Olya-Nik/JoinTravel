@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import Image from './Image';
+import { withTranslation } from 'react-i18next';
 import {
     TextInput,
     Checkbox,
@@ -101,14 +102,11 @@ class Profile extends React.Component {
     chooseRegion = async () => {
         const idArr = this.state.country.split(' ')
         const id = idArr[idArr.length - 1]
-        console.log(this.state.country)
         const resp2 = await fetch(`http://htmlweb.ru/geo/api.php?country=${id}&json&api_key=7464b9d209e6dcb1d5ebaa5a587c784e`)
         const regions = await resp2.json()
-        console.log(regions)
         const arr2 = Object.keys(regions).map(function (key) {
             return [Number(key), regions[key]]
         })
-        console.log(arr2)
         this.setState({
             regions: arr2
         })
@@ -124,15 +122,13 @@ class Profile extends React.Component {
         })
     }
     changeDateDepature = (e) => {
-        // const dateStart = moment(e).format('D/M/Y')
-        // console.log(dateStart)
         this.setState({
-            dateDepature: moment(e).format("DD MMM YYYY")
+            dateDepature: moment(e).format("DD MM YYYY")
         })
     }
     changeDateReturn = (e) => {
         this.setState({
-            dateReturn: moment(e).format("DD MMM YYYY")
+            dateReturn: moment(e).format("DD MM YYYY")
         })
     }
     changeBudget = (e) => {
@@ -193,10 +189,6 @@ class Profile extends React.Component {
 
         axios.post('http://localhost:3001/profilesend', imageFormObj)
             .then(data => {
-                console.log(data)
-                //     if (data.data.success) {
-                //       alert('Image');
-                //     }
             })
             .catch(err => {
                 alert('Error');
@@ -207,15 +199,16 @@ class Profile extends React.Component {
         this.props.history.push('/company');
     };
     render() {
+        const { t, i18n } = this.props;
         return (
             <div className="formProfile">
 
-                Your name<TextInput placeholder="Your name" onChange={this.changeName} />
-                Your foto <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
-                Country to visit
+                {t('Your name')}<TextInput placeholder={t('Your name')} onChange={this.changeName} />
+                {t('Your foto')} <Image image={this.state.image} fileSelected={this.fileSelected} uploadImage={this.uploadImage} />
+                {t('Country to visit')}
                     <Select defaultValue="" onChange={this.changePart}>
                     <option value="" disabled>
-                        Choose part
+                    {t('Choose continent')}
                     </option>
                     {this.state.parts ? this.state.parts.map((part) =>
                         <option value={`${part[1]}`}>
@@ -225,7 +218,7 @@ class Profile extends React.Component {
                 </Select>
                 <Select defaultValue="" onChange={this.changeCountry}>
                     <option value="" disabled>
-                        Choose country
+                    {t('Choose country')}
     </option>
                     {this.state.countries ? this.state.countries.map((country) =>
                         <option value={`${country[1].name} ${country[1].id}`} >
@@ -236,7 +229,7 @@ class Profile extends React.Component {
 
                 <Select defaultValue="" onChange={this.changeRegion}>
                     <option value="" disabled>
-                        Choose region
+                    {t('Choose region')}
     </option>
                     {this.state.regions ? this.state.regions.map((region) =>
                         <option value={`${region[1].name}`} >
@@ -244,12 +237,11 @@ class Profile extends React.Component {
                         </option>
                     ) : null}
                 </Select>
-                City<TextInput placeholder="What place exactly?" onChange={this.changeCity} />
-                Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
-                Date of return <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
-                Budget per day<Select defaultValue="" onChange={this.changeBudget}>
+                {t('Date of depature')} <DatePicker placeholder={t('Choose date')} onChange={this.changeDateDepature} />
+                {t('Date of return')} <DatePicker placeholder={t('Choose date')} onChange={this.changeDateReturn} />
+                {t('Budget per day')}<Select defaultValue="" onChange={this.changeBudget}>
                     <option value="" disabled>
-                        Your budget
+                    {t('Budget per day')}
 
                     </option>
                     <option value="100">
@@ -262,17 +254,17 @@ class Profile extends React.Component {
                         200$ and more
                     </option>
                 </Select>
-                <Checkbox className='ff' value="No" label="Gastronomy" onChange={this.changeGastronomy} />
-                <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
-                <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
-                <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
+                <Checkbox className='ff' value="No" label={t('Gastronomy')} onChange={this.changeGastronomy} />
+                <Checkbox value="No" label={t('Shopping')} onChange={this.changeShopping} />
+                <Checkbox value="No" label={t('Sightseengs')} onChange={this.changeSightseeings} />
+                <Checkbox value="No" label={t('Sea chilling')} onChange={this.changeSeaChilling} />
                 
 
 
-                <br/> Some words about you  <TextInput placeholder="About you" onChange={this.changeAbout} />
+                <br/> {t('Some words about you')}  <TextInput placeholder={t('Some words about you')} onChange={this.changeAbout} />
 
-                Contacts<TextInput placeholder="Your contacts" onChange={this.changeContacts} />
-                <Button type="submit" onClick={this.onClick}>SAVE
+                {t('Contacts')}<TextInput placeholder={t('Contacts')} onChange={this.changeContacts} />
+                <Button type="submit" onClick={this.onClick}>{t('Save')}
                     {/* <Link to={'/company'}></Link> */}
                 </Button>
             </div>
@@ -280,4 +272,16 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile;
+const ProfileTrans = withTranslation()(Profile);
+const Loader = () => (
+    <div className="App">
+      <div>loading...</div>
+    </div>
+  );
+  export default function App() {
+    return (
+      <Suspense fallback={<Loader />}>
+        <ProfileTrans />
+      </Suspense>
+    );
+  }
