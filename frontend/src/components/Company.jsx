@@ -2,6 +2,7 @@ import React, {Suspense} from 'react'
 import { useTranslation, withTranslation, Trans } from 'react-i18next'
 import { Collection, CollectionItem, Row, Col, Icon } from 'react-materialize'
 import moment from 'moment'
+const server = "http://localhost:3001"
 
 class Company extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class Company extends React.Component {
         }
     }
     async componentDidMount() {
-        const resp = await fetch('http://localhost:3001/getall')
+        const resp = await fetch(`${server}/getall`)
         const allusers = await resp.json()
         console.log(allusers)
         this.setState({ allusers: allusers })

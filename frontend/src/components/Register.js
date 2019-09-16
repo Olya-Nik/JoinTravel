@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import fbIcon from '../icons/facebook.png';
 import vkIcon from '../icons/vk.png';
+const server = "http://localhost:3001"
 
 class Register extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ class Register extends Component {
     };
     console.log(sendForm);
 
-    await fetch('http://localhost:3001/auth/signup', {
+    await fetch(`${server}/auth/signup`, {
       method: 'POST',
       credentials: 'include',
       headers: {

@@ -5,6 +5,9 @@ import { DatePicker, Button, Select, CollectionItem, Checkbox } from 'react-mate
 import { Link } from "react-router-dom";
 import SearchedCompany from './SearchedCompany'
 import moment from 'moment'
+
+const server = "http://localhost:3001"
+
 class Search extends React.Component {
     constructor(props) {
         super(props);
@@ -129,7 +132,7 @@ class Search extends React.Component {
             seaChilling: this.state.seaChilling,
             budgetPerDay: this.state.budgetPerDay
         }
-        const resp = await fetch('http://localhost:3001/filter', {
+        const resp = await fetch(`${server}/filter`, {
             method: 'POST',
             credentials: 'include',
             headers: {

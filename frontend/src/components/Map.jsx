@@ -4,6 +4,7 @@ import 'materialize-css/dist/css/materialize.min.css'
 import { Card, Row, Col, CardTitle, Select } from 'react-materialize';
 import spinner from '../img/lg.ajax-spinner-preloader.gif'
 import '../App.css'
+const server = "http://localhost:3001"
 
 
 class Map extends Component {
@@ -43,7 +44,7 @@ class Map extends Component {
 
                 await this.setState({ loading: true, places: [] })
 
-                const places = await fetch('http://localhost:3001/map', {
+                const places = await fetch(`${server}/map`, {
                     credentials: 'include',
                     method: 'POST',
                     // mode: 'no-cors',

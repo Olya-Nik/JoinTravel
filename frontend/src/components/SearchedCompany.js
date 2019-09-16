@@ -1,21 +1,9 @@
 import React from 'react'
 import { Collection, CollectionItem, Row, Col, Icon } from 'react-materialize'
 import moment from 'moment'
+const server = "http://localhost:3001"
 
 class SearchedCompany extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         allusers: []
-    //     }
-    // }
-    // async componentDidMount() {
-    //     const resp = await fetch('http://localhost:3001/getall')
-    //     const allusers = await resp.json()
-    //     this.setState({ allusers: allusers })
-    //     console.log(this.state)
-    // }
-
     render() {
         const allusers = this.props.users
         console.log(allusers)
@@ -25,7 +13,7 @@ class SearchedCompany extends React.Component {
                     <Collection>
                         {allusers.map((user) =>
                             <CollectionItem className="avatar" key={user._id}>
-                                <img src={`http://localhost:3001/${user.imageData}`} alt="" className="circle" />
+                                <img src={`${server}/${user.imageData}`} alt="" className="circle" />
                                 <span className="title">
                                     {user.name}
                                 </span>
