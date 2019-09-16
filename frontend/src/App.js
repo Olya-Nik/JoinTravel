@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 import './App.css';
 import Main from './components/Main';
 import Navbar from './components/Navbar';

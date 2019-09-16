@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {Suspense} from 'react'
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 import 'materialize-css/dist/css/materialize.min.css'
 import { DatePicker, Button, Select, CollectionItem, Checkbox } from 'react-materialize'
 import { Link } from "react-router-dom";
 import SearchedCompany from './SearchedCompany'
 import moment from 'moment'
-export default class Search extends React.Component {
+class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -143,13 +144,14 @@ export default class Search extends React.Component {
         this.setState({ filterUsers: matches })
     }
     render() {
+        const { t, i18n } = this.props;
         return (
             <div className="searchClass">
-                Date of depature <DatePicker placeholder="Choose dates" onChange={this.changeDateDepature} />
-                Date of retutn <DatePicker placeholder="Choose dates" onChange={this.changeDateReturn} />
+                {t('Date of depature')}  <DatePicker placeholder={t("Choose dates")} onChange={this.changeDateDepature} />
+                {t('Date of return')} <DatePicker placeholder={t("Choose dates")} onChange={this.changeDateReturn} />
                 <Select defaultValue="" onChange={this.changePart}>
                     <option value="" disabled>
-                        Choose Materic
+                    {t('Choose continent')}
                     </option>
                     {this.state.parts ? this.state.parts.map((part) =>
                         <option value={`${part[1]}`}>
@@ -160,7 +162,7 @@ export default class Search extends React.Component {
 
                 <Select defaultValue="" onChange={this.changeCountry}>
                     <option value="" disabled>
-                        Choose country
+                    {t('Choose country')}
                         </option>
                     {this.state.countries ? this.state.countries.map((country) =>
                         <option value={`${country[1].name} ${country[1].id}`} >
@@ -171,7 +173,7 @@ export default class Search extends React.Component {
 
                 <Select defaultValue="" onChange={this.changeRegion}>
                     <option value="" disabled>
-                        Choose region
+                    {t('Choose region')}
     </option>
                     {this.state.regions ? this.state.regions.map((region) =>
                         <option value={`${region[1].name}`} >
@@ -179,9 +181,9 @@ export default class Search extends React.Component {
                         </option>
                     ) : null}
                 </Select>
-                Budget per day<Select defaultValue="" onChange={this.changeBudget}>
+                {t('Budget per day')}<Select defaultValue="" onChange={this.changeBudget}>
                     <option value="" disabled>
-                        Your budget
+                    {t('Budget per day')}
                     </option>
                     <option value="Australia">
                         100$
@@ -194,18 +196,18 @@ export default class Search extends React.Component {
                     </option>
                 </Select>
                 <CollectionItem>
-                    <Checkbox value="No" label="Gastronomy" onChange={this.changeGastronomy} />
+                    <Checkbox value="No" label={t('Gastronomy')} onChange={this.changeGastronomy} />
                 </CollectionItem>
                 <CollectionItem>
-                    <Checkbox value="No" label="Shopping" onChange={this.changeShopping} />
+                    <Checkbox value="No" label={t('Shopping')}  onChange={this.changeShopping} />
                 </CollectionItem>
                 <CollectionItem>
-                    <Checkbox value="No" label="Sightseeings" onChange={this.changeSightseeings} />
+                    <Checkbox value="No" label={t('Sightseengs')} onChange={this.changeSightseeings} />
                 </CollectionItem>
                 <CollectionItem>
-                    <Checkbox value="No" label="Sea chilling" onChange={this.changeSeaChilling} />
+                    <Checkbox value="No" label={t('Sea chilling')} onChange={this.changeSeaChilling} />
                 </CollectionItem>
-                <Button type="submit" onClick={this.onClick}>FIND COMP
+                <Button type="submit" onClick={this.onClick}>{t('Find')}
                     <Link to={'/company'}></Link>
                 </Button>
                 <SearchedCompany users={this.state.filterUsers} />
@@ -213,3 +215,18 @@ export default class Search extends React.Component {
         )
     }
 }
+const SearchTrans = withTranslation()(Search);
+const Loader = () => (
+    <div className="App">
+      <div>loading...</div>
+    </div>
+  );
+  
+  
+  export default function App() {
+    return (
+      <Suspense fallback={<Loader />}>
+        <SearchTrans />
+      </Suspense>
+    );
+  }

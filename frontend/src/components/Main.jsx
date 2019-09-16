@@ -1,14 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 import fone from '../img/mainFon.jpg';
 
 
-export default class Main extends Component {
-
-    // state = {
-    //   content: "Hello. This is 3rd assessment of Hedgehogs 2019. MARVELous functionality, breathtaking UI."
-    // };
+class Main extends Component {
     
     render() {
+        const { t, i18n } = this.props
         let style = {
             backgroundImage: `url(${fone})`,
             backgroundPosition: "top center",
@@ -23,21 +21,28 @@ export default class Main extends Component {
         return (
             <div className='mainpagediv'>
                 <div className='textmain1'>
-                    <h1 id ='a'> JoinTravel </h1>
-                    <h3> Welcome to our application. It helps you to find  interesting people to make you travel awesome!   </h3>
+                    <h1 id ='a'> {t('title')} </h1>
+                    <h3> {t('description')}</h3>
                 </div>
                 <div className='imgfirst' style={style}>
                     <div style={innerStyle}>
-
-
-
-
-
-                    </div>
-                    {/* <img src='https://pixabay.com/get/57e4d24b4253ac14ea9d857ec32d32771038c3e4565776497d2b78dc94/go-pro-1478810.jpg' width ='100%'></img> */}
+                    </div>                  
                 </div>
-                {/* <div>Ololo<br/><br/><br/><br/><br/><br/><br/></div> */}
             </div>
         );
     }
 }
+const Loader = () => (
+    <div className="App">
+      <div>loading...</div>
+    </div>
+  );
+
+const Welcome = withTranslation()(Main)
+export default function App() {
+    return (
+      <Suspense fallback={<Loader />}>
+        <Welcome />
+      </Suspense>
+    );
+  }

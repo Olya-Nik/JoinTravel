@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense } from 'react'
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 import 'materialize-css/dist/css/materialize.min.css'
 import { Card, Row, Col, CardTitle, Select } from 'react-materialize';
 import spinner from '../img/lg.ajax-spinner-preloader.gif'
 import '../App.css'
 
 
-export default class Map extends Component {
+class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -81,28 +82,28 @@ export default class Map extends Component {
     }
 
     render() {
-
+        const { t } = this.props;
         return (
             <div className='map'>
-            <h3 className="places"> Places Nearby</h3>
+            <h3 className="places"> {t('Places nearby')}</h3>
 
                 <div className='selectplace'>
                     <Select defaultValue="" onChange={this.changeAction}>
                         <option value="" disabled>
-                            Choose your option
+                            {t('Choose your option')}
                         </option>
 
                         <option value="sights">
-                            Sightseeings
+                        {t('Sightseengs')}
                         </option>
                         <option value="natural_feature">
-                            SeaChilling
+                        {t('Sea chilling')}
                         </option>
                         <option value="clothing_store">
-                            Shopping
+                        {t('Shopping')}
                         </option>
                         <option value="restaurant">
-                            Gastronomy
+                        {t('Gastronomy')}
                         </option>
                     </Select>
 
@@ -144,4 +145,16 @@ export default class Map extends Component {
         )
     }
 }
-
+const MapTrans = withTranslation()(Map);
+const Loader = () => (
+    <div className="App">
+      <div>loading...</div>
+    </div>
+  );
+  export default function App() {
+    return (
+      <Suspense fallback={<Loader />}>
+        <MapTrans />
+      </Suspense>
+    );
+  }
